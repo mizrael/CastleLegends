@@ -70,15 +70,18 @@ namespace CastleLegends.Editor.UserControls
             {
                 pos = TileToCoords(x,y) + _positionOffset;
                 _spriteBatch.DrawHexagon(pos, _mapData.TilesRadius, Color.Green, _mapData.TilesType);
-            }   
-                        
+            }
+
+
+            var relativeMousePos = this.PointToClient(MousePosition);
+            var mousePosVec = new Vector2(relativeMousePos.X, relativeMousePos.Y);
+
             int tileIndexX, tileIndexY;
-            if (CoordsToTile(new Vector2(MousePosition.X, MousePosition.Y), out tileIndexX, out tileIndexY))
+            if (CoordsToTile(mousePosVec, out tileIndexX, out tileIndexY))
             {
                 pos = TileToCoords(tileIndexX, tileIndexY) + _positionOffset;
                 _spriteBatch.DrawHexagon(pos, _mapData.TilesRadius, Color.Red, _mapData.TilesType, 3f);
             }
-            
 
             _spriteBatch.End();
         }
