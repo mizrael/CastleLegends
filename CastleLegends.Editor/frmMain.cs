@@ -13,6 +13,7 @@ namespace CastleLegends.Editor
         #region Members
 
         private ucMapRenderer _mapRenderer;
+        private HexMap _mapData;
 
         #endregion Members
 
@@ -21,8 +22,9 @@ namespace CastleLegends.Editor
             InitializeComponent();
 
             this.Load += new EventHandler(frmMain_Load);
+            this.ResizeEnd += new EventHandler(frmMain_ResizeEnd);
             this.FormClosing += new FormClosingEventHandler(frmMain_FormClosing);
-        }
+        }        
 
         #region Form Events
 
@@ -48,16 +50,21 @@ namespace CastleLegends.Editor
 
         }
 
+        private void frmMain_ResizeEnd(object sender, EventArgs e)
+        {
+            SetScrollbars();
+        }
+
         private void vScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
-            var camera = _mapRenderer.Services.GetService<CameraService>();
-            camera.Position.Y += e.NewValue - e.OldValue;
+            var camera = _mapRenderer.Services.GetService<CameraService>();         
+            camera.Position.Y = this.vScrollBar.Value;
         }
 
         private void hScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
             var camera = _mapRenderer.Services.GetService<CameraService>();
-            camera.Position.X += e.NewValue - e.OldValue;
+            camera.Position.X = this.hScrollBar.Value;
         }
 
         #endregion Form Events
@@ -72,20 +79,9 @@ namespace CastleLegends.Editor
             if (frm.ShowDialog() != DialogResult.OK)
                 return;
 
-            var mapData = new HexMap()
-            {
-                MapCoordsType = frm.HexMapType,
-                TilesType = frm.HexTileType,
-                TilesCountX = frm.TileCountX,
-                TilesCountY = frm.TileCountY,
-                TilesRadius = frm.TileRadius
-            };
+            _mapData = new HexMap(frm.HexMapType, frm.HexTileType, frm.TileCountX, frm.TileCountY, frm.TileRadius);
 
-            InitRenderer(mapData);
-            // _MapCtrl.NewMap(frm.TileCountX, frm.TileCountY, frm.TileSize);
-            //  _ucLayers.UpdateData();
-            //  _ucTilePathfinding.UpdateData();
-
+            InitRenderer();         
         }
 
         private void CloseMap()
@@ -93,14 +89,28 @@ namespace CastleLegends.Editor
             this.pnlMain.Controls.Remove(_mapRenderer);
         }
 
-        private void InitRenderer(HexMap mapData)
+        private void InitRenderer()
         {
-            _mapRenderer = new ucMapRenderer(mapData);
+            _mapRenderer = new ucMapRenderer(_mapData);
             _mapRenderer.Dock = DockStyle.Fill;
             _mapRenderer.Location = new Point(0, 0);
-            _mapRenderer.TabIndex = 0;
+            _mapRenderer.TabIndex = 0;        
 
             this.pnlMain.Controls.Add(_mapRenderer);
+
+            SetScrollbars();
+        }
+
+        private void SetScrollbars()
+        {
+            if (null == _mapData) return;
+            this.hScrollBar.Minimum = 0;
+            this.hScrollBar.Maximum = _mapData.TilesCountX * (int)_mapData.TileWidth - this.Width / 2;
+            this.hScrollBar.Enabled = true;
+
+            this.vScrollBar.Minimum = 0;
+            this.vScrollBar.Maximum = _mapData.TilesCountY * (int)_mapData.TileHeight - this.Height / 2;
+            this.vScrollBar.Enabled = true;
         }
 
         #endregion Private Methods

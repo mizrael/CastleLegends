@@ -127,7 +127,7 @@ namespace CastleLegends.Common.Utils
         /// </summary>
         /// <param name="radius">The radius of the hexagon</param>      
         /// <returns>A list of vectors that, if connected, will create an hexagon</returns>
-        private static List<Vector2> CreateHexagon(float radius, HexTileType type)
+        private static List<Vector2> CreateHexagon(double radius, HexTileType type)
         {
             // Look for a cached version of this circle
             String cacheKey = string.Format("hex{0}type{1}", radius, type);
@@ -137,12 +137,12 @@ namespace CastleLegends.Common.Utils
             List<Vector2> vectors = new List<Vector2>();
 
             const double max = 2.0 * Math.PI / 6;
-            double addend = (type == HexTileType.PointyTopped) ? 0.5 : 0;
+            double addend = (type == HexTileType.PointyTopped) ? 0.5: 0;
 
             for (int i = 0; i != 6; ++i)
             {
-                var angle = max * (i + addend);
-                var point = new Vector2(radius * (float)Math.Cos(angle), radius * (float)Math.Sin(angle));
+                var angle = max * (addend + i);
+                var point = new Vector2((float)(radius * Math.Cos(angle)), (float)(radius * Math.Sin(angle)));
                 vectors.Add(point);
             }
 
@@ -578,7 +578,19 @@ namespace CastleLegends.Common.Utils
         /// <param name="color">The color of the hexagon</param>
         public static void DrawHexagon(this SpriteBatch spriteBatch, Vector2 center, float radius, Color color, HexTileType type)
         {
-            DrawPoints(spriteBatch, center, CreateHexagon(radius, type), color, 1.0f);
+            DrawHexagon(spriteBatch, center, radius, color, type, 1f);
+        }
+
+        /// <summary>
+        /// Draw an hexagon
+        /// </summary>
+        /// <param name="spriteBatch">The destination drawing surface</param>
+        /// <param name="center">The center of the hexagon</param>
+        /// <param name="radius">The radius of the hexagon</param>
+        /// <param name="color">The color of the hexagon</param>
+        public static void DrawHexagon(this SpriteBatch spriteBatch, Vector2 center, float radius, Color color, HexTileType type, float thickness)
+        {
+            DrawPoints(spriteBatch, center, CreateHexagon(radius, type), color, thickness);
         }
 
         #endregion Draw Hexagon
