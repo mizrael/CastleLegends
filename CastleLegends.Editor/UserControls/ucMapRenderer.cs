@@ -32,9 +32,12 @@ namespace CastleLegends.Editor.UserControls
         public void SetMapData(HexMap mapData) {
             if (null == mapData)
                 throw new ArgumentNullException("mapData");
-            _mapData = mapData;            
+            _mapData = mapData;
 
-            _positionOffset = Vector2.One * _mapData.TilesRadius;
+            if(_mapData.TilesType == HexTileType.FlatTopped)
+                _positionOffset = new Vector2(_mapData.TilesRadius, _mapData.TileVerticalDistanceHalf);
+            else
+                _positionOffset = new Vector2(_mapData.TileHorizontalDistanceHalf, _mapData.TilesRadius);            
         }
 
         #endregion Public Methods
@@ -59,7 +62,7 @@ namespace CastleLegends.Editor.UserControls
         /// </summary>
         protected override void Draw()
         {
-            base.GraphicsDevice.Clear(Color.CornflowerBlue);
+            base.GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.Matrix);
 
@@ -72,7 +75,6 @@ namespace CastleLegends.Editor.UserControls
                 _spriteBatch.DrawHexagon(pos, _mapData.TilesRadius, Color.Green, _mapData.TilesType);
             }
 
-
             var relativeMousePos = this.PointToClient(MousePosition);
             var mousePosVec = new Vector2(relativeMousePos.X, relativeMousePos.Y);
 
@@ -83,49 +85,55 @@ namespace CastleLegends.Editor.UserControls
                 _spriteBatch.DrawHexagon(pos, _mapData.TilesRadius, Color.Red, _mapData.TilesType, 3f);
             }
 
+            if(this.DrawDebugLines)
+                DrawDebug();
+
             _spriteBatch.End();
         }
 
-        private Vector2 TileToCoords(int x, int y) 
+
+        private Vector2 TileToCoords(int i, int j) 
         {
             var offset = 0f;
             if (_mapData.TilesType == HexTileType.FlatTopped)
             {
-                offset = (_mapData.MapCoordsType == HexMapType.Even) ? (x.IsEven() ? _mapData.TileVerticalDistanceHalf : 0f) :
-                                                                           (!x.IsEven() ? _mapData.TileVerticalDistanceHalf : 0f);
-                return new Vector2(_mapData.TileHorizontalDistance * x, _mapData.TileVerticalDistance * y + offset);
+                offset = (_mapData.MapCoordsType == HexMapType.Even) ? (i.IsEven() ? _mapData.TileVerticalDistanceHalf : 0f) :
+                                                                           (!i.IsEven() ? _mapData.TileVerticalDistanceHalf : 0f);
+                return new Vector2(_mapData.TileHorizontalDistance * i, _mapData.TileVerticalDistance * j + offset);
             }
 
-            offset = (_mapData.MapCoordsType == HexMapType.Even) ? (y.IsEven() ? _mapData.TileHorizontalDistanceHalf : 0f) :
-                                                                   (!y.IsEven() ? _mapData.TileHorizontalDistanceHalf : 0f);
-            return new Vector2(_mapData.TileHorizontalDistance * x + offset, _mapData.TileVerticalDistance * y);
+            offset = (_mapData.MapCoordsType == HexMapType.Even) ? (j.IsEven() ? _mapData.TileHorizontalDistanceHalf : 0f) :
+                                                                   (!j.IsEven() ? _mapData.TileHorizontalDistanceHalf : 0f);
+            return new Vector2(_mapData.TileHorizontalDistance * i + offset, _mapData.TileVerticalDistance * j);
         }
 
+        /// <summary>      
+        /// http://gamedev.stackexchange.com/questions/20742/how-can-i-implement-hexagonal-tilemap-picking-in-xna
+        /// </summary>
         private bool CoordsToTile(Vector2 screenCoords, out int i, out int j)
         {
             Vector2.Transform(ref screenCoords, ref _camera.InverseMatrix, out screenCoords);
 
-            var _h = _mapData.TileHeight;
-            var _W = _mapData.TileWidth;
-            var _w = _mapData.TileWidth * 0.25f; // flat side length
-            var _k = (_W + _w) * .5f;
+            var _k = (_mapData.TileWidth + _mapData.TilesRadius) * .5f;
 
             i = (int)Math.Floor(screenCoords.X / _k);
-            j = (int)Math.Floor((screenCoords.Y * 2f) / _h);
+            j = (int)Math.Floor((screenCoords.Y * 2f) / _mapData.TileHeight);
 
             var u = screenCoords.X - (_k * i);
-            var v = screenCoords.Y - (_h * j * 0.5f);
+            var v = screenCoords.Y - (_mapData.TileHeight * j * 0.5f);
 
             var is_i_even = i.IsEven();
 
-            var isGreenArea = (u < (_W - _w) * 0.5f);
+            var isGreenArea = (u < (_mapData.TileWidth - _mapData.TilesRadius) * 0.5f);
             if (isGreenArea)
             {
                 var is_j_even = j.IsEven();
 
-                var isUpper = (0 == ((i + j) & 1));
-                u = (2f * u) / (_W - _w);
-                v = (2f * v) / _h;
+                var sum = ((i + j) & 1);
+                var isUpper = (_mapData.MapCoordsType == HexMapType.Even) ? (0 != sum) : (0 == sum);
+
+                u = (2f * u) / (_mapData.TileWidth - _mapData.TilesRadius);
+                v = (2f * v) / _mapData.TileHeight;
 
                 if ((!isUpper && v > u) || (isUpper && (1f - v) > u))
                 {
@@ -134,7 +142,7 @@ namespace CastleLegends.Editor.UserControls
                 }
             }
 
-            if (!is_i_even)
+            if ((_mapData.MapCoordsType == HexMapType.Even && is_i_even) || (_mapData.MapCoordsType == HexMapType.Odd && !is_i_even))
                 j--;
 
             j = (int)Math.Floor(j * 0.5);
@@ -146,5 +154,103 @@ namespace CastleLegends.Editor.UserControls
         }
 
         #endregion Private Methods
+        
+        #region DrawDebug
+
+        private void DrawDebug()
+        {
+            if (_mapData.TilesType == HexTileType.FlatTopped) DrawDebugFlat();
+            else DrawDebugPointy();
+        }
+
+        private void DrawDebugPointy()
+        {
+            var lineColor = Color.Magenta;
+
+            var halfRadius = _mapData.TilesRadius * 0.5f;
+
+            var lineLength = _mapData.TilesCountY * _mapData.TileVerticalDistance + halfRadius;
+
+            for (int i = 0; i != _mapData.TilesCountX; ++i)
+            {
+                var currTileCoords = TileToCoords(i, 0);
+
+                var lineStartPos = new Vector2(currTileCoords.X, 0f);
+                _spriteBatch.DrawLine(lineStartPos, lineLength, MathHelper.PiOver2, lineColor);
+
+                lineStartPos = new Vector2(currTileCoords.X + _mapData.TileHorizontalDistanceHalf, 0f);
+                _spriteBatch.DrawLine(lineStartPos, lineLength, MathHelper.PiOver2, lineColor);
+            }
+
+            _spriteBatch.DrawLine(new Vector2(_mapData.TilesCountX * _mapData.TileWidth +_mapData.TileHorizontalDistanceHalf, 0f), 
+                                  lineLength, MathHelper.PiOver2, lineColor);
+
+            lineLength = _mapData.TilesCountX * _mapData.TileWidth + +_mapData.TileHorizontalDistanceHalf;
+
+            for (int j = 0; j != _mapData.TilesCountY; ++j)
+            {
+                var currTileCoords = TileToCoords(0, j);
+
+                var y = currTileCoords.Y + halfRadius;
+                var lineStartPos = new Vector2(0f, y);
+                _spriteBatch.DrawLine(lineStartPos, lineLength, 0f, lineColor);
+
+                lineStartPos = new Vector2(0f, y + _mapData.TilesRadius);
+                _spriteBatch.DrawLine(lineStartPos, lineLength, 0f, lineColor);
+            }
+
+            _spriteBatch.DrawLine(new Vector2(0f, _mapData.TilesCountY * _mapData.TileVerticalDistance + halfRadius),
+                                  lineLength, 0f, lineColor);
+        }
+
+        private void DrawDebugFlat()
+        {
+            var lineColor = Color.Magenta;
+
+            var halfRadius = _mapData.TilesRadius * 0.5f;
+
+            var lineLength = _mapData.TilesCountY * _mapData.TileHeight + _mapData.TileHeight * 0.5f;
+
+            for (int i = 0; i != _mapData.TilesCountX; ++i)
+            {
+                var currTileCoords = TileToCoords(i, 0);
+
+                var x = currTileCoords.X + halfRadius;
+
+                var lineStartPos = new Vector2(x, 0f);
+                _spriteBatch.DrawLine(lineStartPos, lineLength, MathHelper.PiOver2, lineColor);
+
+                lineStartPos = new Vector2(x + _mapData.TilesRadius, 0f);
+                _spriteBatch.DrawLine(lineStartPos, lineLength, MathHelper.PiOver2, lineColor);
+            }
+
+            var lastTileCoords = TileToCoords(_mapData.TilesCountX, 0);
+            var lineStart = new Vector2(lastTileCoords.X + halfRadius, 0f);
+            _spriteBatch.DrawLine(lineStart, lineLength, MathHelper.PiOver2, lineColor);
+
+            lineLength = _mapData.TilesCountX * _mapData.TileHorizontalDistance + halfRadius;
+
+            for (int j = 0; j != _mapData.TilesCountY; ++j)
+            {
+                var currTileCoords = TileToCoords(0, j);
+
+                var lineStartPos = new Vector2(0f, currTileCoords.Y);
+                _spriteBatch.DrawLine(lineStartPos, lineLength, 0f, lineColor);
+
+                lineStartPos = new Vector2(0f, currTileCoords.Y + _mapData.TileHeight * 0.5f);
+                _spriteBatch.DrawLine(lineStartPos, lineLength, 0f, lineColor);
+            }
+
+            lineStart = new Vector2(0, _mapData.TilesCountY * _mapData.TileHeight + _mapData.TileVerticalDistanceHalf);
+            _spriteBatch.DrawLine(lineStart, lineLength, 0f, lineColor);
+        }
+
+        #endregion DrawDebug
+
+        #region Properties
+
+        public bool DrawDebugLines { get; set; }
+
+        #endregion Properties
     }
 }

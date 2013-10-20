@@ -63,7 +63,7 @@
             this._tileCountX.TabIndex = 0;
             this._tileCountX.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this._tileCountX.Value = new decimal(new int[] {
-            16,
+            8,
             0,
             0,
             0});
@@ -104,7 +104,7 @@
             this._tileCountY.TabIndex = 2;
             this._tileCountY.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this._tileCountY.Value = new decimal(new int[] {
-            16,
+            8,
             0,
             0,
             0});
