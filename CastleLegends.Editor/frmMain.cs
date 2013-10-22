@@ -60,8 +60,13 @@ namespace CastleLegends.Editor
         private void frmMain_MaximizedBoundsChanged(object sender, EventArgs e)
         {
             SetScrollbars();
-        }    
-  
+        }
+
+        private void pnlMain_SizeChanged(object sender, EventArgs e)
+        {
+            SetScrollbars();
+        }
+
         private void vScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
             var camera = _mapRenderer.Services.GetService<CameraService>();         
@@ -93,6 +98,11 @@ namespace CastleLegends.Editor
                 return;
 
             _mapData = new HexMap(frm.HexMapType, frm.HexTileType, frm.TileCountX, frm.TileCountY, frm.TileRadius);
+            
+            this.drawDebugLinesToolStripMenuItem.Enabled = true;
+            this.drawDebugLinesToolStripMenuItem.Checked = false;
+
+            this.tabTools.Enabled = true;
 
             InitRenderer();         
         }
@@ -100,6 +110,7 @@ namespace CastleLegends.Editor
         private void CloseMap()
         {
             this.drawDebugLinesToolStripMenuItem.Enabled = false;
+            this.tabTools.Enabled = false;
 
             this.pnlMain.Controls.Remove(_mapRenderer);
         }
@@ -113,24 +124,21 @@ namespace CastleLegends.Editor
 
             this.pnlMain.Controls.Add(_mapRenderer);
 
-            this.drawDebugLinesToolStripMenuItem.Enabled = true;
-            this.drawDebugLinesToolStripMenuItem.Checked = false;
-
             SetScrollbars();
         }
 
         private void SetScrollbars()
         {
             if (null == _mapData) return;
-
-            this.hScrollBar.Value = 0;
+                        
             this.hScrollBar.Minimum = 0;
-            this.hScrollBar.Maximum = _mapData.TilesCountX * (int)_mapData.TileWidth - this.Width / 2;
+            this.hScrollBar.Maximum = _mapData.TilesCountX * (int)_mapData.TileWidth - _mapRenderer.Width / 2;
+            this.hScrollBar.Value = 0;
             this.hScrollBar.Enabled = true;
-
-            this.vScrollBar.Value = 0;
+                        
             this.vScrollBar.Minimum = 0;
-            this.vScrollBar.Maximum = _mapData.TilesCountY * (int)_mapData.TileHeight - this.Height / 2;
+            this.vScrollBar.Maximum = _mapData.TilesCountY * (int)_mapData.TileHeight - _mapRenderer.Height / 2;
+            this.vScrollBar.Value = 0;
             this.vScrollBar.Enabled = true;
         }
 
