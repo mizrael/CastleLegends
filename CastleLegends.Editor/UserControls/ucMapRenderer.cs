@@ -85,13 +85,15 @@ namespace CastleLegends.Editor.UserControls
                 _spriteBatch.DrawHexagon(pos, _mapData.TilesRadius, Color.Red, _mapData.TilesType, 3f);
             }
 
-            if(this.DrawDebugLines)
+            if (this.DrawDebugLines)
+            {
                 DrawDebug();
 
+                this.FindForm().Text = string.Format("x: {0}, y: {1}", mousePosVec.X, mousePosVec.Y);
+            }
             _spriteBatch.End();
         }
-
-
+        
         private Vector2 TileToCoords(int i, int j) 
         {
             var offset = 0f;
@@ -107,10 +109,18 @@ namespace CastleLegends.Editor.UserControls
             return new Vector2(_mapData.TileHorizontalDistance * i + offset, _mapData.TileVerticalDistance * j);
         }
 
+        #region CoordsToTile
+
         /// <summary>      
         /// http://gamedev.stackexchange.com/questions/20742/how-can-i-implement-hexagonal-tilemap-picking-in-xna
         /// </summary>
-        private bool CoordsToTile(Vector2 screenCoords, out int i, out int j)
+        private bool CoordsToTile(Vector2 screenCoords, out int i, out int j) {
+            if (_mapData.TilesType == HexTileType.FlatTopped)
+                return CoordsToTileFlatTop(screenCoords, out i, out j);
+            return CoordsToTilePointyTop(screenCoords, out i, out j);
+        }
+
+        private bool CoordsToTileFlatTop(Vector2 screenCoords, out int i, out int j)
         {
             Vector2.Transform(ref screenCoords, ref _camera.InverseMatrix, out screenCoords);
 
@@ -153,8 +163,53 @@ namespace CastleLegends.Editor.UserControls
             return true;
         }
 
+        private bool CoordsToTilePointyTop(Vector2 screenCoords, out int i, out int j)
+        {
+            Vector2.Transform(ref screenCoords, ref _camera.InverseMatrix, out screenCoords);
+
+            var _k = (_mapData.TileHeight + _mapData.TilesRadius) * .5f;
+
+            i = (int)Math.Floor((screenCoords.X * 2f) / _mapData.TileWidth);
+            j = (int)Math.Floor(screenCoords.Y / _k);
+
+            var is_j_even = j.IsEven();
+
+            var u = screenCoords.X - (_mapData.TileWidth * i * 0.5f);
+            var v = screenCoords.Y - (_k * j);            
+
+            var isGreenArea = (v < (_mapData.TileHeight - _mapData.TilesRadius) * 0.5f);
+            if (isGreenArea)
+            {
+                var is_i_even = i.IsEven();
+
+                var sum = ((i + j) & 1);
+                var isLeft = (_mapData.MapCoordsType == HexMapType.Even) ? (0 != sum) : (0 == sum);
+
+                u = (2f * u) / _mapData.TileHeight;
+                v = (2f * v) / (_mapData.TileWidth - _mapData.TilesRadius);
+
+                if ((!isLeft && u > v) || (isLeft && (1f - u) > v))
+                {
+                    j--;
+                    is_j_even = !is_j_even;
+                }
+            }
+
+            if ((_mapData.MapCoordsType == HexMapType.Even && is_j_even) || (_mapData.MapCoordsType == HexMapType.Odd && !is_j_even))
+                i--;
+
+            i = (int)Math.Floor(i * 0.5);
+
+            if (i < 0 || i >= _mapData.TilesCountX) return false;
+            if (j < 0 || j >= _mapData.TilesCountY) return false;
+
+            return true;
+        }
+
+        #endregion CoordsToTile
+
         #endregion Private Methods
-        
+
         #region DrawDebug
 
         private void DrawDebug()
