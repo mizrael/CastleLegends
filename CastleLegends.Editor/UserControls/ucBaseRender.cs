@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework.Content;
@@ -9,6 +10,7 @@ namespace CastleLegends.Editor.UserControls
 {
     using Color = System.Drawing.Color;
     using Rectangle = Microsoft.Xna.Framework.Rectangle;
+    using Microsoft.Xna.Framework;
 
     public partial class ucBaseRender : UserControl
     {
@@ -51,7 +53,7 @@ namespace CastleLegends.Editor.UserControls
 
 
                 // Give derived classes a chance to initialize themselves.
-                Initialize();
+                OnInitialize();
             }
 
             base.OnCreateControl();
@@ -67,14 +69,14 @@ namespace CastleLegends.Editor.UserControls
         /// </summary>
         protected override void OnPaint(PaintEventArgs e)
         {
-            Update();
+            UpdateLogic();
 
             string beginDrawError = BeginDraw();
 
             if (string.IsNullOrEmpty(beginDrawError))
             {
                 // Draw the control using the GraphicsDevice.
-                Draw();
+                OnDraw();
                 EndDraw();
             }
             else
@@ -240,18 +242,27 @@ namespace CastleLegends.Editor.UserControls
         /// <summary>
         /// Derived classes override this to initialize their drawing code.
         /// </summary>
-        protected virtual void Initialize() { }
+        protected virtual void OnInitialize() { }
+            
+        private void UpdateLogic() {            
+            foreach (var service in this.Services) {
+                var updateable = service as IUpdateable;
+                if (null != updateable)
+                    updateable.Update(null);
+            }
+
+            OnUpdate();
+        }
 
         /// <summary>
         /// Derived classes override this to draw themselves using the GraphicsDevice.
         /// </summary>
-        protected virtual void Update() { }
+        protected virtual void OnUpdate() { }
 
         /// <summary>
         /// Derived classes override this to draw themselves using the GraphicsDevice.
         /// </summary>
-        protected virtual void Draw() { }
-
+        protected virtual void OnDraw() { }
 
         #endregion
 

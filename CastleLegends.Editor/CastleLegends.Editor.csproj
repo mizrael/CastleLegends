@@ -50,6 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\IServiceProviderExtensions.cs" />
+    <Compile Include="frmImportTileset.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmImportTileset.Designer.cs">
+      <DependentUpon>frmImportTileset.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +89,21 @@
     <Compile Include="UserControls\ucMapRenderer.Designer.cs">
       <DependentUpon>ucMapRenderer.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucRendererContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ucRendererContainer.Designer.cs">
+      <DependentUpon>ucRendererContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucTilesetRenderer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ucTilesetRenderer.Designer.cs">
+      <DependentUpon>ucTilesetRenderer.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="frmImportTileset.resx">
+      <DependentUpon>frmImportTileset.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -98,6 +119,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\ucRendererContainer.resx">
+      <DependentUpon>ucRendererContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ucTilesetRenderer.resx">
+      <DependentUpon>ucTilesetRenderer.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

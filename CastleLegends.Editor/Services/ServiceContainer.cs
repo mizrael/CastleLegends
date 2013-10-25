@@ -10,6 +10,7 @@
 #region Using Statements
 using System;
 using System.Collections.Generic;
+using System.Collections;
 #endregion
 
 namespace CastleLegends.Editor.Services
@@ -19,7 +20,7 @@ namespace CastleLegends.Editor.Services
     /// to pass shared services between different components, for instance the
     /// ContentManager uses it to locate the IGraphicsDeviceService implementation.
     /// </summary>
-    public class ServiceContainer : IServiceProvider
+    public class ServiceContainer : IServiceProvider, IEnumerable
     {
         #region Members
 
@@ -45,6 +46,11 @@ namespace CastleLegends.Editor.Services
             _services.TryGetValue(serviceType, out service);
 
             return service;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return _services.Values.GetEnumerator();
         }
     }
 }

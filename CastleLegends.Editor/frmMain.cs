@@ -20,13 +20,11 @@ namespace CastleLegends.Editor
         public frmMain()
         {
             InitializeComponent();
-
-            this.Load += new EventHandler(frmMain_Load);
+         
             this.ResizeEnd += new EventHandler(frmMain_ResizeEnd);
             this.MaximizedBoundsChanged += new EventHandler(frmMain_MaximizedBoundsChanged);
             this.FormClosing += new FormClosingEventHandler(frmMain_FormClosing);
-        }
- 
+        } 
 
         #region Form Events
 
@@ -47,9 +45,10 @@ namespace CastleLegends.Editor
             NewMap();
         }
 
-        private void frmMain_Load(object sender, EventArgs e)
+        private void drawDebugLinesToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
-
+            if (null != _mapRenderer)
+                _mapRenderer.DrawDebugLines = drawDebugLinesToolStripMenuItem.Checked;
         }
 
         private void frmMain_ResizeEnd(object sender, EventArgs e)
@@ -67,22 +66,10 @@ namespace CastleLegends.Editor
             SetScrollbars();
         }
 
-        private void vScrollBar_Scroll(object sender, ScrollEventArgs e)
+        private void btnAddTileset_Click(object sender, EventArgs e)
         {
-            var camera = _mapRenderer.Services.GetService<CameraService>();         
-            camera.Position.Y = this.vScrollBar.Value;
-        }
-
-        private void hScrollBar_Scroll(object sender, ScrollEventArgs e)
-        {
-            var camera = _mapRenderer.Services.GetService<CameraService>();
-            camera.Position.X = this.hScrollBar.Value;
-        }
-
-        private void drawDebugLinesToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (null != _mapRenderer)
-                _mapRenderer.DrawDebugLines = drawDebugLinesToolStripMenuItem.Checked;
+            var frm = new frmImportTileset();
+            var result = frm.ShowDialog();
         }
 
         #endregion Form Events
@@ -112,7 +99,7 @@ namespace CastleLegends.Editor
             this.drawDebugLinesToolStripMenuItem.Enabled = false;
             this.tabTools.Enabled = false;
 
-            this.pnlMain.Controls.Remove(_mapRenderer);
+            this.rendererContainer.SetRenderer(null);
         }
 
         private void InitRenderer()
@@ -120,9 +107,9 @@ namespace CastleLegends.Editor
             _mapRenderer = new ucMapRenderer(_mapData);
             _mapRenderer.Dock = DockStyle.Fill;
             _mapRenderer.Location = new Point(0, 0);
-            _mapRenderer.TabIndex = 0;        
+            _mapRenderer.TabIndex = 0;
 
-            this.pnlMain.Controls.Add(_mapRenderer);
+            this.rendererContainer.SetRenderer(_mapRenderer);
 
             SetScrollbars();
         }
@@ -130,16 +117,11 @@ namespace CastleLegends.Editor
         private void SetScrollbars()
         {
             if (null == _mapData) return;
-                        
-            this.hScrollBar.Minimum = 0;
-            this.hScrollBar.Maximum = _mapData.TilesCountX * (int)_mapData.TileWidth - _mapRenderer.Width / 2;
-            this.hScrollBar.Value = 0;
-            this.hScrollBar.Enabled = true;
-                        
-            this.vScrollBar.Minimum = 0;
-            this.vScrollBar.Maximum = _mapData.TilesCountY * (int)_mapData.TileHeight - _mapRenderer.Height / 2;
-            this.vScrollBar.Value = 0;
-            this.vScrollBar.Enabled = true;
+
+            var hMax = (int)_mapData.MapWidth - this.rendererContainer.Width;
+            var vMax = (int)_mapData.MapHeight - this.rendererContainer.Height;
+
+            this.rendererContainer.SetScrollbars(vMax, hMax);
         }
 
         #endregion Private Methods

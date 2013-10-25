@@ -28,9 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.vScrollBar = new System.Windows.Forms.VScrollBar();
             this.pnlMain = new System.Windows.Forms.Panel();
-            this.hScrollBar = new System.Windows.Forms.HScrollBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,44 +39,29 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawDebugLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tabTilesets = new System.Windows.Forms.TabPage();
             this.tabTools = new System.Windows.Forms.TabControl();
+            this.tabTilesets = new System.Windows.Forms.TabPage();
+            this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
+            this.btnAddTileset = new System.Windows.Forms.Button();
+            this.pnlMain.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabTools.SuspendLayout();
+            this.tabTilesets.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // vScrollBar
-            // 
-            this.vScrollBar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.vScrollBar.Enabled = false;
-            this.vScrollBar.Location = new System.Drawing.Point(784, 0);
-            this.vScrollBar.Name = "vScrollBar";
-            this.vScrollBar.Size = new System.Drawing.Size(16, 538);
-            this.vScrollBar.TabIndex = 0;
-            this.vScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
             // 
             // pnlMain
             // 
+            this.pnlMain.Controls.Add(this.rendererContainer);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(0, 0);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(784, 521);
+            this.pnlMain.Size = new System.Drawing.Size(800, 538);
             this.pnlMain.TabIndex = 1;
             this.pnlMain.SizeChanged += new System.EventHandler(this.pnlMain_SizeChanged);
-            // 
-            // hScrollBar
-            // 
-            this.hScrollBar.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.hScrollBar.Enabled = false;
-            this.hScrollBar.Location = new System.Drawing.Point(0, 521);
-            this.hScrollBar.Name = "hScrollBar";
-            this.hScrollBar.Size = new System.Drawing.Size(784, 17);
-            this.hScrollBar.TabIndex = 2;
-            this.hScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar_Scroll);
             // 
             // menuStrip1
             // 
@@ -106,7 +89,7 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -114,25 +97,25 @@
             // 
             this.loadToolStripMenuItem.Enabled = false;
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.loadToolStripMenuItem.Text = "Load";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(97, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -162,8 +145,6 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.pnlMain);
-            this.splitContainer1.Panel1.Controls.Add(this.hScrollBar);
-            this.splitContainer1.Panel1.Controls.Add(this.vScrollBar);
             // 
             // splitContainer1.Panel2
             // 
@@ -171,16 +152,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(1039, 538);
             this.splitContainer1.SplitterDistance = 800;
             this.splitContainer1.TabIndex = 4;
-            // 
-            // tabTilesets
-            // 
-            this.tabTilesets.Location = new System.Drawing.Point(4, 22);
-            this.tabTilesets.Name = "tabTilesets";
-            this.tabTilesets.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTilesets.Size = new System.Drawing.Size(227, 512);
-            this.tabTilesets.TabIndex = 0;
-            this.tabTilesets.Text = "Tilesets";
-            this.tabTilesets.UseVisualStyleBackColor = true;
             // 
             // tabTools
             // 
@@ -193,6 +164,36 @@
             this.tabTools.Size = new System.Drawing.Size(235, 538);
             this.tabTools.TabIndex = 0;
             // 
+            // tabTilesets
+            // 
+            this.tabTilesets.Controls.Add(this.btnAddTileset);
+            this.tabTilesets.Location = new System.Drawing.Point(4, 22);
+            this.tabTilesets.Name = "tabTilesets";
+            this.tabTilesets.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTilesets.Size = new System.Drawing.Size(227, 512);
+            this.tabTilesets.TabIndex = 0;
+            this.tabTilesets.Text = "Tilesets";
+            this.tabTilesets.UseVisualStyleBackColor = true;
+            // 
+            // rendererContainer
+            // 
+            this.rendererContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rendererContainer.Location = new System.Drawing.Point(0, 0);
+            this.rendererContainer.Name = "rendererContainer";
+            this.rendererContainer.Size = new System.Drawing.Size(800, 538);
+            this.rendererContainer.TabIndex = 0;
+            // 
+            // btnAddTileset
+            // 
+            this.btnAddTileset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddTileset.Location = new System.Drawing.Point(193, 483);
+            this.btnAddTileset.Name = "btnAddTileset";
+            this.btnAddTileset.Size = new System.Drawing.Size(28, 21);
+            this.btnAddTileset.TabIndex = 5;
+            this.btnAddTileset.Text = "+";
+            this.btnAddTileset.UseVisualStyleBackColor = true;
+            this.btnAddTileset.Click += new System.EventHandler(this.btnAddTileset_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -202,6 +203,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Name = "frmMain";
             this.Text = "Castle Legends Editor";
+            this.pnlMain.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -209,6 +211,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.tabTools.ResumeLayout(false);
+            this.tabTilesets.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -216,9 +219,7 @@
 
         #endregion
 
-        private System.Windows.Forms.VScrollBar vScrollBar;
         private System.Windows.Forms.Panel pnlMain;
-        private System.Windows.Forms.HScrollBar hScrollBar;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
@@ -231,6 +232,8 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TabControl tabTools;
         private System.Windows.Forms.TabPage tabTilesets;
+        private UserControls.ucRendererContainer rendererContainer;
+        private System.Windows.Forms.Button btnAddTileset;
     }
 }
 

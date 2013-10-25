@@ -38,6 +38,9 @@ namespace CastleLegends.Common
 
                 TileHeight = (float)(Math.Sqrt(3.0) * 0.5) * TileWidth;
                 TileVerticalDistance = TileHeight;
+
+                this.MapWidth = (1 + TilesCountX) * TileHorizontalDistance;
+                this.MapHeight = (1 + TilesCountY) * TileHeight;
             }
             else
             {
@@ -46,6 +49,9 @@ namespace CastleLegends.Common
 
                 TileWidth = (float)(Math.Sqrt(3) * 0.5 * TileHeight);
                 TileHorizontalDistance = TileWidth;
+
+                this.MapWidth = (1+TilesCountX) * TileWidth;
+                this.MapHeight = (1+TilesCountY) * TileVerticalDistance;
             }
 
             TileHorizontalDistanceHalf = TileHorizontalDistance * 0.5f;
@@ -70,6 +76,9 @@ namespace CastleLegends.Common
         public float TileHorizontalDistanceHalf { get; private set; }
         public float TileVerticalDistance { get; private set; }
         public float TileVerticalDistanceHalf { get; private set; }
+
+        public float MapWidth { get; private set; }
+        public float MapHeight { get; private set; }
 
         #endregion Properties
     }

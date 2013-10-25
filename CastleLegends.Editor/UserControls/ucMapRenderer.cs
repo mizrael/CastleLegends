@@ -44,7 +44,7 @@ namespace CastleLegends.Editor.UserControls
 
         #region Private Methods
 
-        protected override void Initialize()
+        protected override void OnInitialize()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -52,15 +52,10 @@ namespace CastleLegends.Editor.UserControls
             base.Services.AddService<CameraService>(_camera);      
         }
 
-        protected override void Update()
-        {
-            _camera.Update();
-        }
-
         /// <summary>
         /// http://www.redblobgames.com/grids/hexagons/
         /// </summary>
-        protected override void Draw()
+        protected override void OnDraw()
         {
             base.GraphicsDevice.Clear(Color.Black);
 

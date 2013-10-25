@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CastleLegends.Editor.Services
 {
-    public class CameraService 
+    public class CameraService : IUpdateable
     {
         #region Members
 
@@ -14,9 +14,13 @@ namespace CastleLegends.Editor.Services
 
         GraphicsDevice _device;
 
+        private bool _enabled = true;
+        private int _updateOrder = 0;
+
         #endregion Members
 
-        public CameraService(GraphicsDevice device) {
+        public CameraService(GraphicsDevice device)
+        {
             _device = device;
         }
 
@@ -27,8 +31,8 @@ namespace CastleLegends.Editor.Services
             this.HalfScreenSize = this.ScreenSize * .5f;
         }
 
-        public void Update()
-        {        
+        public void Update(GameTime gameTime)
+        {
             _pos3.X = -Position.X;
             _pos3.Y = -Position.Y;
 
@@ -49,5 +53,29 @@ namespace CastleLegends.Editor.Services
         public Vector2 HalfScreenSize = Vector2.Zero;
 
         #endregion Properties
+
+        public bool Enabled
+        {
+            get { return _enabled; }
+            set
+            {
+                _enabled = value;
+                if (null != this.EnabledChanged) EnabledChanged(this, null);
+            }
+        }
+
+        public event System.EventHandler<System.EventArgs> EnabledChanged;
+
+        public int UpdateOrder
+        {
+            get { return _updateOrder; }
+            set
+            {
+                _updateOrder = value;
+                if (null != this.UpdateOrderChanged) UpdateOrderChanged(this, null);
+            }
+        }
+
+        public event System.EventHandler<System.EventArgs> UpdateOrderChanged;
     }
 }
