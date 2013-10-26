@@ -19,7 +19,6 @@ namespace CastleLegends.Common.Utils
 
         #endregion
 
-
         #region Private Methods
 
         private static void CreateThePixel(SpriteBatch spriteBatch)
@@ -157,7 +156,6 @@ namespace CastleLegends.Common.Utils
 
         #endregion
 
-
         #region FillRectangle
 
         /// <summary>
@@ -269,7 +267,6 @@ namespace CastleLegends.Common.Utils
 
         #endregion
 
-
         #region DrawRectangle
 
         /// <summary>
@@ -331,7 +328,6 @@ namespace CastleLegends.Common.Utils
         }
 
         #endregion
-
 
         #region DrawLine
 
@@ -443,7 +439,6 @@ namespace CastleLegends.Common.Utils
 
         #endregion
 
-
         #region PutPixel
 
         public static void PutPixel(this SpriteBatch spriteBatch, float x, float y, Color color)
@@ -463,7 +458,6 @@ namespace CastleLegends.Common.Utils
         }
 
         #endregion
-
 
         #region DrawCircle
 
@@ -528,7 +522,6 @@ namespace CastleLegends.Common.Utils
 
         #endregion
 
-
         #region DrawArc
 
         /// <summary>
@@ -570,7 +563,7 @@ namespace CastleLegends.Common.Utils
         #region Draw Hexagon
 
         /// <summary>
-        /// Draw an hexagon
+        /// Draws an hexagon
         /// </summary>
         /// <param name="spriteBatch">The destination drawing surface</param>
         /// <param name="center">The center of the hexagon</param>
@@ -582,7 +575,7 @@ namespace CastleLegends.Common.Utils
         }
 
         /// <summary>
-        /// Draw an hexagon
+        /// Draws an hexagon
         /// </summary>
         /// <param name="spriteBatch">The destination drawing surface</param>
         /// <param name="center">The center of the hexagon</param>
@@ -591,6 +584,17 @@ namespace CastleLegends.Common.Utils
         public static void DrawHexagon(this SpriteBatch spriteBatch, Vector2 center, float radius, Color color, HexTileType type, float thickness)
         {
             DrawPoints(spriteBatch, center, CreateHexagon(radius, type), color, thickness);
+        }
+
+        public static void DrawGrid(this SpriteBatch spriteBatch, Vector2 start, Vector2 end, Vector2 tileSize, Color color) {
+            if (start.X > end.X || start.Y > end.Y) return;
+
+            for (var j = start.Y; j < end.Y; j += tileSize.Y)
+                spriteBatch.DrawLine(new Vector2(0, j), new Vector2(end.X, j), color);
+            
+            for (var i = start.X; i < end.X; i += tileSize.X)
+                spriteBatch.DrawLine(new Vector2(i, 0), new Vector2(i, end.Y), color);
+            
         }
 
         #endregion Draw Hexagon
