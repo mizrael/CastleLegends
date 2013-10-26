@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using CastleLegends.Editor.UserControls;
 
@@ -14,7 +8,7 @@ namespace CastleLegends.Editor
     {
         #region Members
 
-        private ucTilesetRenderer _renderer;
+        private ucTilesetRenderer _renderer;       
 
         #endregion Members
 
@@ -41,6 +35,10 @@ namespace CastleLegends.Editor
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
+            this.tilesetProperties.Enabled = false;
+            this.btnSetGridColor.Enabled = false;
+            this.chkShowGrid.Enabled = false;
+
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Images|*.bmp;*.jpg;*.png;*.tga";
             ofd.Multiselect = false;
@@ -49,25 +47,49 @@ namespace CastleLegends.Editor
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
-            _renderer.LoadTileset(ofd.FileName);
-           
+            TileSet = Tileset.Load(ofd.FileName, _renderer.GraphicsDevice);
+            TileSet.TileWidth = 32;
+            TileSet.TileHeight = 32;
+            _renderer.SetTileset(TileSet);
+
+            this.tilesetProperties.SelectedObject = TileSet;
+            this.tilesetProperties.Enabled = true;
+            this.btnSetGridColor.Enabled = this.chkShowGrid.Checked;            
+            this.btnSetGridColor.Enabled = true;
+            this.chkShowGrid.Enabled = true;
+
+            _renderer.ShowGrid = this.chkShowGrid.Checked;            
+
             SetScrollbars();
         }
 
         private void chkShowGrid_CheckedChanged(object sender, EventArgs e)
         {
+            this.btnSetGridColor.Enabled = this.chkShowGrid.Checked;
             if (null != _renderer)
                 _renderer.ShowGrid = this.chkShowGrid.Checked;
         }
 
-        private void numTileWidth_ValueChanged(object sender, EventArgs e)
+        private void tilesetProperties_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            if (null != _renderer) _renderer.TileWidth = (int)this.numTileWidth.Value;
+            switch (e.ChangedItem.PropertyDescriptor.Name) {
+                case "TileWidth":
+                    TileSet.TileWidth = (int)e.ChangedItem.Value;
+                    break;
+                case "TileHeight":
+                    TileSet.TileHeight = (int)e.ChangedItem.Value;
+                    break;
+            }
         }
 
-        private void numTileHeight_ValueChanged(object sender, EventArgs e)
+        private void btnSetGridColor_Click(object sender, EventArgs e)
         {
-            if (null != _renderer) _renderer.TileHeight = (int)this.numTileHeight.Value;
+            ColorDialog frm = new ColorDialog();
+            frm.AllowFullOpen = true;
+            frm.FullOpen = true;
+
+            if (frm.ShowDialog() != DialogResult.OK) return;
+            _renderer.GridColor = new Microsoft.Xna.Framework.Color(frm.Color.R, frm.Color.G, frm.Color.B);
         }
 
         #endregion Form Events
@@ -76,15 +98,20 @@ namespace CastleLegends.Editor
 
         private void SetScrollbars()
         {
-            if (null == _renderer.Tileset) return;
-            
-            var vMax = _renderer.Tileset.Height - ucRendererContainer.Height;
-            var hMax = _renderer.Tileset.Width - ucRendererContainer.Width;
+            if (null == TileSet) return;
+
+            var vMax = TileSet.Height - ucRendererContainer.Height;
+            var hMax = TileSet.Width - ucRendererContainer.Width;
 
             this.ucRendererContainer.SetScrollbars(vMax, hMax);
         }
 
         #endregion Private Methods
 
+        #region Properties
+
+        public Tileset TileSet { get; private set; }
+
+        #endregion Properties
     }
 }

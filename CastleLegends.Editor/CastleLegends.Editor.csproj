@@ -73,7 +73,7 @@
     <Compile Include="Services\CameraService.cs" />
     <Compile Include="Services\GraphicsDeviceService.cs" />
     <Compile Include="Services\ServiceContainer.cs" />
-    <Compile Include="Texture2DInfo.cs" />
+    <Compile Include="Tileset.cs" />
     <Compile Include="UserControls\GraphicsDeviceControl.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Microsoft.Xna.Framework.Graphics;
 using CastleLegends.Editor.Services;
 using Microsoft.Xna.Framework;
+using CastleLegends.Common.Utils;
 
 namespace CastleLegends.Editor.UserControls
 {
@@ -16,8 +17,8 @@ namespace CastleLegends.Editor.UserControls
         private SpriteBatch _spriteBatch = null;
 
         private CameraService _camera = null;
-       
-        private Rectangle _tilesetRect;
+
+        private Tileset _tileset = null;
 
         #endregion Members
 
@@ -28,19 +29,12 @@ namespace CastleLegends.Editor.UserControls
 
         #region Public Methods
 
-        public void LoadTileset(string filePath)
+        public void SetTileset(Tileset tileset)
         {
-            if (null != Tileset)
-            {
-                Tileset.Dispose();
-                Tileset = null;
-            }
-
-            using (var stream = System.IO.File.OpenRead(filePath))
-            {
-                Tileset = Texture2D.FromStream(base.GraphicsDevice, stream);
-            }
-            _tilesetRect = new Rectangle(0, 0, Tileset.Width, Tileset.Height);
+            if (null != _tileset)            
+                _tileset.Dispose();
+                
+            _tileset = tileset;
         }
 
         #endregion Public Methods
@@ -60,31 +54,31 @@ namespace CastleLegends.Editor.UserControls
             base.GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.Matrix);
-            if (null != Tileset)
+            if (null != _tileset)
             {
-                _spriteBatch.Draw(Tileset, _tilesetRect, Color.White);
-            }
+                _spriteBatch.Draw(_tileset.Texture, _tileset.Texture.Bounds, Color.White);
 
-            this.DrawGrid();
+                if (this.ShowGrid) 
+                    this.DrawGrid();
+            }            
 
             _spriteBatch.End();
         }
 
         private void DrawGrid() {
-            if (!this.ShowGrid) return;
+            _spriteBatch.DrawGrid(Vector2.Zero, 
+                                  new Vector2(this._tileset.Width, this._tileset.Height), 
+                                  new Vector2(_tileset.TileWidth, _tileset.TileHeight),
+                                  this.GridColor);
         }
 
         #endregion Private Methods
 
         #region Properties
 
-        public Texture2D Tileset { get; private set; }
-
         public bool ShowGrid { get; set; }
 
-        public int TileWidth { get; set; }
-        
-        public int TileHeight { get; set; }
+        public Color GridColor { get; set; }
 
         #endregion Properties
     }
