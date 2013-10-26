@@ -35,9 +35,13 @@ namespace CastleLegends.Editor
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
+            if (null != this.TileSet)
+                this.TileSet.Dispose();
+
             this.tilesetProperties.Enabled = false;
             this.btnSetGridColor.Enabled = false;
             this.chkShowGrid.Enabled = false;
+            this.btnOK.Enabled = false;
 
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Images|*.bmp;*.jpg;*.png;*.tga";
@@ -56,6 +60,7 @@ namespace CastleLegends.Editor
             this.tilesetProperties.Enabled = true;
             this.btnSetGridColor.Enabled = this.chkShowGrid.Checked;            
             this.btnSetGridColor.Enabled = true;
+            this.btnOK.Enabled = true; 
             this.chkShowGrid.Enabled = true;
 
             _renderer.ShowGrid = this.chkShowGrid.Checked;            

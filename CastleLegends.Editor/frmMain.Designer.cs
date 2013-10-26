@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,10 +39,12 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawDebugLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectTileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabTools = new System.Windows.Forms.TabControl();
             this.tabTilesets = new System.Windows.Forms.TabPage();
-            this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
+            this.TilesetsList = new System.Windows.Forms.ListBox();
             this.btnAddTileset = new System.Windows.Forms.Button();
             this.pnlMain.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -63,11 +66,20 @@
             this.pnlMain.TabIndex = 1;
             this.pnlMain.SizeChanged += new System.EventHandler(this.pnlMain_SizeChanged);
             // 
+            // rendererContainer
+            // 
+            this.rendererContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rendererContainer.Location = new System.Drawing.Point(0, 0);
+            this.rendererContainer.Name = "rendererContainer";
+            this.rendererContainer.Size = new System.Drawing.Size(800, 538);
+            this.rendererContainer.TabIndex = 0;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.optionsToolStripMenuItem});
+            this.optionsToolStripMenuItem,
+            this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1039, 24);
@@ -136,6 +148,23 @@
             this.drawDebugLinesToolStripMenuItem.Text = "Draw Debug Lines";
             this.drawDebugLinesToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.drawDebugLinesToolStripMenuItem_CheckStateChanged);
             // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectTileMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // selectTileMenuItem
+            // 
+            this.selectTileMenuItem.CheckOnClick = true;
+            this.selectTileMenuItem.Enabled = false;
+            this.selectTileMenuItem.Name = "selectTileMenuItem";
+            this.selectTileMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.selectTileMenuItem.Text = "Tile Selector";
+            this.selectTileMenuItem.CheckStateChanged += new System.EventHandler(this.SelectTileMenuItem_CheckStateChanged);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -166,6 +195,7 @@
             // 
             // tabTilesets
             // 
+            this.tabTilesets.Controls.Add(this.TilesetsList);
             this.tabTilesets.Controls.Add(this.btnAddTileset);
             this.tabTilesets.Location = new System.Drawing.Point(4, 22);
             this.tabTilesets.Name = "tabTilesets";
@@ -175,18 +205,19 @@
             this.tabTilesets.Text = "Tilesets";
             this.tabTilesets.UseVisualStyleBackColor = true;
             // 
-            // rendererContainer
+            // TilesetsList
             // 
-            this.rendererContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rendererContainer.Location = new System.Drawing.Point(0, 0);
-            this.rendererContainer.Name = "rendererContainer";
-            this.rendererContainer.Size = new System.Drawing.Size(800, 538);
-            this.rendererContainer.TabIndex = 0;
+            this.TilesetsList.FormattingEnabled = true;
+            this.TilesetsList.Location = new System.Drawing.Point(6, 6);
+            this.TilesetsList.Name = "TilesetsList";
+            this.TilesetsList.Size = new System.Drawing.Size(213, 472);
+            this.TilesetsList.TabIndex = 6;
+            this.TilesetsList.SelectedIndexChanged += new System.EventHandler(this.TilesetsList_SelectedIndexChanged);
             // 
             // btnAddTileset
             // 
             this.btnAddTileset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddTileset.Location = new System.Drawing.Point(193, 483);
+            this.btnAddTileset.Location = new System.Drawing.Point(191, 483);
             this.btnAddTileset.Name = "btnAddTileset";
             this.btnAddTileset.Size = new System.Drawing.Size(28, 21);
             this.btnAddTileset.TabIndex = 5;
@@ -234,6 +265,9 @@
         private System.Windows.Forms.TabPage tabTilesets;
         private UserControls.ucRendererContainer rendererContainer;
         private System.Windows.Forms.Button btnAddTileset;
+        private System.Windows.Forms.ListBox TilesetsList;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectTileMenuItem;
     }
 }
 

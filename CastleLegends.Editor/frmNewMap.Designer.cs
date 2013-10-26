@@ -216,6 +216,7 @@
             this.Controls.Add(this._tileCountX);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmNewMap";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New Map";
             ((System.ComponentModel.ISupportInitialize)(this._tileCountX)).EndInit();

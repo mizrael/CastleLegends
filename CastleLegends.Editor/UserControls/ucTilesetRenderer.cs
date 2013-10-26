@@ -30,10 +30,7 @@ namespace CastleLegends.Editor.UserControls
         #region Public Methods
 
         public void SetTileset(Tileset tileset)
-        {
-            if (null != _tileset)            
-                _tileset.Dispose();
-                
+        {  
             _tileset = tileset;
         }
 

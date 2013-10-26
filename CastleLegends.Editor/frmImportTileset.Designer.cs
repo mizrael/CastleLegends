@@ -30,7 +30,7 @@
         {
             this.chkShowGrid = new System.Windows.Forms.CheckBox();
             this.btnLoad = new System.Windows.Forms.Button();
-            this._btnOK = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
             this.tilesetProperties = new System.Windows.Forms.PropertyGrid();
             this.btnSetGridColor = new System.Windows.Forms.Button();
             this.ucRendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
@@ -63,17 +63,17 @@
             this.btnLoad.UseVisualStyleBackColor = true;
             this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
-            // _btnOK
+            // btnOK
             // 
-            this._btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this._btnOK.Enabled = false;
-            this._btnOK.Location = new System.Drawing.Point(764, 462);
-            this._btnOK.Name = "_btnOK";
-            this._btnOK.Size = new System.Drawing.Size(49, 33);
-            this._btnOK.TabIndex = 5;
-            this._btnOK.Text = "OK";
-            this._btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnOK.Enabled = false;
+            this.btnOK.Location = new System.Drawing.Point(764, 462);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(49, 33);
+            this.btnOK.TabIndex = 5;
+            this.btnOK.Text = "OK";
+            this.btnOK.UseVisualStyleBackColor = true;
             // 
             // tilesetProperties
             // 
@@ -118,9 +118,10 @@
             this.Controls.Add(this.tilesetProperties);
             this.Controls.Add(this.ucRendererContainer);
             this.Controls.Add(this.btnLoad);
-            this.Controls.Add(this._btnOK);
+            this.Controls.Add(this.btnOK);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "frmImportTileset";
+            this.ShowInTaskbar = false;
             this.Text = "Import Tile Set";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -131,7 +132,7 @@
 
         private UserControls.ucRendererContainer ucRendererContainer;
         private System.Windows.Forms.Button btnLoad;
-        private System.Windows.Forms.Button _btnOK;
+        private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.CheckBox chkShowGrid;
         private System.Windows.Forms.PropertyGrid tilesetProperties;
         private System.Windows.Forms.Button btnSetGridColor;
