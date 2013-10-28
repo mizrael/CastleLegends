@@ -38,6 +38,19 @@ namespace CastleLegends.Editor
         [Category("Tile Set Properties")]
         public int TileHeight { get; set; }
 
+        [DisplayName("Tile Count on X")]
+        [Category("Tile Set Properties")]
+        public int TilesCountX {
+            get { return (null != Texture) ? this.Width / this.TileWidth : 0; }
+        }
+
+        [DisplayName("Tile Count on Y")]
+        [Category("Tile Set Properties")]
+        public int TilesCountY
+        {
+            get { return (null != Texture) ? this.Height / this.TileHeight : 0; }
+        }
+
         #endregion Properties
 
         public override string ToString()
