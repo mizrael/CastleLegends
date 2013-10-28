@@ -20,11 +20,15 @@ namespace CastleLegends.Editor.UserControls
 
         private Tileset _tileset = null;
 
+        private Point _selectedTileIndex = Point.Zero;
+
         #endregion Members
 
         public ucTilesetRenderer()
         {
             InitializeComponent();
+
+            this.EnableSelection = false;
         }
 
         #region Public Methods
@@ -46,6 +50,14 @@ namespace CastleLegends.Editor.UserControls
             base.Services.AddService<CameraService>(_camera);
         }
 
+        protected override void OnUpdate()
+        {
+            if (null == _tileset) return;
+
+            if (this.EnableSelection)
+                SelectTile();
+        }
+
         protected override void OnDraw()
         {
             base.GraphicsDevice.Clear(Color.Black);
@@ -57,6 +69,9 @@ namespace CastleLegends.Editor.UserControls
 
                 if (this.ShowGrid) 
                     this.DrawGrid();
+
+                if (this.EnableSelection)
+                    DrawSelectedTile();                
             }            
 
             _spriteBatch.End();
@@ -69,9 +84,38 @@ namespace CastleLegends.Editor.UserControls
                                   this.GridColor);
         }
 
+        private void DrawSelectedTile()
+        {
+            if (!CheckIsSelectionValid()) return;
+
+            var bounds = new Rectangle(_selectedTileIndex.X * _tileset.TileWidth, 
+                                       _selectedTileIndex.Y * _tileset.TileHeight, 
+                                        _tileset.TileWidth, 
+                                         _tileset.TileHeight);
+            _spriteBatch.DrawRectangle(bounds, Color.Magenta, 2f);
+        }
+        
+        private bool SelectTile() {
+            var relativeMousePos = this.PointToClient(MousePosition);
+            var mousePosVec = new Vector2(relativeMousePos.X, relativeMousePos.Y) + _camera.Position;
+
+            _selectedTileIndex.X = (int)Math.Floor(mousePosVec.X / _tileset.TileWidth);
+            _selectedTileIndex.Y = (int)Math.Floor(mousePosVec.Y / _tileset.TileHeight);
+
+            return CheckIsSelectionValid();
+        }
+
+        private bool CheckIsSelectionValid()
+        {
+            return (_selectedTileIndex.X > -1 && _selectedTileIndex.X < _tileset.TilesCountX) &&
+                    (_selectedTileIndex.Y > -1 && _selectedTileIndex.Y < _tileset.TilesCountY);
+        }
+               
         #endregion Private Methods
 
         #region Properties
+
+        public bool EnableSelection { get; set; }
 
         public bool ShowGrid { get; set; }
 

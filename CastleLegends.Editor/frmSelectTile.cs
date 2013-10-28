@@ -54,6 +54,7 @@ namespace CastleLegends.Editor
         {
             if (null != _renderer) return;
             _renderer = new ucTilesetRenderer();
+            _renderer.EnableSelection = true;
             this.ucRendererContainer.SetRenderer(_renderer);
         }
 
