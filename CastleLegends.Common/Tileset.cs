@@ -1,16 +1,26 @@
-﻿using System.IO;
-using System.Windows.Forms;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+﻿using System;
 using System.ComponentModel;
-using System;
+using System.IO;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
-namespace CastleLegends.Editor
+namespace CastleLegends.Common
 {
     [DisplayName("Tile Set")]
     [DefaultProperty("Asset")]
     public class Tileset : IDisposable
     {
+        public Tileset(string filename, Texture2D texture) :this(filename, texture, 32, 32) { 
+        }
+
+        public Tileset(string filename, Texture2D texture, int tileWidth, int tileHeight) {
+            this.Asset = filename;
+            this.Texture = texture;
+
+            this.TileWidth = tileWidth;
+            this.TileHeight = tileHeight;
+        }
+
         #region Properties
 
         [Category("Tile Set Properties")]
@@ -63,20 +73,6 @@ namespace CastleLegends.Editor
             if (null != this.Texture)
                 this.Texture.Dispose();
         }
-
-        #region Factory
-
-        public static Tileset Load(string fullPath, GraphicsDevice device) {
-            using (var texStream = File.OpenRead(fullPath))
-            {
-                var texture = Texture2D.FromStream(device, texStream);
-                if (null != texture)
-                    return new Tileset() { Asset = fullPath, Texture = texture };                
-            }
-            return null;
-        }
-
-        #endregion Factory
-
     }
+
 }

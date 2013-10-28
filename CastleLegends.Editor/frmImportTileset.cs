@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using CastleLegends.Editor.UserControls;
+using CastleLegends.Common;
 
 namespace CastleLegends.Editor
 {
@@ -51,7 +52,7 @@ namespace CastleLegends.Editor
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
-            TileSet = Tileset.Load(ofd.FileName, _renderer.GraphicsDevice);
+            TileSet = TilesetFactory.Load(ofd.FileName, _renderer.GraphicsDevice);
             TileSet.TileWidth = 32;
             TileSet.TileHeight = 32;
             _renderer.SetTileset(TileSet);

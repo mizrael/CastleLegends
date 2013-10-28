@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using CastleLegends.Editor.Services;
 using Microsoft.Xna.Framework;
 using CastleLegends.Common.Utils;
+using CastleLegends.Common;
 
 namespace CastleLegends.Editor.UserControls
 {
@@ -28,14 +29,30 @@ namespace CastleLegends.Editor.UserControls
         {
             InitializeComponent();
 
-            this.EnableSelection = false;
+            this.EnableSelection = false;            
         }
+
+        #region Eventds
+
+
+        #endregion Eventds
 
         #region Public Methods
 
         public void SetTileset(Tileset tileset)
         {  
             _tileset = tileset;
+        }
+
+        public bool SelectTile(out Point tileIndices)
+        {
+            var relativeMousePos = this.PointToClient(MousePosition);
+            var mousePosVec = new Vector2(relativeMousePos.X, relativeMousePos.Y) + _camera.Position;
+
+            tileIndices.X = (int)Math.Floor(mousePosVec.X / _tileset.TileWidth);
+            tileIndices.Y = (int)Math.Floor(mousePosVec.Y / _tileset.TileHeight);
+
+            return CheckIsSelectionValid(ref tileIndices);
         }
 
         #endregion Public Methods
@@ -55,7 +72,7 @@ namespace CastleLegends.Editor.UserControls
             if (null == _tileset) return;
 
             if (this.EnableSelection)
-                SelectTile();
+                SelectTile(out _selectedTileIndex);            
         }
 
         protected override void OnDraw()
@@ -86,7 +103,7 @@ namespace CastleLegends.Editor.UserControls
 
         private void DrawSelectedTile()
         {
-            if (!CheckIsSelectionValid()) return;
+            if (!CheckIsSelectionValid(ref _selectedTileIndex)) return;
 
             var bounds = new Rectangle(_selectedTileIndex.X * _tileset.TileWidth, 
                                        _selectedTileIndex.Y * _tileset.TileHeight, 
@@ -94,21 +111,11 @@ namespace CastleLegends.Editor.UserControls
                                          _tileset.TileHeight);
             _spriteBatch.DrawRectangle(bounds, Color.Magenta, 2f);
         }
-        
-        private bool SelectTile() {
-            var relativeMousePos = this.PointToClient(MousePosition);
-            var mousePosVec = new Vector2(relativeMousePos.X, relativeMousePos.Y) + _camera.Position;
-
-            _selectedTileIndex.X = (int)Math.Floor(mousePosVec.X / _tileset.TileWidth);
-            _selectedTileIndex.Y = (int)Math.Floor(mousePosVec.Y / _tileset.TileHeight);
-
-            return CheckIsSelectionValid();
-        }
-
-        private bool CheckIsSelectionValid()
+     
+        private bool CheckIsSelectionValid(ref Point tileIndices)
         {
-            return (_selectedTileIndex.X > -1 && _selectedTileIndex.X < _tileset.TilesCountX) &&
-                    (_selectedTileIndex.Y > -1 && _selectedTileIndex.Y < _tileset.TilesCountY);
+            return (tileIndices.X > -1 && tileIndices.X < _tileset.TilesCountX) &&
+                    (tileIndices.Y > -1 && tileIndices.Y < _tileset.TilesCountY);
         }
                
         #endregion Private Methods
@@ -122,5 +129,7 @@ namespace CastleLegends.Editor.UserControls
         public Color GridColor { get; set; }
 
         #endregion Properties
+
+       
     }
 }

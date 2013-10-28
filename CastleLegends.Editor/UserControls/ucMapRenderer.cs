@@ -67,6 +67,13 @@ namespace CastleLegends.Editor.UserControls
             for (int x = 0; x != _mapData.TilesCountX; ++x)
             {
                 pos = TileToCoords(x,y) + _positionOffset;
+
+                var tile = _mapData.Tiles[x, y];
+                if (null != tile && null != tile.Tileset) {
+                    var destRect = new Rectangle((int)pos.X, (int)pos.Y, (int)_mapData.TileWidth, (int)_mapData.TileHeight);
+                    _spriteBatch.Draw(tile.Tileset.Texture, destRect, tile.TextureSourceBounds, Color.White);
+                }
+                
                 _spriteBatch.DrawHexagon(pos, _mapData.TilesRadius, Color.Green, _mapData.TilesType);
             }
 

@@ -24,10 +24,20 @@ namespace CastleLegends.Common
             this.TilesCountY = tilesCountY;
             this.TilesRadius = tileRadius;
 
+            InitTiles();
+
             ComputeBounds();
         }
 
         #region Private Methods
+
+        private void InitTiles()
+        {
+            this.Tiles = new Tile[this.TilesCountX, this.TilesCountY];
+            for (int y = 0; y != this.TilesCountY; ++y)
+                for (int x = 0; x != this.TilesCountX; ++x)
+                    this.Tiles[x, y] = new Tile(x, y);
+        }
 
         private void ComputeBounds()
         {
@@ -61,6 +71,8 @@ namespace CastleLegends.Common
         #endregion Private Methods
 
         #region Properties
+
+        public Tile[,] Tiles {get; private set;}
 
         public HexMapType MapCoordsType { get; private set; }
         public HexTileType TilesType { get; private set; }

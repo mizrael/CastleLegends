@@ -51,7 +51,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select Tile";
-            this.TopMost = true;
             this.ResumeLayout(false);
 
         }

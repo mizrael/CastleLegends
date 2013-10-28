@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using CastleLegends.Editor.UserControls;
+using Microsoft.Xna.Framework;
+using CastleLegends.Common;
 
 namespace CastleLegends.Editor
 {
@@ -9,6 +11,7 @@ namespace CastleLegends.Editor
         #region Members
 
         private ucTilesetRenderer _renderer;
+        private Point _selectedTileIndex;
 
         #endregion Members
 
@@ -30,6 +33,12 @@ namespace CastleLegends.Editor
         private void frmSelectTile_ResizeEnd(object sender, EventArgs e)
         {
             SetScrollbars();
+        }
+        
+        private void frmSelectTile_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (_renderer.EnableSelection && null != TileSelectionChange && _renderer.SelectTile(out _selectedTileIndex))
+                TileSelectionChange(this, new TileSelectionEventArgs(this.TileSet, _selectedTileIndex));
         }
 
         #endregion Form Events
@@ -55,6 +64,8 @@ namespace CastleLegends.Editor
             if (null != _renderer) return;
             _renderer = new ucTilesetRenderer();
             _renderer.EnableSelection = true;
+            _renderer.MouseClick += new MouseEventHandler(frmSelectTile_MouseClick);
+
             this.ucRendererContainer.SetRenderer(_renderer);
         }
 
@@ -75,5 +86,24 @@ namespace CastleLegends.Editor
         public Tileset TileSet { get; private set; }
 
         #endregion Properties
+
+        #region Custom Events
+
+        public delegate void TileSelectionChangeHandler(object sender, TileSelectionEventArgs data);
+        public event TileSelectionChangeHandler TileSelectionChange;
+
+        #endregion Custom Events
+    }
+
+    public class TileSelectionEventArgs : EventArgs
+    {
+        public TileSelectionEventArgs(Tileset tileSet, Point coords)
+        {
+            this.TileSet = tileSet;
+            this.TileIndices = coords;
+        }
+
+        public Tileset TileSet { get; private set; }
+        public Point TileIndices { get; private set; }
     }
 }

@@ -35,6 +35,13 @@ namespace CastleLegends.Editor
         private void frmMain_Load(object sender, EventArgs e)
         {
             _frmSelTile = new frmSelectTile();
+            _frmSelTile.TileSelectionChange += new frmSelectTile.TileSelectionChangeHandler(_frmSelTile_TileSelectionChange);
+        }
+
+        private void _frmSelTile_TileSelectionChange(object sender, TileSelectionEventArgs data)
+        {
+            if (null == _mapData)
+                return;
         } 
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -97,8 +104,11 @@ namespace CastleLegends.Editor
 
         private void SelectTileMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
-            if(this.selectTileMenuItem.Checked)
+            if (this.selectTileMenuItem.Checked)
+            {
                 _frmSelTile.Show();
+                _frmSelTile.BringToFront();
+            }
             else
                 _frmSelTile.Hide();
         }
