@@ -24,14 +24,14 @@ namespace CastleLegends.Editor.UserControls
         {
             if (null == _renderer) return;
             var camera = _renderer.Services.GetService<CameraService>();
-            camera.Position.Y = this.vScrollBar.Value;
+            if(null != camera) camera.Position.Y = this.vScrollBar.Value;
         }
 
         private void hScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
             if (null == _renderer) return;
             var camera = _renderer.Services.GetService<CameraService>();
-            camera.Position.X = this.hScrollBar.Value;
+            if (null != camera) camera.Position.X = this.hScrollBar.Value;
         }
 
         public void SetRenderer(ucBaseRender renderer) {
@@ -58,6 +58,9 @@ namespace CastleLegends.Editor.UserControls
             {
                 this.vScrollBar.Enabled = false;
                 this.vScrollBar.Visible = false;
+
+                 var camera = _renderer.Services.GetService<CameraService>();
+                 if (null != camera) camera.Position.Y = 0;
             } 
 
             if (hMax > 0)
@@ -71,6 +74,9 @@ namespace CastleLegends.Editor.UserControls
             else {
                 this.hScrollBar.Enabled = false;
                 this.hScrollBar.Visible = false;
+
+                var camera = _renderer.Services.GetService<CameraService>();
+                if (null != camera) camera.Position.X = 0;
             }
         }
     }
