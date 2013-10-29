@@ -93,6 +93,7 @@ namespace CastleLegends.Editor
             ColorDialog frm = new ColorDialog();
             frm.AllowFullOpen = true;
             frm.FullOpen = true;
+            frm.Color = System.Drawing.Color.FromArgb(0, 255, 0);
 
             if (frm.ShowDialog() != DialogResult.OK) return;
             _renderer.GridColor = new Microsoft.Xna.Framework.Color(frm.Color.R, frm.Color.G, frm.Color.B);
