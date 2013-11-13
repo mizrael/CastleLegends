@@ -10,8 +10,7 @@ namespace CastleLegends.Editor
     {
         #region Members
 
-        private ucTilesetRenderer _renderer;
-        private Point _selectedTileIndex;
+        private ucTilesetRenderer _renderer;        
 
         #endregion Members
 
@@ -37,8 +36,18 @@ namespace CastleLegends.Editor
         
         private void frmSelectTile_MouseClick(object sender, MouseEventArgs e)
         {
-            if (_renderer.EnableSelection && null != TileSelectionChange && _renderer.SelectTile(out _selectedTileIndex))
-                TileSelectionChange(this, new TileSelectionEventArgs(this.TileSet, _selectedTileIndex));
+            this.SelectedTileIndex = null;
+
+            if (!_renderer.EnableSelection ||  null == TileSelectionChange) 
+                return;
+
+            Point selectedTileIndex = Point.Zero;
+            if (_renderer.SelectTile(out selectedTileIndex))
+            {         
+                this.SelectedTileIndex = selectedTileIndex;
+
+                TileSelectionChange(this, new TileSelectionEventArgs(this.TileSet, selectedTileIndex));
+            }
         }
 
         #endregion Form Events
@@ -84,6 +93,8 @@ namespace CastleLegends.Editor
         #region Properties
 
         public Tileset TileSet { get; private set; }
+
+        public Point? SelectedTileIndex { get; private set; }
 
         #endregion Properties
 

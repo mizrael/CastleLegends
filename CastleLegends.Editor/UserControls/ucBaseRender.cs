@@ -63,7 +63,6 @@ namespace CastleLegends.Editor.UserControls
 
         #region Paint
 
-
         /// <summary>
         /// Redraws the control in response to a WinForms paint message.
         /// </summary>

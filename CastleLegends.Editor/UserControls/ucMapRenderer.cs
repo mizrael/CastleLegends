@@ -24,8 +24,21 @@ namespace CastleLegends.Editor.UserControls
         public ucMapRenderer(HexMap mapData)
         {
             SetMapData(mapData); 
-            InitializeComponent();            
+            InitializeComponent();
+
+            this.Click += new EventHandler(ucMapRenderer_Click);
         }
+
+        #region Events
+
+        private void ucMapRenderer_Click(object sender, EventArgs e)
+        {
+            int tileIndexX, tileIndexY;
+            if (null != MapTileSelected && SelectTile(out tileIndexX, out tileIndexY))
+                MapTileSelected(this, new MapTileSelectedEventArgs(tileIndexX, tileIndexY));
+        }
+
+        #endregion Events
 
         #region Public Methods
 
@@ -61,39 +74,44 @@ namespace CastleLegends.Editor.UserControls
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.Matrix);
 
-            Vector2 pos;
+            Vector2 tileCenter;
+            Vector2 tileCoords;
 
-            for (int y = 0; y != _mapData.TilesCountY; ++y) 
-            for (int x = 0; x != _mapData.TilesCountX; ++x)
-            {
-                pos = TileToCoords(x,y) + _positionOffset;
+            for (int y = 0; y != _mapData.TilesCountY; ++y)
+                for (int x = 0; x != _mapData.TilesCountX; ++x)
+                {
+                    tileCoords = TileToCoords(x, y);
+                    tileCenter = tileCoords + _positionOffset;
 
-                var tile = _mapData.Tiles[x, y];
-                if (null != tile && null != tile.Tileset) {
-                    var destRect = new Rectangle((int)pos.X, (int)pos.Y, (int)_mapData.TileWidth, (int)_mapData.TileHeight);
-                    _spriteBatch.Draw(tile.Tileset.Texture, destRect, tile.TextureSourceBounds, Color.White);
+                    var tile = _mapData.Tiles[x, y];
+                    if (null != tile && null != tile.Tileset)
+                    {
+                        var destRect = new Rectangle((int)tileCoords.X, (int)tileCoords.Y, (int)_mapData.TileWidth, (int)_mapData.TileHeight);
+                        _spriteBatch.Draw(tile.Tileset.Texture, destRect, tile.TextureSourceBounds, Color.White);
+                    }
+
+                    _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Green, _mapData.TilesType);
                 }
-                
-                _spriteBatch.DrawHexagon(pos, _mapData.TilesRadius, Color.Green, _mapData.TilesType);
-            }
-
-            var relativeMousePos = this.PointToClient(MousePosition);
-            var mousePosVec = new Vector2(relativeMousePos.X, relativeMousePos.Y);
 
             int tileIndexX, tileIndexY;
-            if (CoordsToTile(mousePosVec, out tileIndexX, out tileIndexY))
+            if (SelectTile(out tileIndexX, out tileIndexY))
             {
-                pos = TileToCoords(tileIndexX, tileIndexY) + _positionOffset;
-                _spriteBatch.DrawHexagon(pos, _mapData.TilesRadius, Color.Red, _mapData.TilesType, 3f);
+                tileCenter = TileToCoords(tileIndexX, tileIndexY) + _positionOffset;
+                _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Red, _mapData.TilesType, 3f);
             }
 
             if (this.DrawDebugLines)
             {
                 DrawDebug();
-
-                this.FindForm().Text = string.Format("x: {0}, y: {1}", mousePosVec.X, mousePosVec.Y);
             }
             _spriteBatch.End();
+        }
+
+        private bool SelectTile(out int tileIndexX, out int tileIndexY)
+        {
+            var relativeMousePos = this.PointToClient(MousePosition);
+            var mousePosVec = new Vector2(relativeMousePos.X, relativeMousePos.Y);
+            return CoordsToTile(mousePosVec, out tileIndexX, out tileIndexY);
         }
         
         private Vector2 TileToCoords(int i, int j) 
@@ -309,5 +327,23 @@ namespace CastleLegends.Editor.UserControls
         public bool DrawDebugLines { get; set; }
 
         #endregion Properties
+
+        #region Custom Events
+
+        public delegate void MapTileSelectedEventHandler(object sender, MapTileSelectedEventArgs data);
+        public event MapTileSelectedEventHandler MapTileSelected;
+
+        #endregion Custom Events
+    }
+
+    public class MapTileSelectedEventArgs : EventArgs {
+        public MapTileSelectedEventArgs(int tileIndexX, int tileIndexY) {
+            this.TileIndexX = tileIndexX;
+            this.TileIndexY = tileIndexY;
+        }
+
+        public int TileIndexX { get; private set; }
+        public int TileIndexY { get; private set; }
     }
 }
+

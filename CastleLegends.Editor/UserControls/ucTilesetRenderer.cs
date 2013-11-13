@@ -129,7 +129,6 @@ namespace CastleLegends.Editor.UserControls
         public Color GridColor { get; set; }
 
         #endregion Properties
-
-       
+               
     }
 }

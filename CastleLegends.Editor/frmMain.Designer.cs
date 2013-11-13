@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.pnlMain = new System.Windows.Forms.Panel();
-            this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,6 +45,8 @@
             this.tabTilesets = new System.Windows.Forms.TabPage();
             this.TilesetsList = new System.Windows.Forms.ListBox();
             this.btnAddTileset = new System.Windows.Forms.Button();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
             this.pnlMain.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -65,14 +66,6 @@
             this.pnlMain.Size = new System.Drawing.Size(800, 538);
             this.pnlMain.TabIndex = 1;
             this.pnlMain.SizeChanged += new System.EventHandler(this.pnlMain_SizeChanged);
-            // 
-            // rendererContainer
-            // 
-            this.rendererContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rendererContainer.Location = new System.Drawing.Point(0, 0);
-            this.rendererContainer.Name = "rendererContainer";
-            this.rendererContainer.Size = new System.Drawing.Size(800, 538);
-            this.rendererContainer.TabIndex = 0;
             // 
             // menuStrip1
             // 
@@ -151,7 +144,8 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.selectTileMenuItem});
+            this.selectTileMenuItem,
+            this.toolsToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
@@ -225,6 +219,23 @@
             this.btnAddTileset.UseVisualStyleBackColor = true;
             this.btnAddTileset.Click += new System.EventHandler(this.btnAddTileset_Click);
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.CheckOnClick = true;
+            this.toolsToolStripMenuItem.Enabled = false;
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            this.toolsToolStripMenuItem.Click += new System.EventHandler(this.toolsToolStripMenuItem_Click);
+            // 
+            // rendererContainer
+            // 
+            this.rendererContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rendererContainer.Location = new System.Drawing.Point(0, 0);
+            this.rendererContainer.Name = "rendererContainer";
+            this.rendererContainer.Size = new System.Drawing.Size(800, 538);
+            this.rendererContainer.TabIndex = 0;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -268,6 +279,7 @@
         private System.Windows.Forms.ListBox TilesetsList;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectTileMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
     }
 }
 

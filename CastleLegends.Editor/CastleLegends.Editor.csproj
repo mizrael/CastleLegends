@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\SetTileTextureCommand.cs" />
     <Compile Include="Extensions\IServiceProviderExtensions.cs" />
     <Compile Include="frmImportTileset.cs">
       <SubType>Form</SubType>
@@ -73,6 +75,12 @@
     </Compile>
     <Compile Include="frmSelectTile.Designer.cs">
       <DependentUpon>frmSelectTile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTools.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTools.Designer.cs">
+      <DependentUpon>frmTools.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -118,6 +126,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSelectTile.resx">
       <DependentUpon>frmSelectTile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTools.resx">
+      <DependentUpon>frmTools.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -16,6 +16,7 @@ namespace CastleLegends.Editor
         private HexMap _mapData;
 
         private frmSelectTile _frmSelTile = null;
+        private frmTools _frmTools = null;
 
         #endregion Members
 
@@ -36,13 +37,14 @@ namespace CastleLegends.Editor
         {
             _frmSelTile = new frmSelectTile();
             _frmSelTile.TileSelectionChange += new frmSelectTile.TileSelectionChangeHandler(_frmSelTile_TileSelectionChange);
+
+            _frmTools = new frmTools();          
         }
 
-        private void _frmSelTile_TileSelectionChange(object sender, TileSelectionEventArgs data)
+        private void _frmTools_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (null == _mapData)
-                return;
-        } 
+            this.toolsToolStripMenuItem.Checked = false;
+        }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -113,7 +115,52 @@ namespace CastleLegends.Editor
                 _frmSelTile.Hide();
         }
 
+        private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.toolsToolStripMenuItem.Checked)
+            {
+                _frmTools.Show();
+                _frmTools.BringToFront();
+            }
+            else
+                _frmTools.Hide();
+        }
+
         #endregion Menu Events
+
+        #region Tileset Selection Form Events
+
+        private void _frmSelTile_TileSelectionChange(object sender, TileSelectionEventArgs data)
+        {
+            if (null == _mapData)
+                return;
+        } 
+
+        #endregion Tileset Selection Form Events
+
+        #region Map Renderer Events
+
+        private void _mapRenderer_MapTileSelected(object sender, MapTileSelectedEventArgs data)
+        {
+            if (_frmTools.SelectedTool == frmTools.Tools.SetTileTexture && _frmSelTile.SelectedTileIndex.HasValue)
+            {
+                var tilesetSelectedTileIndex = _frmSelTile.SelectedTileIndex.Value;
+
+                var tileIndex = new Microsoft.Xna.Framework.Point(data.TileIndexX, data.TileIndexY);
+
+                var texBounds = new Microsoft.Xna.Framework.Rectangle() {
+                    X = tilesetSelectedTileIndex.X * _frmSelTile.TileSet.TileWidth,
+                    Y = tilesetSelectedTileIndex.Y * _frmSelTile.TileSet.TileHeight,
+                    Width = _frmSelTile.TileSet.TileWidth,
+                    Height = _frmSelTile.TileSet.TileHeight
+                };
+
+                var command = new Commands.SetTileTextureCommand(_mapData, tileIndex, _frmSelTile.TileSet, texBounds);
+                command.Execute();
+            }
+        }
+
+        #endregion Map Renderer Events
 
         #region Private Methods
 
@@ -133,6 +180,9 @@ namespace CastleLegends.Editor
             this.selectTileMenuItem.Enabled = true;
             this.selectTileMenuItem.Checked = false;
 
+            this.toolsToolStripMenuItem.Enabled = true;
+            this.toolsToolStripMenuItem.Checked = false;            
+
             this.tabTools.Enabled = true;
 
             InitRenderer();         
@@ -140,6 +190,7 @@ namespace CastleLegends.Editor
 
         private void CloseMap()
         {
+            this.toolsToolStripMenuItem.Enabled = false;
             this.selectTileMenuItem.Enabled = false;
             this.drawDebugLinesToolStripMenuItem.Enabled = false;
             this.tabTools.Enabled = false;
@@ -153,6 +204,7 @@ namespace CastleLegends.Editor
             _mapRenderer.Dock = DockStyle.Fill;
             _mapRenderer.Location = new Point(0, 0);
             _mapRenderer.TabIndex = 0;
+            _mapRenderer.MapTileSelected += new ucMapRenderer.MapTileSelectedEventHandler(_mapRenderer_MapTileSelected);
 
             this.rendererContainer.SetRenderer(_mapRenderer);
 
@@ -170,5 +222,6 @@ namespace CastleLegends.Editor
         }
 
         #endregion Private Methods
+
     }
 }
