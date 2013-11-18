@@ -16,7 +16,8 @@ namespace CastleLegends.Common.Persistence
             if (string.IsNullOrWhiteSpace(fullPath))
                 throw new ArgumentNullException("fullPath");
 
-            var xMap = new XElement("HexMap", new XAttribute("MapCoordsType", map.MapCoordsType)
+            var xMap = new XElement("HexMap", new XAttribute("version", "1.0")
+                                            , new XAttribute("MapCoordsType", map.MapCoordsType)
                                             , new XAttribute("TilesType", map.TilesType)
                                             , new XAttribute("TilesCountX", map.TilesCountX)
                                             , new XAttribute("TilesCountY", map.TilesCountY)
