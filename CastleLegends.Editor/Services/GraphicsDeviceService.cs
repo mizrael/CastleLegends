@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework.Graphics;
 // The IGraphicsDeviceService interface requires a DeviceCreated event, but we
 // always just create the device inside our constructor, so we have no place to
 // raise that event. The C# compiler warns us that the event is never used, but
-// we don't care so we just disable this warning.
+// we don'tile care so we just disable this warning.
 #pragma warning disable 67
 
 namespace CastleLegends.Editor.Services

@@ -63,6 +63,11 @@ namespace CastleLegends.Common
 
         #endregion Properties
 
+        public override int GetHashCode()
+        {
+            return this.Asset.GetHashCode();
+        }
+
         public override string ToString()
         {
             return System.IO.Path.GetFileName(this.Asset);

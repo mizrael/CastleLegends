@@ -33,7 +33,7 @@ namespace CastleLegends.Editor.UserControls
 
         protected override void OnCreateControl()
         {
-            // Don't initialize the graphics device if we are running in the designer.
+            // Don'tile initialize the graphics device if we are running in the designer.
             if (!DesignMode)
             {
                 try

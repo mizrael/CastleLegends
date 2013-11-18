@@ -110,7 +110,23 @@ namespace CastleLegends.Editor
         #endregion Form Events
 
         #region Menu Events
+        
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (null == _mapData) return;
 
+            var sfd = new SaveFileDialog();
+            sfd.RestoreDirectory = false;
+            sfd.Title = "Save Map";
+            sfd.DefaultExt = ".xml";
+            var result = sfd.ShowDialog();
+            if (result != System.Windows.Forms.DialogResult.OK)
+                return;
+
+            var repo = new CastleLegends.Common.Persistence.HexMapRepository();
+            repo.Save(_mapData, sfd.FileName);
+        }
+        
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -216,7 +232,9 @@ namespace CastleLegends.Editor
             this.selectTileMenuItem.Checked = false;
 
             this.toolsToolStripMenuItem.Enabled = true;
-            this.toolsToolStripMenuItem.Checked = false;            
+            this.toolsToolStripMenuItem.Checked = false;
+
+            this.saveToolStripMenuItem.Enabled = true;
 
             this.tabTools.Enabled = true;
 
@@ -229,7 +247,7 @@ namespace CastleLegends.Editor
             this.selectTileMenuItem.Enabled = false;
             this.drawDebugLinesToolStripMenuItem.Enabled = false;
             this.tabTools.Enabled = false;
-
+            this.saveToolStripMenuItem.Enabled = false;
             this.rendererContainer.SetRenderer(null);
         }
 
