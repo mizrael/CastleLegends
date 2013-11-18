@@ -29,7 +29,24 @@ namespace CastleLegends.Editor
             this.ResizeEnd += new EventHandler(frmMain_ResizeEnd);
             this.MaximizedBoundsChanged += new EventHandler(frmMain_MaximizedBoundsChanged);
             this.FormClosing += new FormClosingEventHandler(frmMain_FormClosing);
-        }        
+
+            Commands.CommandManager.CommandsUndo += new Commands.CommandManager.CommandEventHandler(CommandManager_CommandsUndo);    
+            Commands.CommandManager.CommandsExecuted += new Commands.CommandManager.CommandEventHandler(CommandManager_CommandsExecuted);
+        }
+
+        #region Command Manager Events
+
+        private void CommandManager_CommandsExecuted(Commands.CommandEventArgs data)
+        {
+            this.undoToolStripMenuItem.Enabled = true;
+        }
+
+        private void CommandManager_CommandsUndo(Commands.CommandEventArgs data)
+        {
+            this.redoToolStripMenuItem.Enabled = true;
+        }
+
+        #endregion Command Manager Events
 
         #region Form Events
 
@@ -37,7 +54,7 @@ namespace CastleLegends.Editor
         {
             _frmSelTile = new frmSelectTile();
             _frmSelTile.TileSelectionChange += new frmSelectTile.TileSelectionChangeHandler(_frmSelTile_TileSelectionChange);
-
+          
             _frmTools = new frmTools();          
         }
 
@@ -84,6 +101,12 @@ namespace CastleLegends.Editor
             _frmSelTile.SetTileset(currTileset);
         }
 
+        private void TilesetsList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            //_frmSelTile.Visible = true;            
+            this.selectTileMenuItem.Checked = true;
+        }
+        
         #endregion Form Events
 
         #region Menu Events
@@ -125,6 +148,18 @@ namespace CastleLegends.Editor
             else
                 _frmTools.Hide();
         }
+        
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Commands.CommandManager.UndoCommand();
+            this.undoToolStripMenuItem.Enabled = (0 != Commands.CommandManager.UndoCount);
+        }
+
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Commands.CommandManager.ExecuteCommand();
+            this.redoToolStripMenuItem.Enabled = (0 != Commands.CommandManager.Count);
+        }
 
         #endregion Menu Events
 
@@ -134,7 +169,7 @@ namespace CastleLegends.Editor
         {
             if (null == _mapData)
                 return;
-        } 
+        }
 
         #endregion Tileset Selection Form Events
 
@@ -156,7 +191,7 @@ namespace CastleLegends.Editor
                 };
 
                 var command = new Commands.SetTileTextureCommand(_mapData, tileIndex, _frmSelTile.TileSet, texBounds);
-                command.Execute();
+                Commands.CommandManager.AddAndExecute(command);
             }
         }
 

@@ -9,7 +9,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CastleLegends.Editor", "Cas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CastleLegends.Common", "CastleLegends.Common\CastleLegends.Common.csproj", "{86D6BF7B-EAB9-470B-9C37-4000671DEC94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CastleLegends.Editor.Tests", "CastleLegends.Editor.Tests\CastleLegends.Editor.Tests.csproj", "{EB809F46-309D-4044-B3C5-91CF66770189}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C5ECA0F9-41DA-4EDF-BA6E-9600B5FB4640}"
+	ProjectSection(SolutionItems) = preProject
+		CastleLegends.vsmdi = CastleLegends.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = CastleLegends.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -55,6 +67,16 @@ Global
 		{86D6BF7B-EAB9-470B-9C37-4000671DEC94}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{86D6BF7B-EAB9-470B-9C37-4000671DEC94}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{86D6BF7B-EAB9-470B-9C37-4000671DEC94}.Release|x86.ActiveCfg = Release|Any CPU
+		{EB809F46-309D-4044-B3C5-91CF66770189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB809F46-309D-4044-B3C5-91CF66770189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB809F46-309D-4044-B3C5-91CF66770189}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EB809F46-309D-4044-B3C5-91CF66770189}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EB809F46-309D-4044-B3C5-91CF66770189}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EB809F46-309D-4044-B3C5-91CF66770189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB809F46-309D-4044-B3C5-91CF66770189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB809F46-309D-4044-B3C5-91CF66770189}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EB809F46-309D-4044-B3C5-91CF66770189}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EB809F46-309D-4044-B3C5-91CF66770189}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
