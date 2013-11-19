@@ -1,18 +1,33 @@
 ﻿using System.IO;
 using CastleLegends.Common;
 using Microsoft.Xna.Framework.Graphics;
+using CastleLegends.Common.RenderModels;
+using System;
+using System.Collections.Generic;
 
 namespace CastleLegends.Editor
 { 
     public static class TilesetFactory
     {
-        public static Tileset Load(string fullPath, GraphicsDevice device)
+        private static Dictionary<Guid, TilesetRenderModel> _cache = new Dictionary<Guid, TilesetRenderModel>();
+
+        public static TilesetRenderModel Get(Guid id) {
+            TilesetRenderModel model = null;
+            _cache.TryGetValue(id, out model);
+            return model;
+        }
+
+        public static TilesetRenderModel Load(string fullPath, GraphicsDevice device)
         {
             using (var texStream = File.OpenRead(fullPath))
             {
                 var texture = Texture2D.FromStream(device, texStream);
                 if (null != texture)
-                    return new Tileset(fullPath, texture);
+                {
+                   var model = new TilesetRenderModel(new Tileset(fullPath), texture);
+                   _cache.Add(model.Tileset.ID, model);
+                   return model;
+                }
             }
             return null;
         }

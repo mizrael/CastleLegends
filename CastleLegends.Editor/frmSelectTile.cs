@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using CastleLegends.Editor.UserControls;
 using Microsoft.Xna.Framework;
 using CastleLegends.Common;
+using CastleLegends.Common.RenderModels;
 
 namespace CastleLegends.Editor
 {
@@ -54,10 +55,10 @@ namespace CastleLegends.Editor
 
         #region Methods
 
-        public void SetTileset(Tileset set) {
+        public void SetTileset(TilesetRenderModel data) {
             InitRenderer();
 
-            this.TileSet = set;
+            this.TileSet = data;
 
             _renderer.SetTileset(this.TileSet);
 
@@ -92,7 +93,7 @@ namespace CastleLegends.Editor
 
         #region Properties
 
-        public Tileset TileSet { get; private set; }
+        public TilesetRenderModel TileSet { get; private set; }
 
         public Point? SelectedTileIndex { get; private set; }
 
@@ -108,13 +109,13 @@ namespace CastleLegends.Editor
 
     public class TileSelectionEventArgs : EventArgs
     {
-        public TileSelectionEventArgs(Tileset tileSet, Point coords)
+        public TileSelectionEventArgs(TilesetRenderModel tileSet, Point coords)
         {
             this.TileSet = tileSet;
             this.TileIndices = coords;
         }
 
-        public Tileset TileSet { get; private set; }
+        public TilesetRenderModel TileSet { get; private set; }
         public Point TileIndices { get; private set; }
     }
 }

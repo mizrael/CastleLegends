@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using CastleLegends.Editor.UserControls;
 using CastleLegends.Common;
+using CastleLegends.Common.RenderModels;
 
 namespace CastleLegends.Editor
 {
@@ -52,9 +53,9 @@ namespace CastleLegends.Editor
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
-            TileSet = TilesetFactory.Load(ofd.FileName, _renderer.GraphicsDevice);
-            TileSet.TileWidth = 32;
-            TileSet.TileHeight = 32;
+            this.TileSet = TilesetFactory.Load(ofd.FileName, _renderer.GraphicsDevice);
+            this.TileSet.Tileset.TileWidth = 32;
+            this.TileSet.Tileset.TileHeight = 32;
             _renderer.SetTileset(TileSet);
 
             this.tilesetProperties.SelectedObject = TileSet;
@@ -80,10 +81,10 @@ namespace CastleLegends.Editor
         {
             switch (e.ChangedItem.PropertyDescriptor.Name) {
                 case "TileWidth":
-                    TileSet.TileWidth = (int)e.ChangedItem.Value;
+                    TileSet.Tileset.TileWidth = (int)e.ChangedItem.Value;
                     break;
                 case "TileHeight":
-                    TileSet.TileHeight = (int)e.ChangedItem.Value;
+                    TileSet.Tileset.TileHeight = (int)e.ChangedItem.Value;
                     break;
             }
         }
@@ -117,7 +118,7 @@ namespace CastleLegends.Editor
 
         #region Properties
 
-        public Tileset TileSet { get; private set; }
+        public TilesetRenderModel TileSet { get; private set; }
 
         #endregion Properties
     }

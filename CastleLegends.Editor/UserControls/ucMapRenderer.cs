@@ -86,8 +86,11 @@ namespace CastleLegends.Editor.UserControls
                     var tile = _mapData.Tiles[x, y];
                     if (null != tile && null != tile.Tileset)
                     {
-                        var destRect = new Rectangle((int)tileCoords.X, (int)tileCoords.Y, (int)_mapData.TileWidth, (int)_mapData.TileHeight);
-                        _spriteBatch.Draw(tile.Tileset.Texture, destRect, tile.TextureSourceBounds, Color.White);
+                        var model = TilesetFactory.Get(tile.Tileset.ID);
+                        if (null != model) {
+                            var destRect = new Rectangle((int)tileCoords.X, (int)tileCoords.Y, (int)_mapData.TileWidth, (int)_mapData.TileHeight);
+                            _spriteBatch.Draw(model.Texture, destRect, tile.TextureSourceBounds, Color.White);                            
+                        }                        
                     }
 
                     _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Green, _mapData.TilesType);

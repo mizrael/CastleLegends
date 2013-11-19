@@ -8,6 +8,7 @@ using CastleLegends.Editor.Services;
 using Microsoft.Xna.Framework;
 using CastleLegends.Common.Utils;
 using CastleLegends.Common;
+using CastleLegends.Common.RenderModels;
 
 namespace CastleLegends.Editor.UserControls
 {
@@ -19,7 +20,7 @@ namespace CastleLegends.Editor.UserControls
 
         private CameraService _camera = null;
 
-        private Tileset _tileset = null;
+        private TilesetRenderModel _renderModel = null;
 
         private Point _selectedTileIndex = Point.Zero;
 
@@ -39,9 +40,9 @@ namespace CastleLegends.Editor.UserControls
 
         #region Public Methods
 
-        public void SetTileset(Tileset tileset)
+        public void SetTileset(TilesetRenderModel tileset)
         {  
-            _tileset = tileset;
+            _renderModel = tileset;
         }
 
         public bool SelectTile(out Point tileIndices)
@@ -49,8 +50,8 @@ namespace CastleLegends.Editor.UserControls
             var relativeMousePos = this.PointToClient(MousePosition);
             var mousePosVec = new Vector2(relativeMousePos.X, relativeMousePos.Y) + _camera.Position;
 
-            tileIndices.X = (int)Math.Floor(mousePosVec.X / _tileset.TileWidth);
-            tileIndices.Y = (int)Math.Floor(mousePosVec.Y / _tileset.TileHeight);
+            tileIndices.X = (int)Math.Floor(mousePosVec.X / _renderModel.Tileset.TileWidth);
+            tileIndices.Y = (int)Math.Floor(mousePosVec.Y / _renderModel.Tileset.TileHeight);
 
             return CheckIsSelectionValid(ref tileIndices);
         }
@@ -69,7 +70,7 @@ namespace CastleLegends.Editor.UserControls
 
         protected override void OnUpdate()
         {
-            if (null == _tileset) return;
+            if (null == _renderModel) return;
 
             if (this.EnableSelection)
                 SelectTile(out _selectedTileIndex);            
@@ -80,9 +81,9 @@ namespace CastleLegends.Editor.UserControls
             base.GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.Matrix);
-            if (null != _tileset)
+            if (null != _renderModel)
             {
-                _spriteBatch.Draw(_tileset.Texture, _tileset.Texture.Bounds, Color.White);
+                _spriteBatch.Draw(_renderModel.Texture, _renderModel.Texture.Bounds, Color.White);
 
                 if (this.ShowGrid) 
                     this.DrawGrid();
@@ -96,8 +97,8 @@ namespace CastleLegends.Editor.UserControls
 
         private void DrawGrid() {
             _spriteBatch.DrawGrid(Vector2.Zero, 
-                                  new Vector2(this._tileset.Width, this._tileset.Height), 
-                                  new Vector2(_tileset.TileWidth, _tileset.TileHeight),
+                                  new Vector2(this._renderModel.Width, this._renderModel.Height),
+                                  new Vector2(_renderModel.Tileset.TileWidth, _renderModel.Tileset.TileHeight),
                                   this.GridColor);
         }
 
@@ -105,17 +106,17 @@ namespace CastleLegends.Editor.UserControls
         {
             if (!CheckIsSelectionValid(ref _selectedTileIndex)) return;
 
-            var bounds = new Rectangle(_selectedTileIndex.X * _tileset.TileWidth, 
-                                       _selectedTileIndex.Y * _tileset.TileHeight, 
-                                        _tileset.TileWidth, 
-                                         _tileset.TileHeight);
+            var bounds = new Rectangle(_selectedTileIndex.X * _renderModel.Tileset.TileWidth,
+                                       _selectedTileIndex.Y * _renderModel.Tileset.TileHeight,
+                                        _renderModel.Tileset.TileWidth,
+                                         _renderModel.Tileset.TileHeight);
             _spriteBatch.DrawRectangle(bounds, Color.Magenta, 2f);
         }
      
         private bool CheckIsSelectionValid(ref Point tileIndices)
         {
-            return (tileIndices.X > -1 && tileIndices.X < _tileset.TilesCountX) &&
-                    (tileIndices.Y > -1 && tileIndices.Y < _tileset.TilesCountY);
+            return (tileIndices.X > -1 && tileIndices.X < _renderModel.TilesCountX) &&
+                    (tileIndices.Y > -1 && tileIndices.Y < _renderModel.TilesCountY);
         }
                
         #endregion Private Methods

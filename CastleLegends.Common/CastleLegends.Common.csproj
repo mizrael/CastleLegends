@@ -46,6 +46,7 @@
     <Compile Include="HexMap.cs" />
     <Compile Include="Persistence\HexMapRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RenderModels\TilesetRenderModel.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Tileset.cs" />
     <Compile Include="Utils\MathUtils.cs" />

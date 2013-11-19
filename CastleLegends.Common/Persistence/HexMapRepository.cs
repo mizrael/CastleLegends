@@ -29,18 +29,15 @@ namespace CastleLegends.Common.Persistence
             {
                 var tilesets = tiles.Where(t => null != t.Tileset)
                                     .Select(t => t.Tileset)
-                                    .Distinct()
-                                    .Select((t, i) => new { Tileset = t, Index = i })                                   
+                                    .Distinct()                                   
                                     .ToArray();
 
                 if (null != tilesets)
                 {
                     xMap.Add(new XElement("Tilesets", tilesets.Select(t => new XElement("Tileset",
-                                                                                        new XAttribute("ID", t.Index),
-                                                                                        new XAttribute("TilesCountX", t.Tileset.TilesCountX),
-                                                                                        new XAttribute("TilesCountY", t.Tileset.TilesCountY),
-                                                                                        new XElement("Asset", t.Tileset.Asset),
-                                                                                        new XElement("Alpha", t.Tileset.Alpha))
+                                                                                        new XAttribute("ID", t.ID),                                                                                    
+                                                                                        new XElement("Asset", t.Asset),
+                                                                                        new XElement("Alpha", t.Alpha))
                                                                     )
                                         )
                             );
@@ -54,20 +51,28 @@ namespace CastleLegends.Common.Persistence
             xMap.Save(fullPath);
         }
 
-        private static XElement ToXml(Tile tile, IEnumerable<dynamic> tilesets){
+        private static XElement ToXml(Tile tile, IEnumerable<Tileset> tilesets)
+        {
             var xTile = new XElement("Tile",
                                     new XAttribute("IndexX", tile.IndexX),
                                     new XAttribute("IndexY", tile.IndexY),                                                                              
                                     new XElement("TextureSourceBounds", tile.TextureSourceBounds));
 
             if (null != tile.Tileset)
-                xTile.Add(new XElement("Tileset", tilesets.FirstOrDefault(ts => ts.Tileset.Asset == tile.Tileset.Asset).Index));
+                xTile.Add(new XElement("Tileset", tile.Tileset.ID));
 
             return xTile;            
         }
 
         public HexMap Load(string fullPath)
         {
+            if (string.IsNullOrWhiteSpace(fullPath))
+                throw new ArgumentNullException("fullPath");
+
+            var xDoc = XDocument.Load(fullPath);
+            var mapType = Convert.ChangeType(xDoc.Root.Attribute("MapCoordsType").Value, typeof(HexMapType));
+
+
             throw new NotImplementedException();
         }
     }

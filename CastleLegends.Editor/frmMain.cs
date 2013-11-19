@@ -5,6 +5,7 @@ using CastleLegends.Editor.Extensions;
 using CastleLegends.Editor.Services;
 using CastleLegends.Editor.UserControls;
 using CastleLegends.Common;
+using CastleLegends.Common.RenderModels;
 
 namespace CastleLegends.Editor
 {
@@ -97,7 +98,7 @@ namespace CastleLegends.Editor
 
         private void TilesetsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var currTileset = this.TilesetsList.SelectedItem as Tileset;
+            var currTileset = this.TilesetsList.SelectedItem as TilesetRenderModel;
             _frmSelTile.SetTileset(currTileset);
         }
 
@@ -200,13 +201,13 @@ namespace CastleLegends.Editor
                 var tileIndex = new Microsoft.Xna.Framework.Point(data.TileIndexX, data.TileIndexY);
 
                 var texBounds = new Microsoft.Xna.Framework.Rectangle() {
-                    X = tilesetSelectedTileIndex.X * _frmSelTile.TileSet.TileWidth,
-                    Y = tilesetSelectedTileIndex.Y * _frmSelTile.TileSet.TileHeight,
-                    Width = _frmSelTile.TileSet.TileWidth,
-                    Height = _frmSelTile.TileSet.TileHeight
+                    X = tilesetSelectedTileIndex.X * _frmSelTile.TileSet.Tileset.TileWidth,
+                    Y = tilesetSelectedTileIndex.Y * _frmSelTile.TileSet.Tileset.TileHeight,
+                    Width = _frmSelTile.TileSet.Tileset.TileWidth,
+                    Height = _frmSelTile.TileSet.Tileset.TileHeight
                 };
 
-                var command = new Commands.SetTileTextureCommand(_mapData, tileIndex, _frmSelTile.TileSet, texBounds);
+                var command = new Commands.SetTileTextureCommand(_mapData, tileIndex, _frmSelTile.TileSet.Tileset, texBounds);
                 Commands.CommandManager.AddAndExecute(command);
             }
         }

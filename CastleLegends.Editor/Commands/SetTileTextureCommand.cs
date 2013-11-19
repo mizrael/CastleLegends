@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using CastleLegends.Common;
+using CastleLegends.Common.RenderModels;
 
 namespace CastleLegends.Editor.Commands
 {
@@ -13,7 +14,8 @@ namespace CastleLegends.Editor.Commands
         private Tile _newTile = null;
         private Tile _oldTile = null;
 
-        public SetTileTextureCommand(HexMap map, Point tileIndices, Tileset tileset, Rectangle sourceTextureBounds) {
+        public SetTileTextureCommand(HexMap map, Point tileIndices, Tileset tileset, Rectangle sourceTextureBounds)
+        {
             if (null == map)
                 throw new ArgumentNullException("map");
             if (null == map.Tiles)

@@ -62,6 +62,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HexMapRepository_Test.cs" />
     <Compile Include="TestCommands.cs" />
     <Compile Include="CommandManager_Test.cs" />
     <Compile Include="CommandManager_UndoTest.cs" />
@@ -76,6 +77,11 @@
       <Project>{91A3D5FF-4FCC-4C9B-AD28-4A4DEC58DCCE}</Project>
       <Name>CastleLegends.Editor</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="texture3.jpg" />
+    <Content Include="texture2.jpg" />
+    <Content Include="texture1.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
