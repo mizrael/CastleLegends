@@ -128,6 +128,25 @@ namespace CastleLegends.Editor
             repo.Save(_mapData, sfd.FileName);
         }
         
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CloseMap();
+
+            var ofd = new OpenFileDialog();
+            ofd.Title = "Open Map"; 
+            ofd.DefaultExt = ".xml";
+            var result = ofd.ShowDialog();
+            if (result != System.Windows.Forms.DialogResult.OK)
+                return;
+            
+            var repo = new CastleLegends.Common.Persistence.HexMapRepository();
+            _mapData = repo.Load(ofd.FileName);
+
+            ResetUIForNewMap();
+
+            InitRenderer();       
+        }
+        
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -225,7 +244,14 @@ namespace CastleLegends.Editor
                 return;
 
             _mapData = new HexMap(frm.HexMapType, frm.HexTileType, frm.TileCountX, frm.TileCountY, frm.TileRadius);
-            
+
+            ResetUIForNewMap();
+
+            InitRenderer();         
+        }
+
+        private void ResetUIForNewMap()
+        {
             this.drawDebugLinesToolStripMenuItem.Enabled = true;
             this.drawDebugLinesToolStripMenuItem.Checked = false;
 
@@ -238,12 +264,12 @@ namespace CastleLegends.Editor
             this.saveToolStripMenuItem.Enabled = true;
 
             this.tabTools.Enabled = true;
-
-            InitRenderer();         
         }
 
         private void CloseMap()
         {
+            this.TilesetsList.Items.Clear();
+
             this.toolsToolStripMenuItem.Enabled = false;
             this.selectTileMenuItem.Enabled = false;
             this.drawDebugLinesToolStripMenuItem.Enabled = false;

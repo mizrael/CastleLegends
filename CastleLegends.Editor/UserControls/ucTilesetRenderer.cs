@@ -30,7 +30,8 @@ namespace CastleLegends.Editor.UserControls
         {
             InitializeComponent();
 
-            this.EnableSelection = false;            
+            this.EnableSelection = false;
+            this.GridColor = Color.Magenta;
         }
 
         #region Eventds

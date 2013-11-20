@@ -1,9 +1,9 @@
-﻿using System.IO;
-using CastleLegends.Common;
-using Microsoft.Xna.Framework.Graphics;
-using CastleLegends.Common.RenderModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using CastleLegends.Common;
+using CastleLegends.Common.RenderModels;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CastleLegends.Editor
 { 

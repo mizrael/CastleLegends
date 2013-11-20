@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.pnlMain = new System.Windows.Forms.Panel();
-            this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,6 +49,7 @@
             this.tabTilesets = new System.Windows.Forms.TabPage();
             this.TilesetsList = new System.Windows.Forms.ListBox();
             this.btnAddTileset = new System.Windows.Forms.Button();
+            this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
             this.pnlMain.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -69,14 +69,6 @@
             this.pnlMain.Size = new System.Drawing.Size(800, 538);
             this.pnlMain.TabIndex = 1;
             this.pnlMain.SizeChanged += new System.EventHandler(this.pnlMain_SizeChanged);
-            // 
-            // rendererContainer
-            // 
-            this.rendererContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rendererContainer.Location = new System.Drawing.Point(0, 0);
-            this.rendererContainer.Name = "rendererContainer";
-            this.rendererContainer.Size = new System.Drawing.Size(800, 538);
-            this.rendererContainer.TabIndex = 0;
             // 
             // menuStrip1
             // 
@@ -106,34 +98,34 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // loadToolStripMenuItem
             // 
-            this.loadToolStripMenuItem.Enabled = false;
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(97, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -269,6 +261,14 @@
             this.btnAddTileset.Text = "+";
             this.btnAddTileset.UseVisualStyleBackColor = true;
             this.btnAddTileset.Click += new System.EventHandler(this.btnAddTileset_Click);
+            // 
+            // rendererContainer
+            // 
+            this.rendererContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rendererContainer.Location = new System.Drawing.Point(0, 0);
+            this.rendererContainer.Name = "rendererContainer";
+            this.rendererContainer.Size = new System.Drawing.Size(800, 538);
+            this.rendererContainer.TabIndex = 0;
             // 
             // frmMain
             // 

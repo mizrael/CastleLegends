@@ -19,8 +19,11 @@ namespace CastleLegends.Common.RenderModels
 
         #region Properties
 
+        [DisplayName("Asset")]
+        [Category("Tile Set Properties")]
         public Tileset Tileset { get; private set; }
 
+        [Browsable(false)]
         public Texture2D Texture { get; private set; }
 
         [DisplayName("Image Width")]

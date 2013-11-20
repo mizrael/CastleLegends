@@ -6,16 +6,18 @@ namespace CastleLegends.Common
 {    
     public class Tileset 
     {
-        public Tileset(string filename) :this(filename, 32, 32) { 
+        public Tileset(string filename) : this(filename, 32, 32) { 
         }
 
-        public Tileset(string filename, int tileWidth, int tileHeight) {
+        public Tileset(string filename, int tileWidth, int tileHeight) : this( Guid.NewGuid(), filename, 32, 32) { }
+
+        public Tileset(Guid id, string filename, int tileWidth, int tileHeight) {
             this.Asset = filename;
 
             this.TileWidth = tileWidth;
             this.TileHeight = tileHeight;
 
-            this.ID = Guid.NewGuid();
+            this.ID = id;
         }
 
         #region Properties
