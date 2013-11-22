@@ -27,12 +27,8 @@ namespace CastleLegends.Common.Persistence
 
             if (null != tiles && tiles.Any())
             {
-                var tilesets = tiles.Where(t => null != t.Tileset)
-                                    .Select(t => t.Tileset)
-                                    .Distinct()
-                                    .ToArray();
-
-                if (null != tilesets)
+                var tilesets = map.Tilesets;
+                if (null != tilesets && tilesets.Any())
                 {
                     xMap.Add(new XElement("Tilesets", tilesets.Select(t => new XElement("Tileset",
                                                                                         new XAttribute("ID", t.ID),

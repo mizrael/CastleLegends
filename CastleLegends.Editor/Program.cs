@@ -17,5 +17,6 @@ namespace CastleLegends.Editor
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmMain());
         }
+
     }
 }

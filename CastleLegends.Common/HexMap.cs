@@ -1,5 +1,8 @@
-﻿
-using System;
+﻿using System;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+
 namespace CastleLegends.Common
 {
     public enum HexTileType
@@ -74,6 +77,16 @@ namespace CastleLegends.Common
 
         public Tile[,] Tiles {get; private set;}
 
+        public IEnumerable<Tileset> Tilesets
+        {
+            get
+            {
+                return this.Tiles.Cast<Tile>().Where(t => null != t.Tileset)
+                                                .Select(t => t.Tileset)
+                                                .Distinct()
+                                                .ToArray();
+            }
+        }
         public HexMapType MapCoordsType { get; private set; }
         public HexTileType TilesType { get; private set; }
 

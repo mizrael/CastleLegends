@@ -11,25 +11,42 @@ namespace CastleLegends.Editor
     {
         private static Dictionary<Guid, TilesetRenderModel> _cache = new Dictionary<Guid, TilesetRenderModel>();
 
-        public static TilesetRenderModel Get(Guid id) {
+        public static TilesetRenderModel Get(Tileset tileset, GraphicsDevice device)
+        {
+            if (null == tileset)
+                throw new ArgumentNullException("tileset");
+
             TilesetRenderModel model = null;
-            _cache.TryGetValue(id, out model);
+            if (!_cache.TryGetValue(tileset.ID, out model)) 
+                model = Load(tileset, device);                
+            
             return model;
         }
 
-        public static TilesetRenderModel Load(string fullPath, GraphicsDevice device)
+        public static TilesetRenderModel Load(Tileset tileset, GraphicsDevice device)
         {
-            using (var texStream = File.OpenRead(fullPath))
+            if (null == tileset)
+                throw new ArgumentNullException("tileset");
+            if (null == device)
+                throw new ArgumentNullException("device");
+
+            using (var texStream = File.OpenRead(tileset.Asset))
             {
                 var texture = Texture2D.FromStream(device, texStream);
                 if (null != texture)
                 {
-                   var model = new TilesetRenderModel(new Tileset(fullPath), texture);
-                   _cache.Add(model.Tileset.ID, model);
-                   return model;
+                    var model = new TilesetRenderModel(tileset, texture);
+                    _cache.Add(model.Tileset.ID, model);
+                    return model;
                 }
             }
             return null;
+        }
+
+        public static TilesetRenderModel Load(string fullPath, GraphicsDevice device)
+        {
+            var tileset = new Tileset(fullPath);
+            return Load(tileset, device);           
         }
     }
 }

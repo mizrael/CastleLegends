@@ -19,6 +19,9 @@ namespace CastleLegends.Editor.UserControls
 
         private CameraService _camera;
 
+        private Point? _mouseOverTile = null;
+        private Point? _selectedTile = null;
+
         #endregion Members
 
         public ucMapRenderer(HexMap mapData)
@@ -33,9 +36,18 @@ namespace CastleLegends.Editor.UserControls
 
         private void ucMapRenderer_Click(object sender, EventArgs e)
         {
-            int tileIndexX, tileIndexY;
-            if (null != MapTileSelected && SelectTile(out tileIndexX, out tileIndexY))
-                MapTileSelected(this, new MapTileSelectedEventArgs(tileIndexX, tileIndexY));
+            _selectedTile = null;
+
+            if (null != MapTileSelected)
+            {
+                if (_mouseOverTile.HasValue)
+                {
+                    _selectedTile = _mouseOverTile;
+                    MapTileSelected(this, new MapTileSelectedEventArgs(_selectedTile.Value.X, _selectedTile.Value.Y));
+                }
+                else 
+                    MapTileSelected(this, null);
+            }
         }
 
         #endregion Events
@@ -65,6 +77,14 @@ namespace CastleLegends.Editor.UserControls
             base.Services.AddService<CameraService>(_camera);      
         }
 
+        protected override void OnUpdate()
+        {
+            _mouseOverTile = null;
+            int tileIndexX, tileIndexY;
+            if (SelectTile(out tileIndexX, out tileIndexY)) 
+                _mouseOverTile = new Point(tileIndexX, tileIndexY);            
+        }
+
         /// <summary>
         /// http://www.redblobgames.com/grids/hexagons/
         /// </summary>
@@ -86,20 +106,26 @@ namespace CastleLegends.Editor.UserControls
                     var tile = _mapData.Tiles[x, y];
                     if (null != tile && null != tile.Tileset)
                     {
-                        var model = TilesetFactory.Get(tile.Tileset.ID);
-                        if (null != model) {
+                        var model = TilesetFactory.Get(tile.Tileset, this.GraphicsDevice);
+                        if (null != model)
+                        {
                             var destRect = new Rectangle((int)tileCoords.X, (int)tileCoords.Y, (int)_mapData.TileWidth, (int)_mapData.TileHeight);
-                            _spriteBatch.Draw(model.Texture, destRect, tile.TextureSourceBounds, Color.White);                            
-                        }                        
+                            _spriteBatch.Draw(model.Texture, destRect, tile.TextureSourceBounds, Color.White);
+                        }
                     }
 
                     _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Green, _mapData.TilesType);
                 }
-
-            int tileIndexX, tileIndexY;
-            if (SelectTile(out tileIndexX, out tileIndexY))
+            
+            if (_selectedTile.HasValue)
             {
-                tileCenter = TileToCoords(tileIndexX, tileIndexY) + _positionOffset;
+                tileCenter = TileToCoords(_selectedTile.Value.X, _selectedTile.Value.Y) + _positionOffset;
+                _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Aqua, _mapData.TilesType, 4f);
+            }
+
+            if (_mouseOverTile.HasValue)
+            {
+                tileCenter = TileToCoords(_mouseOverTile.Value.X, _mouseOverTile.Value.Y) + _positionOffset;
                 _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Red, _mapData.TilesType, 3f);
             }
 
@@ -108,7 +134,7 @@ namespace CastleLegends.Editor.UserControls
                 DrawDebug();
             }
             _spriteBatch.End();
-        }
+        }        
 
         private bool SelectTile(out int tileIndexX, out int tileIndexY)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using CastleLegends.Editor.Extensions;
@@ -141,12 +142,27 @@ namespace CastleLegends.Editor
             
             var repo = new CastleLegends.Common.Persistence.HexMapRepository();
             _mapData = repo.Load(ofd.FileName);
+            if (null != _mapData)
+            {
+                ResetUIForNewMap();
 
-            ResetUIForNewMap();
+                InitRenderer();
 
-            InitRenderer();       
+                var tilesets = _mapData.Tilesets;
+                if (null != tilesets && tilesets.Any()) {
+                    foreach (var tileset in tilesets) {
+                        var vm = TilesetFactory.Get(tileset, _mapRenderer.GraphicsDevice);
+                        this.TilesetsList.Items.Add(vm);
+                    }
+                }
+            }
         }
         
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CloseMap();
+        }
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -213,21 +229,32 @@ namespace CastleLegends.Editor
 
         private void _mapRenderer_MapTileSelected(object sender, MapTileSelectedEventArgs data)
         {
-            if (_frmTools.SelectedTool == frmTools.Tools.SetTileTexture && _frmSelTile.SelectedTileIndex.HasValue)
+            if (null != data)
             {
-                var tilesetSelectedTileIndex = _frmSelTile.SelectedTileIndex.Value;
+                this.tabInfoPropertyGrid.Enabled = true;
+                this.tabInfoPropertyGrid.SelectedObject = _mapData.Tiles[data.TileIndexX, data.TileIndexY];
+                
+                if (_frmTools.SelectedTool == frmTools.Tools.SetTileTexture && _frmSelTile.SelectedTileIndex.HasValue)
+                {
+                    var tilesetSelectedTileIndex = _frmSelTile.SelectedTileIndex.Value;
 
-                var tileIndex = new Microsoft.Xna.Framework.Point(data.TileIndexX, data.TileIndexY);
+                    var tileIndex = new Microsoft.Xna.Framework.Point(data.TileIndexX, data.TileIndexY);
 
-                var texBounds = new Microsoft.Xna.Framework.Rectangle() {
-                    X = tilesetSelectedTileIndex.X * _frmSelTile.TileSet.Tileset.TileWidth,
-                    Y = tilesetSelectedTileIndex.Y * _frmSelTile.TileSet.Tileset.TileHeight,
-                    Width = _frmSelTile.TileSet.Tileset.TileWidth,
-                    Height = _frmSelTile.TileSet.Tileset.TileHeight
-                };
+                    var texBounds = new Microsoft.Xna.Framework.Rectangle()
+                    {
+                        X = tilesetSelectedTileIndex.X * _frmSelTile.TileSet.Tileset.TileWidth,
+                        Y = tilesetSelectedTileIndex.Y * _frmSelTile.TileSet.Tileset.TileHeight,
+                        Width = _frmSelTile.TileSet.Tileset.TileWidth,
+                        Height = _frmSelTile.TileSet.Tileset.TileHeight
+                    };
 
-                var command = new Commands.SetTileTextureCommand(_mapData, tileIndex, _frmSelTile.TileSet.Tileset, texBounds);
-                Commands.CommandManager.AddAndExecute(command);
+                    var command = new Commands.SetTileTextureCommand(_mapData, tileIndex, _frmSelTile.TileSet.Tileset, texBounds);
+                    Commands.CommandManager.AddAndExecute(command);
+                }
+            }
+            else {
+                this.tabInfoPropertyGrid.Enabled = false;
+                this.tabInfoPropertyGrid.SelectedObject = null;
             }
         }
 
@@ -262,6 +289,7 @@ namespace CastleLegends.Editor
             this.toolsToolStripMenuItem.Checked = false;
 
             this.saveToolStripMenuItem.Enabled = true;
+            this.closeToolStripMenuItem.Enabled = true;
 
             this.tabTools.Enabled = true;
         }
@@ -270,11 +298,17 @@ namespace CastleLegends.Editor
         {
             this.TilesetsList.Items.Clear();
 
+            this.tabInfoPropertyGrid.Enabled = false;
+            this.tabInfoPropertyGrid.SelectedObject = null;
+
             this.toolsToolStripMenuItem.Enabled = false;
             this.selectTileMenuItem.Enabled = false;
             this.drawDebugLinesToolStripMenuItem.Enabled = false;
             this.tabTools.Enabled = false;
+            
             this.saveToolStripMenuItem.Enabled = false;
+            this.closeToolStripMenuItem.Enabled = false;
+            
             this.rendererContainer.SetRenderer(null);
         }
 

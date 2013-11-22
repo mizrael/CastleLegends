@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,7 +50,9 @@
             this.tabTilesets = new System.Windows.Forms.TabPage();
             this.TilesetsList = new System.Windows.Forms.ListBox();
             this.btnAddTileset = new System.Windows.Forms.Button();
-            this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
+            this.tabInfo = new System.Windows.Forms.TabPage();
+            this.tabInfoPropertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlMain.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -58,6 +61,7 @@
             this.splitContainer1.SuspendLayout();
             this.tabTools.SuspendLayout();
             this.tabTilesets.SuspendLayout();
+            this.tabInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlMain
@@ -69,6 +73,14 @@
             this.pnlMain.Size = new System.Drawing.Size(800, 538);
             this.pnlMain.TabIndex = 1;
             this.pnlMain.SizeChanged += new System.EventHandler(this.pnlMain_SizeChanged);
+            // 
+            // rendererContainer
+            // 
+            this.rendererContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rendererContainer.Location = new System.Drawing.Point(0, 0);
+            this.rendererContainer.Name = "rendererContainer";
+            this.rendererContainer.Size = new System.Drawing.Size(800, 538);
+            this.rendererContainer.TabIndex = 0;
             // 
             // menuStrip1
             // 
@@ -89,6 +101,7 @@
             this.newToolStripMenuItem,
             this.loadToolStripMenuItem,
             this.saveToolStripMenuItem,
+            this.closeToolStripMenuItem,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -106,7 +119,7 @@
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Text = "Load...";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
@@ -114,7 +127,7 @@
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Text = "Save...";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
@@ -218,6 +231,7 @@
             // tabTools
             // 
             this.tabTools.Controls.Add(this.tabTilesets);
+            this.tabTools.Controls.Add(this.tabInfo);
             this.tabTools.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabTools.Enabled = false;
             this.tabTools.Location = new System.Drawing.Point(0, 0);
@@ -262,13 +276,33 @@
             this.btnAddTileset.UseVisualStyleBackColor = true;
             this.btnAddTileset.Click += new System.EventHandler(this.btnAddTileset_Click);
             // 
-            // rendererContainer
+            // tabInfo
             // 
-            this.rendererContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rendererContainer.Location = new System.Drawing.Point(0, 0);
-            this.rendererContainer.Name = "rendererContainer";
-            this.rendererContainer.Size = new System.Drawing.Size(800, 538);
-            this.rendererContainer.TabIndex = 0;
+            this.tabInfo.Controls.Add(this.tabInfoPropertyGrid);
+            this.tabInfo.Location = new System.Drawing.Point(4, 22);
+            this.tabInfo.Name = "tabInfo";
+            this.tabInfo.Padding = new System.Windows.Forms.Padding(3);
+            this.tabInfo.Size = new System.Drawing.Size(227, 512);
+            this.tabInfo.TabIndex = 1;
+            this.tabInfo.Text = "Info";
+            this.tabInfo.UseVisualStyleBackColor = true;
+            // 
+            // tabInfoPropertyGrid
+            // 
+            this.tabInfoPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabInfoPropertyGrid.Enabled = false;
+            this.tabInfoPropertyGrid.Location = new System.Drawing.Point(3, 3);
+            this.tabInfoPropertyGrid.Name = "tabInfoPropertyGrid";
+            this.tabInfoPropertyGrid.Size = new System.Drawing.Size(221, 506);
+            this.tabInfoPropertyGrid.TabIndex = 0;
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Enabled = false;
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -288,6 +322,7 @@
             this.splitContainer1.ResumeLayout(false);
             this.tabTools.ResumeLayout(false);
             this.tabTilesets.ResumeLayout(false);
+            this.tabInfo.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -317,6 +352,9 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabInfo;
+        private System.Windows.Forms.PropertyGrid tabInfoPropertyGrid;
+        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
     }
 }
 

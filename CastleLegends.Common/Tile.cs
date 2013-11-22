@@ -21,7 +21,7 @@ namespace CastleLegends.Common
 
         public Tileset Tileset { get; set; }
 
-        public Rectangle TextureSourceBounds { get; set; }
+        public Rectangle TextureSourceBounds { get; set; }        
         
         #endregion Properties
 
