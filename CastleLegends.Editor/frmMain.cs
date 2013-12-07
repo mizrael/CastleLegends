@@ -148,7 +148,7 @@ namespace CastleLegends.Editor
 
                 InitRenderer();
 
-                var tilesets = _mapData.Tilesets;
+                var tilesets = _mapData.GetTilesets();
                 if (null != tilesets && tilesets.Any()) {
                     foreach (var tileset in tilesets) {
                         var vm = TilesetFactory.Get(tileset, _mapRenderer.GraphicsDevice);

@@ -35,6 +35,7 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,9 +51,8 @@
             this.tabTilesets = new System.Windows.Forms.TabPage();
             this.TilesetsList = new System.Windows.Forms.ListBox();
             this.btnAddTileset = new System.Windows.Forms.Button();
-            this.tabInfo = new System.Windows.Forms.TabPage();
+            this.tabProperties = new System.Windows.Forms.TabPage();
             this.tabInfoPropertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlMain.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -61,7 +61,7 @@
             this.splitContainer1.SuspendLayout();
             this.tabTools.SuspendLayout();
             this.tabTilesets.SuspendLayout();
-            this.tabInfo.SuspendLayout();
+            this.tabProperties.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlMain
@@ -130,6 +130,14 @@
             this.saveToolStripMenuItem.Text = "Save...";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Enabled = false;
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -155,7 +163,7 @@
             // 
             this.undoToolStripMenuItem.Enabled = false;
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
@@ -163,7 +171,7 @@
             // 
             this.redoToolStripMenuItem.Enabled = false;
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
@@ -181,7 +189,7 @@
             this.selectTileMenuItem.CheckOnClick = true;
             this.selectTileMenuItem.Enabled = false;
             this.selectTileMenuItem.Name = "selectTileMenuItem";
-            this.selectTileMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.selectTileMenuItem.Size = new System.Drawing.Size(152, 22);
             this.selectTileMenuItem.Text = "Tile Selector";
             this.selectTileMenuItem.CheckStateChanged += new System.EventHandler(this.SelectTileMenuItem_CheckStateChanged);
             // 
@@ -190,7 +198,7 @@
             this.toolsToolStripMenuItem.CheckOnClick = true;
             this.toolsToolStripMenuItem.Enabled = false;
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.toolsToolStripMenuItem.Text = "Tools";
             this.toolsToolStripMenuItem.Click += new System.EventHandler(this.toolsToolStripMenuItem_Click);
             // 
@@ -231,7 +239,7 @@
             // tabTools
             // 
             this.tabTools.Controls.Add(this.tabTilesets);
-            this.tabTools.Controls.Add(this.tabInfo);
+            this.tabTools.Controls.Add(this.tabProperties);
             this.tabTools.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabTools.Enabled = false;
             this.tabTools.Location = new System.Drawing.Point(0, 0);
@@ -249,7 +257,7 @@
             this.tabTilesets.Padding = new System.Windows.Forms.Padding(3);
             this.tabTilesets.Size = new System.Drawing.Size(227, 512);
             this.tabTilesets.TabIndex = 0;
-            this.tabTilesets.Text = "Tilesets";
+            this.tabTilesets.Text = "GetTilesets";
             this.tabTilesets.UseVisualStyleBackColor = true;
             // 
             // TilesetsList
@@ -276,16 +284,16 @@
             this.btnAddTileset.UseVisualStyleBackColor = true;
             this.btnAddTileset.Click += new System.EventHandler(this.btnAddTileset_Click);
             // 
-            // tabInfo
+            // tabProperties
             // 
-            this.tabInfo.Controls.Add(this.tabInfoPropertyGrid);
-            this.tabInfo.Location = new System.Drawing.Point(4, 22);
-            this.tabInfo.Name = "tabInfo";
-            this.tabInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInfo.Size = new System.Drawing.Size(227, 512);
-            this.tabInfo.TabIndex = 1;
-            this.tabInfo.Text = "Info";
-            this.tabInfo.UseVisualStyleBackColor = true;
+            this.tabProperties.Controls.Add(this.tabInfoPropertyGrid);
+            this.tabProperties.Location = new System.Drawing.Point(4, 22);
+            this.tabProperties.Name = "tabProperties";
+            this.tabProperties.Padding = new System.Windows.Forms.Padding(3);
+            this.tabProperties.Size = new System.Drawing.Size(227, 512);
+            this.tabProperties.TabIndex = 1;
+            this.tabProperties.Text = "Properties";
+            this.tabProperties.UseVisualStyleBackColor = true;
             // 
             // tabInfoPropertyGrid
             // 
@@ -295,14 +303,6 @@
             this.tabInfoPropertyGrid.Name = "tabInfoPropertyGrid";
             this.tabInfoPropertyGrid.Size = new System.Drawing.Size(221, 506);
             this.tabInfoPropertyGrid.TabIndex = 0;
-            // 
-            // closeToolStripMenuItem
-            // 
-            this.closeToolStripMenuItem.Enabled = false;
-            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.closeToolStripMenuItem.Text = "Close";
-            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -322,7 +322,7 @@
             this.splitContainer1.ResumeLayout(false);
             this.tabTools.ResumeLayout(false);
             this.tabTilesets.ResumeLayout(false);
-            this.tabInfo.ResumeLayout(false);
+            this.tabProperties.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -352,7 +352,7 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabInfo;
+        private System.Windows.Forms.TabPage tabProperties;
         private System.Windows.Forms.PropertyGrid tabInfoPropertyGrid;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
     }

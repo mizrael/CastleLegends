@@ -12,7 +12,7 @@ namespace CastleLegends.Common.Persistence
         public void Save(HexMap map, string fullPath)
         {
             if (null == map)
-                throw new ArgumentNullException("map");
+                throw new ArgumentNullException("hexMap");
             if (string.IsNullOrWhiteSpace(fullPath))
                 throw new ArgumentNullException("fullPath");
 
@@ -23,36 +23,58 @@ namespace CastleLegends.Common.Persistence
                                             , new XAttribute("TilesCountY", map.TilesCountY)
                                             , new XAttribute("TilesRadius", map.TilesRadius));
 
-            var tiles = map.Tiles.Cast<Tile>();
-
-            if (null != tiles && tiles.Any())
-            {
-                var tilesets = map.Tilesets;
-                if (null != tilesets && tilesets.Any())
-                {
-                    xMap.Add(new XElement("Tilesets", tilesets.Select(t => new XElement("Tileset",
-                                                                                        new XAttribute("ID", t.ID),
-                                                                                        new XAttribute("TileWidth", t.TileWidth),
-                                                                                        new XAttribute("TileHeight", t.TileHeight),
-                                                                                        new XElement("Asset", t.Asset),
-                                                                                        new XElement("Alpha", new XAttribute("R", t.Alpha.R)
-                                                                                                            , new XAttribute("G", t.Alpha.G)
-                                                                                                            , new XAttribute("B", t.Alpha.B)
-                                                                                                            , new XAttribute("A", t.Alpha.A)))
-                                                                    )
-                                        )
-                            );
-                }
-
-                xMap.Add(new XElement("Tiles", tiles.Select(t => ToXml(t, tilesets))));
-            }
+            SerializeLayers(map, xMap);
 
             if (File.Exists(fullPath))
                 File.Delete(fullPath);
             xMap.Save(fullPath);
         }
 
-        private static XElement ToXml(Tile tile, IEnumerable<Tileset> tilesets)
+        private static void SerializeLayers(HexMap map, XElement xMap)
+        {
+            if (null == map.Layers || !map.Layers.Any())
+                return;
+
+            var xLayers = new XElement("Layers");
+
+            foreach (var layer in map.Layers)
+            {
+                var xLayer = new XElement("Layer", new XAttribute("Name", layer.Name));
+
+                var tilesets = layer.GetTilesets();
+                if (null != tilesets && tilesets.Any())
+                {
+                    var xTilesets = SerializeTilesets(tilesets);
+                    xLayer.Add(xTilesets);
+                }
+
+                var tiles = layer.Tiles.Cast<Tile>();
+                if (null != tiles && tiles.Any())
+                    xLayer.Add(new XElement("Tiles", tiles.Select(t => SerializeTile(t, tilesets))));                
+
+                xLayers.Add(xLayer);                
+            }
+
+            xMap.Add(xLayers);
+        }
+
+        private static XElement SerializeTilesets(IEnumerable<Tileset> tilesets)
+        {
+            var xTilesets = new XElement("Tilesets", tilesets.Select(t => new XElement("Tileset",
+                                                                            new XAttribute("ID", t.ID),
+                                                                            new XAttribute("TileWidth", t.TileWidth),
+                                                                            new XAttribute("TileHeight", t.TileHeight),
+                                                                            new XElement("Asset", t.Asset),
+                                                                            new XElement("Alpha", new XAttribute("R", t.Alpha.R)
+                                                                                                , new XAttribute("G", t.Alpha.G)
+                                                                                                , new XAttribute("B", t.Alpha.B)
+                                                                                                , new XAttribute("A", t.Alpha.A)))
+                                                        )
+                                );
+            return xTilesets;
+        }
+
+        private static XElement SerializeTile(Tile tile, IEnumerable<Tileset> tilesets)
         {
             var xTile = new XElement("Tile",
                                     new XAttribute("IndexX", tile.IndexX),
@@ -85,59 +107,86 @@ namespace CastleLegends.Common.Persistence
             var tilesRadius = int.Parse(xDoc.Root.Attribute("TilesRadius").Value);
 
             var hexMap = new HexMap(mapType, hexTilesType, tilesCountX, tilesCountY, tilesRadius);
-
-            var tilesets = LoadTilesets(xDoc);
-
-            var xTiles = xDoc.Root.Element("Tiles");
-            if (null != xTiles)
-            {
-                foreach (var xElem in xTiles.Elements("Tile"))
-                {
-                    var indexX = int.Parse(xElem.Attribute("IndexX").Value);
-                    var indexY = int.Parse(xElem.Attribute("IndexY").Value);
-
-                    var currTile = hexMap.Tiles[indexX, indexY] ?? new Tile(indexX, indexY);
-
-                    ParseTileTilesetInfo(tilesets, xElem, currTile);
-
-                    hexMap.Tiles[indexX, indexY] = currTile;
-                }
-            }
+            
+            ParseLayers(xDoc, hexMap);
 
             return hexMap;
         }
 
-        private static void ParseTileTilesetInfo(Dictionary<Guid, Tileset> tilesets, XElement xElem, Tile currTile)
+        private static void ParseLayers(XDocument xDoc, HexMap hexMap)
         {
-            var xTileset = xElem.Element("Tileset");
-            if (null != xTileset)
-            {
-                var tmpTilesetId = xTileset.Attribute("ID").Value;
-                if (!string.IsNullOrWhiteSpace(tmpTilesetId))
-                {
-                    var tilesetID = new Guid(tmpTilesetId);
-                    if (tilesets.ContainsKey(tilesetID))
-                    {
-                        currTile.Tileset = tilesets[tilesetID];
+            var xLayersRoot = xDoc.Root.Element("Layers");
+            if (null == xLayersRoot) 
+                return;
 
-                        var xTextureSourceBounds = xTileset.Element("TextureSourceBounds");
-                        if (null != xTextureSourceBounds)
-                        {
-                            currTile.TextureSourceBounds = new Microsoft.Xna.Framework.Rectangle(int.Parse(xTextureSourceBounds.Attribute("X").Value),
-                                                                                                int.Parse(xTextureSourceBounds.Attribute("Y").Value),
-                                                                                                int.Parse(xTextureSourceBounds.Attribute("Width").Value),
-                                                                                                int.Parse(xTextureSourceBounds.Attribute("Height").Value));
-                        }
-                    }
-                }
+            var xLayers = xLayersRoot.Elements("Layers");
+            if (null == xLayers)
+                return;
+
+            foreach (var xLayer in xLayers)
+            {
+                var layer = ParseLayer(xLayer, hexMap.TilesCountX, hexMap.TilesCountY);
+
+                hexMap.Layers.Add(layer);
             }
         }
 
-        private static Dictionary<Guid, Tileset> LoadTilesets(XDocument xDoc)
+        private static MapLayer ParseLayer(XElement xLayer, int tilesCountX, int tilesCountY)
+        {
+            var layerName = xLayer.Attribute("Name").Value;
+
+            var layer = new MapLayer(tilesCountX, tilesCountY, layerName);
+            var tilesets = LoadTilesets(xLayer);
+
+            var xLayerTiles = xLayer.Element("Tiles");
+            if (null != xLayerTiles)
+            foreach (var xElem in xLayerTiles.Elements("Tile"))
+            {
+                var indexX = int.Parse(xElem.Attribute("IndexX").Value);
+                var indexY = int.Parse(xElem.Attribute("IndexY").Value);
+
+                var currTile = layer.Tiles[indexX, indexY] ?? new Tile(indexX, indexY);
+
+                PopulateTileTilesetInfo(tilesets, xElem, currTile);
+
+                layer.Tiles[indexX, indexY] = currTile;
+            }
+
+            return layer;
+        }
+
+
+        private static void PopulateTileTilesetInfo(Dictionary<Guid, Tileset> tilesets, XElement xElem, Tile currTile)
+        {
+            var xTileset = xElem.Element("Tileset");
+            if (null == xTileset)
+                return;
+
+            var tmpTilesetId = xTileset.Attribute("ID").Value;
+            if (string.IsNullOrWhiteSpace(tmpTilesetId))
+                return;
+
+            var tilesetID = new Guid(tmpTilesetId);
+            if (!tilesets.ContainsKey(tilesetID))
+                return;
+
+            currTile.Tileset = tilesets[tilesetID];
+
+            var xTextureSourceBounds = xTileset.Element("TextureSourceBounds");
+            if (null != xTextureSourceBounds)
+            {
+                currTile.TextureSourceBounds = new Microsoft.Xna.Framework.Rectangle(int.Parse(xTextureSourceBounds.Attribute("X").Value),
+                                                                                    int.Parse(xTextureSourceBounds.Attribute("Y").Value),
+                                                                                    int.Parse(xTextureSourceBounds.Attribute("Width").Value),
+                                                                                    int.Parse(xTextureSourceBounds.Attribute("Height").Value));
+            }
+        }
+
+        private static Dictionary<Guid, Tileset> LoadTilesets(XElement xLayer)
         {
             var tilesets = new Dictionary<Guid, Tileset>();
 
-            var xTilesets = xDoc.Root.Element("Tilesets");
+            var xTilesets = xLayer.Element("Tilesets");
             if (null != xTilesets)
             {
                 foreach (var xElem in xTilesets.Elements("Tileset"))

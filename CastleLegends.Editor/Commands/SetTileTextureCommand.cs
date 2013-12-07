@@ -17,7 +17,7 @@ namespace CastleLegends.Editor.Commands
         public SetTileTextureCommand(HexMap map, Point tileIndices, Tileset tileset, Rectangle sourceTextureBounds)
         {
             if (null == map)
-                throw new ArgumentNullException("map");
+                throw new ArgumentNullException("hexMap");
             if (null == map.Tiles)
                 throw new ArgumentException("Map Tiles not initialized!");
             if (tileIndices.X < 0 || tileIndices.X > map.TilesCountX)

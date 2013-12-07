@@ -27,20 +27,23 @@ namespace CastleLegends.Common
             this.TilesCountY = tilesCountY;
             this.TilesRadius = tileRadius;
 
-            InitTiles();
+            this.Layers = new List<MapLayer>();
 
             ComputeBounds();
         }
 
-        #region Private Methods
+        #region Methods
 
-        private void InitTiles()
+        public IEnumerable<Tileset> GetTilesets()
         {
-            this.Tiles = new Tile[this.TilesCountX, this.TilesCountY];
-            for (int y = 0; y != this.TilesCountY; ++y)
-                for (int x = 0; x != this.TilesCountX; ++x)
-                    this.Tiles[x, y] = new Tile(x, y);
+            return this.Layers.SelectMany(l => l.GetTilesets())
+                              .Distinct()
+                              .ToArray();
         }
+
+        #endregion Methods
+
+        #region Private Methods
 
         private void ComputeBounds()
         {
@@ -75,18 +78,8 @@ namespace CastleLegends.Common
 
         #region Properties
 
-        public Tile[,] Tiles {get; private set;}
+        public List<MapLayer> Layers { get; private set; }
 
-        public IEnumerable<Tileset> Tilesets
-        {
-            get
-            {
-                return this.Tiles.Cast<Tile>().Where(t => null != t.Tileset)
-                                                .Select(t => t.Tileset)
-                                                .Distinct()
-                                                .ToArray();
-            }
-        }
         public HexMapType MapCoordsType { get; private set; }
         public HexTileType TilesType { get; private set; }
 
@@ -106,5 +99,47 @@ namespace CastleLegends.Common
         public float MapHeight { get; private set; }
 
         #endregion Properties
+    }
+
+    public class MapLayer
+    {
+        public MapLayer(int countX, int countY, string name) {
+            InitTiles(countX, countY);
+
+            this.Name = name;
+        }
+
+        #region Private Methods
+
+        private void InitTiles(int countX, int countY)
+        {
+            this.Tiles = new Tile[countX, countY];
+            for (int y = 0; y != countY; ++y)
+                for (int x = 0; x != countX; ++x)
+                    this.Tiles[x, y] = new Tile(x, y);
+        }
+
+        #endregion Private Methods
+
+        #region Methods
+
+        public IEnumerable<Tileset> GetTilesets()
+        {
+            return this.Tiles.Cast<Tile>().Where(t => null != t.Tileset)
+                                            .Select(t => t.Tileset)
+                                            .Distinct()
+                                            .ToArray();
+        }
+
+        #endregion Methods
+
+        #region Properties
+
+        public string Name { get; set; }
+
+        public Tile[,] Tiles { get; private set; }
+
+        #endregion Properties
+
     }
 }
