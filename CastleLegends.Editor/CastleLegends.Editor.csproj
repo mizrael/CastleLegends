@@ -52,6 +52,7 @@
     <Compile Include="Commands\CommandManager.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\SetTileTextureCommand.cs" />
+    <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Extensions\IServiceProviderExtensions.cs" />
     <Compile Include="frmImportTileset.cs">
       <SubType>Form</SubType>

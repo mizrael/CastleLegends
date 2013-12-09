@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using CastleLegends.Common;
+using CastleLegends.Editor.Extensions;
 
 namespace CastleLegends.Editor
 {
@@ -25,26 +27,42 @@ namespace CastleLegends.Editor
 
         private void btnMapLayerUp_Click(object sender, EventArgs e)
         {
-
+            var destIndex = this.chklMapLayers.SelectedIndex - 1;
+            _mapData.Layers.Swap(this.chklMapLayers.SelectedIndex, destIndex);
+            BindMapLayers();
+            this.chklMapLayers.SelectedIndex = destIndex;
         }
 
         private void btnMapLayerDown_Click(object sender, EventArgs e)
         {
-
+            var destIndex = this.chklMapLayers.SelectedIndex + 1;
+            _mapData.Layers.Swap(this.chklMapLayers.SelectedIndex, destIndex);
+            BindMapLayers();
+            this.chklMapLayers.SelectedIndex = destIndex;
         }
-        
+
         #endregion Map Layers Tab events
 
         #region Private Methods
 
         private void BindMapLayers()
         {
+            this.chklMapLayers.Items.Clear();
+            this.btnMapLayerDown.Enabled = false;
+            this.btnMapLayerUp.Enabled = false;
+
             if (null == _mapData.Layers || !_mapData.Layers.Any())
                 return;
 
             this.chklMapLayers.Items.AddRange(_mapData.Layers.ToArray());
             for (int i = 0; i != _mapData.Layers.Count; ++i)
                 this.chklMapLayers.SetItemChecked(i, _mapData.Layers[i].Visible);
+
+            if (_mapData.Layers.Count > 1)
+            {
+                this.btnMapLayerDown.Enabled = true;
+                this.btnMapLayerUp.Enabled = true;
+            }
         }
 
         private MapLayer GetCurrentLayer()

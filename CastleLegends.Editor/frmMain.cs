@@ -192,6 +192,9 @@ namespace CastleLegends.Editor
             this.saveToolStripMenuItem.Enabled = true;
             this.closeToolStripMenuItem.Enabled = true;
 
+            this.btnMapLayerDown.Enabled = false;
+            this.btnMapLayerUp.Enabled = false;
+
             this.tabTools.Enabled = true;
         }
 

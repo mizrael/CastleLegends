@@ -9,6 +9,8 @@ namespace CastleLegends.Common.Persistence
 {
     public class HexMapRepository
     {
+        #region Save
+
         public void Save(HexMap map, string fullPath)
         {
             if (null == map)
@@ -39,7 +41,8 @@ namespace CastleLegends.Common.Persistence
 
             foreach (var layer in map.Layers)
             {
-                var xLayer = new XElement("Layer", new XAttribute("Name", layer.Name));
+                var xLayer = new XElement("Layer", new XAttribute("Name", layer.Name), 
+                                                   new XAttribute("Visible", layer.Visible));
 
                 var tilesets = layer.GetTilesets();
                 if (null != tilesets && tilesets.Any())
@@ -93,6 +96,10 @@ namespace CastleLegends.Common.Persistence
             return xTile;
         }
 
+        #endregion Save
+
+        #region Load
+
         public HexMap Load(string fullPath)
         {
             if (string.IsNullOrWhiteSpace(fullPath))
@@ -133,9 +140,14 @@ namespace CastleLegends.Common.Persistence
 
         private static MapLayer ParseLayer(XElement xLayer, int tilesCountX, int tilesCountY)
         {
-            var layerName = xLayer.Attribute("Name").Value;
+            var layerName = xLayer.Attribute("Name").Value;           
 
             var layer = new MapLayer(tilesCountX, tilesCountY, layerName);
+
+            var xLayerVisibile = xLayer.Attribute("Visible");            
+            if (null != xLayerVisibile && !string.IsNullOrWhiteSpace(xLayerVisibile.Value))
+                layer.Visible = bool.Parse(xLayerVisibile.Value);
+
             var tilesets = LoadTilesets(xLayer);
 
             var xLayerTiles = xLayer.Element("Tiles");
@@ -204,5 +216,7 @@ namespace CastleLegends.Common.Persistence
 
             return tilesets;
         }
+
+        #endregion Load
     }
 }
