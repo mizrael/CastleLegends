@@ -161,8 +161,12 @@ namespace CastleLegends.Editor
                     }
                 }
 
-                if (null != _mapData.Layers && _mapData.Layers.Any()) 
-                    this.lbMapLayers.Items.AddRange(_mapData.Layers.ToArray());
+                if (null != _mapData.Layers && _mapData.Layers.Any())
+                {
+                    this.chklMapLayers.Items.AddRange(_mapData.Layers.ToArray());
+                    for (int i = 0; i != _mapData.Layers.Count; ++i)
+                        this.chklMapLayers.SetItemChecked(i, true);
+                }
                 
             }
         }
@@ -270,12 +274,25 @@ namespace CastleLegends.Editor
         }
 
         #endregion Map Renderer Events
+        
+        #region Map Layers Tab events
+
+        private void chklMapLayers_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            var layer = this.chklMapLayers.Items[e.Index] as MapLayer;
+            if (null == layer)
+                return;
+
+            layer.Visible = (e.NewValue == CheckState.Checked);
+        }
+
+        #endregion Map Layers Tab events
 
         #region Private Methods
 
         private MapLayer GetCurrentLayer()
         {
-            var selLayer = this.lbMapLayers.SelectedItem as MapLayer;
+            var selLayer = this.chklMapLayers.SelectedItem as MapLayer;
             return selLayer ?? _mapData.Layers.FirstOrDefault();
         }
 
@@ -286,8 +303,8 @@ namespace CastleLegends.Editor
             var newLayer = new MapLayer(_mapData.TilesCountX, _mapData.TilesCountY, name);
             _mapData.Layers.Add(newLayer);
 
-            this.lbMapLayers.Items.Add(newLayer);
-            this.lbMapLayers.SelectedIndex = this.lbMapLayers.Items.Count - 1;
+            this.chklMapLayers.Items.Add(newLayer, true);
+            this.chklMapLayers.SelectedIndex = this.chklMapLayers.Items.Count - 1;
         }
 
         private void NewMap()
@@ -327,7 +344,7 @@ namespace CastleLegends.Editor
         private void CloseMap()
         {
             this.lbTilesets.Items.Clear();
-            this.lbMapLayers.Items.Clear();
+            this.chklMapLayers.Items.Clear();
 
             this.tabInfoPropertyGrid.Enabled = false;
             this.tabInfoPropertyGrid.SelectedObject = null;
@@ -367,5 +384,6 @@ namespace CastleLegends.Editor
         }
 
         #endregion Private Methods
+
     }
 }

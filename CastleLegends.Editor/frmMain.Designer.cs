@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.pnlMain = new System.Windows.Forms.Panel();
-            this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,13 +51,14 @@
             this.lbTilesets = new System.Windows.Forms.ListBox();
             this.btnAddTileset = new System.Windows.Forms.Button();
             this.tabMapLayers = new System.Windows.Forms.TabPage();
+            this.btnMapLayerDown = new System.Windows.Forms.Button();
+            this.btnMapLayerUp = new System.Windows.Forms.Button();
             this.btnAddMapLayer = new System.Windows.Forms.Button();
-            this.lbMapLayers = new System.Windows.Forms.ListBox();
             this.btnRemoveMapLayer = new System.Windows.Forms.Button();
             this.tabProperties = new System.Windows.Forms.TabPage();
             this.tabInfoPropertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.btnMapLayerUp = new System.Windows.Forms.Button();
-            this.btnMapLayerDown = new System.Windows.Forms.Button();
+            this.chklMapLayers = new System.Windows.Forms.CheckedListBox();
+            this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
             this.pnlMain.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -80,14 +80,6 @@
             this.pnlMain.Size = new System.Drawing.Size(800, 538);
             this.pnlMain.TabIndex = 1;
             this.pnlMain.SizeChanged += new System.EventHandler(this.pnlMain_SizeChanged);
-            // 
-            // rendererContainer
-            // 
-            this.rendererContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rendererContainer.Location = new System.Drawing.Point(0, 0);
-            this.rendererContainer.Name = "rendererContainer";
-            this.rendererContainer.Size = new System.Drawing.Size(800, 538);
-            this.rendererContainer.TabIndex = 0;
             // 
             // menuStrip1
             // 
@@ -294,10 +286,10 @@
             // 
             // tabMapLayers
             // 
+            this.tabMapLayers.Controls.Add(this.chklMapLayers);
             this.tabMapLayers.Controls.Add(this.btnMapLayerDown);
             this.tabMapLayers.Controls.Add(this.btnMapLayerUp);
             this.tabMapLayers.Controls.Add(this.btnAddMapLayer);
-            this.tabMapLayers.Controls.Add(this.lbMapLayers);
             this.tabMapLayers.Controls.Add(this.btnRemoveMapLayer);
             this.tabMapLayers.Location = new System.Drawing.Point(4, 22);
             this.tabMapLayers.Name = "tabMapLayers";
@@ -306,6 +298,28 @@
             this.tabMapLayers.TabIndex = 2;
             this.tabMapLayers.Text = "Layers";
             this.tabMapLayers.UseVisualStyleBackColor = true;
+            // 
+            // btnMapLayerDown
+            // 
+            this.btnMapLayerDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMapLayerDown.Enabled = false;
+            this.btnMapLayerDown.Location = new System.Drawing.Point(41, 484);
+            this.btnMapLayerDown.Name = "btnMapLayerDown";
+            this.btnMapLayerDown.Size = new System.Drawing.Size(28, 21);
+            this.btnMapLayerDown.TabIndex = 11;
+            this.btnMapLayerDown.Text = "Down";
+            this.btnMapLayerDown.UseVisualStyleBackColor = true;
+            // 
+            // btnMapLayerUp
+            // 
+            this.btnMapLayerUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMapLayerUp.Enabled = false;
+            this.btnMapLayerUp.Location = new System.Drawing.Point(7, 484);
+            this.btnMapLayerUp.Name = "btnMapLayerUp";
+            this.btnMapLayerUp.Size = new System.Drawing.Size(28, 21);
+            this.btnMapLayerUp.TabIndex = 10;
+            this.btnMapLayerUp.Text = "Up";
+            this.btnMapLayerUp.UseVisualStyleBackColor = true;
             // 
             // btnAddMapLayer
             // 
@@ -317,17 +331,6 @@
             this.btnAddMapLayer.Text = "+";
             this.btnAddMapLayer.UseVisualStyleBackColor = true;
             this.btnAddMapLayer.Click += new System.EventHandler(this.btnAddMapLayer_Click);
-            // 
-            // lbMapLayers
-            // 
-            this.lbMapLayers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbMapLayers.FormattingEnabled = true;
-            this.lbMapLayers.Location = new System.Drawing.Point(7, 7);
-            this.lbMapLayers.Name = "lbMapLayers";
-            this.lbMapLayers.Size = new System.Drawing.Size(213, 472);
-            this.lbMapLayers.TabIndex = 8;
             // 
             // btnRemoveMapLayer
             // 
@@ -360,27 +363,25 @@
             this.tabInfoPropertyGrid.Size = new System.Drawing.Size(221, 506);
             this.tabInfoPropertyGrid.TabIndex = 0;
             // 
-            // btnMapLayerUp
+            // chklMapLayers
             // 
-            this.btnMapLayerUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMapLayerUp.Enabled = false;
-            this.btnMapLayerUp.Location = new System.Drawing.Point(7, 484);
-            this.btnMapLayerUp.Name = "btnMapLayerUp";
-            this.btnMapLayerUp.Size = new System.Drawing.Size(28, 21);
-            this.btnMapLayerUp.TabIndex = 10;
-            this.btnMapLayerUp.Text = "Up";
-            this.btnMapLayerUp.UseVisualStyleBackColor = true;
+            this.chklMapLayers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chklMapLayers.FormattingEnabled = true;
+            this.chklMapLayers.Location = new System.Drawing.Point(6, 6);
+            this.chklMapLayers.Name = "chklMapLayers";
+            this.chklMapLayers.Size = new System.Drawing.Size(213, 469);
+            this.chklMapLayers.TabIndex = 12;
+            this.chklMapLayers.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chklMapLayers_ItemCheck);
             // 
-            // btnMapLayerDown
+            // rendererContainer
             // 
-            this.btnMapLayerDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMapLayerDown.Enabled = false;
-            this.btnMapLayerDown.Location = new System.Drawing.Point(41, 484);
-            this.btnMapLayerDown.Name = "btnMapLayerDown";
-            this.btnMapLayerDown.Size = new System.Drawing.Size(28, 21);
-            this.btnMapLayerDown.TabIndex = 11;
-            this.btnMapLayerDown.Text = "Down";
-            this.btnMapLayerDown.UseVisualStyleBackColor = true;
+            this.rendererContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rendererContainer.Location = new System.Drawing.Point(0, 0);
+            this.rendererContainer.Name = "rendererContainer";
+            this.rendererContainer.Size = new System.Drawing.Size(800, 538);
+            this.rendererContainer.TabIndex = 0;
             // 
             // frmMain
             // 
@@ -436,10 +437,10 @@
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.TabPage tabMapLayers;
         private System.Windows.Forms.Button btnAddMapLayer;
-        private System.Windows.Forms.ListBox lbMapLayers;
         private System.Windows.Forms.Button btnRemoveMapLayer;
         private System.Windows.Forms.Button btnMapLayerDown;
         private System.Windows.Forms.Button btnMapLayerUp;
+        private System.Windows.Forms.CheckedListBox chklMapLayers;
     }
 }
 
