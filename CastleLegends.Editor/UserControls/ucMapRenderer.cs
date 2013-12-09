@@ -100,6 +100,8 @@ namespace CastleLegends.Editor.UserControls
             for (int l = 0; l != _mapData.Layers.Count; ++l)
             {
                 var currLayer = _mapData.Layers[l];
+                if (!currLayer.Visible) 
+                    continue;
 
                 for (int y = 0; y != _mapData.TilesCountY; ++y)
                     for (int x = 0; x != _mapData.TilesCountX; ++x)
