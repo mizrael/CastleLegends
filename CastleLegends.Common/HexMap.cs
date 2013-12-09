@@ -36,9 +36,9 @@ namespace CastleLegends.Common
 
         public IEnumerable<Tileset> GetTilesets()
         {
-            return this.Layers.SelectMany(l => l.GetTilesets())
-                              .Distinct()
-                              .ToArray();
+            var allTilesets = this.Layers.SelectMany(l => l.GetTilesets());
+            var distinctTilesets = allTilesets.Distinct();
+            return distinctTilesets.ToArray();
         }
 
         #endregion Methods
@@ -129,6 +129,11 @@ namespace CastleLegends.Common
                                             .Select(t => t.Tileset)
                                             .Distinct()
                                             .ToArray();
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
         }
 
         #endregion Methods

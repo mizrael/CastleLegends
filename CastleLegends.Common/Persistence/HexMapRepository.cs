@@ -119,7 +119,7 @@ namespace CastleLegends.Common.Persistence
             if (null == xLayersRoot) 
                 return;
 
-            var xLayers = xLayersRoot.Elements("Layers");
+            var xLayers = xLayersRoot.Elements("Layer");
             if (null == xLayers)
                 return;
 
@@ -154,7 +154,6 @@ namespace CastleLegends.Common.Persistence
 
             return layer;
         }
-
 
         private static void PopulateTileTilesetInfo(Dictionary<Guid, Tileset> tilesets, XElement xElem, Tile currTile)
         {

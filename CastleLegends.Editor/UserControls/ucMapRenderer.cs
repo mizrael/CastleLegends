@@ -97,26 +97,31 @@ namespace CastleLegends.Editor.UserControls
             Vector2 tileCenter;
             Vector2 tileCoords;
 
-            for (int y = 0; y != _mapData.TilesCountY; ++y)
-                for (int x = 0; x != _mapData.TilesCountX; ++x)
-                {
-                    tileCoords = TileToCoords(x, y);
-                    tileCenter = tileCoords + _positionOffset;
+            for (int l = 0; l != _mapData.Layers.Count; ++l)
+            {
+                var currLayer = _mapData.Layers[l];
 
-                    var tile = _mapData.Tiles[x, y];
-                    if (null != tile && null != tile.Tileset)
+                for (int y = 0; y != _mapData.TilesCountY; ++y)
+                    for (int x = 0; x != _mapData.TilesCountX; ++x)
                     {
-                        var model = TilesetFactory.Get(tile.Tileset, this.GraphicsDevice);
-                        if (null != model)
-                        {
-                            var destRect = new Rectangle((int)tileCoords.X, (int)tileCoords.Y, (int)_mapData.TileWidth, (int)_mapData.TileHeight);
-                            _spriteBatch.Draw(model.Texture, destRect, tile.TextureSourceBounds, Color.White);
-                        }
-                    }
+                        tileCoords = TileToCoords(x, y);
+                        tileCenter = tileCoords + _positionOffset;
 
-                    _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Green, _mapData.TilesType);
-                }
-            
+                        var tile = currLayer.Tiles[x, y];
+                        if (null != tile && null != tile.Tileset)
+                        {
+                            var model = TilesetFactory.Get(tile.Tileset, this.GraphicsDevice);
+                            if (null != model)
+                            {
+                                var destRect = new Rectangle((int)tileCoords.X, (int)tileCoords.Y, (int)_mapData.TileWidth, (int)_mapData.TileHeight);
+                                _spriteBatch.Draw(model.Texture, destRect, tile.TextureSourceBounds, Color.White);
+                            }
+                        }
+
+                        _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Green, _mapData.TilesType);
+                    }
+            }
+
             if (_selectedTile.HasValue)
             {
                 tileCenter = TileToCoords(_selectedTile.Value.X, _selectedTile.Value.Y) + _positionOffset;

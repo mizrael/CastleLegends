@@ -59,6 +59,12 @@
     <Compile Include="frmImportTileset.Designer.cs">
       <DependentUpon>frmImportTileset.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmLayerName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLayerName.Designer.cs">
+      <DependentUpon>frmLayerName.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +124,9 @@
     </Compile>
     <EmbeddedResource Include="frmImportTileset.resx">
       <DependentUpon>frmImportTileset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLayerName.resx">
+      <DependentUpon>frmLayerName.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>

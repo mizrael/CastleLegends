@@ -10,24 +10,24 @@ namespace CastleLegends.Editor.Commands
 {
     public class SetTileTextureCommand : ICommand
     {
-        private HexMap _map = null;
+        private MapLayer _layer = null;
         private Tile _newTile = null;
         private Tile _oldTile = null;
 
-        public SetTileTextureCommand(HexMap map, Point tileIndices, Tileset tileset, Rectangle sourceTextureBounds)
+        public SetTileTextureCommand(MapLayer layer, Point tileIndices, Tileset tileset, Rectangle sourceTextureBounds)
         {
-            if (null == map)
-                throw new ArgumentNullException("hexMap");
-            if (null == map.Tiles)
+            if (null == layer)
+                throw new ArgumentNullException("layer");
+            if (null == layer.Tiles)
                 throw new ArgumentException("Map Tiles not initialized!");
-            if (tileIndices.X < 0 || tileIndices.X > map.TilesCountX)
+            if (tileIndices.X < 0 || tileIndices.X > layer.Tiles.GetLength(0))
                 throw new ArgumentOutOfRangeException("tileIndices.X");
-            if (tileIndices.Y < 0 || tileIndices.Y > map.TilesCountY)
+            if (tileIndices.Y < 0 || tileIndices.Y > layer.Tiles.GetLength(1))
                 throw new ArgumentOutOfRangeException("tileIndices.Y");
 
-            _map = map;
+            _layer = layer;
             
-            _oldTile = _map.Tiles[tileIndices.X, tileIndices.Y];
+            _oldTile = _layer.Tiles[tileIndices.X, tileIndices.Y];
             if (null != _oldTile)
                 _oldTile = _oldTile.Clone();
             else
@@ -51,7 +51,7 @@ namespace CastleLegends.Editor.Commands
         }
 
         private void SetTile(Tile tile) {
-            _map.Tiles[tile.IndexX, tile.IndexY] = tile;
+            _layer.Tiles[tile.IndexX, tile.IndexY] = tile;
         }
     }
 }

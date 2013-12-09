@@ -94,12 +94,12 @@ namespace CastleLegends.Editor
             if (result != System.Windows.Forms.DialogResult.OK)
                 return;
 
-            this.TilesetsList.Items.Add(frm.TileSet);
+            this.lbTilesets.Items.Add(frm.TileSet);
         }
 
         private void TilesetsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var currTileset = this.TilesetsList.SelectedItem as TilesetRenderModel;
+            var currTileset = this.lbTilesets.SelectedItem as TilesetRenderModel;
             _frmSelTile.SetTileset(currTileset);
         }
 
@@ -107,6 +107,11 @@ namespace CastleLegends.Editor
         {
             //_frmSelTile.Visible = true;            
             this.selectTileMenuItem.Checked = true;
+        }
+
+        private void btnAddMapLayer_Click(object sender, EventArgs e)
+        {
+            AddMapLayer();
         }
         
         #endregion Form Events
@@ -152,9 +157,13 @@ namespace CastleLegends.Editor
                 if (null != tilesets && tilesets.Any()) {
                     foreach (var tileset in tilesets) {
                         var vm = TilesetFactory.Get(tileset, _mapRenderer.GraphicsDevice);
-                        this.TilesetsList.Items.Add(vm);
+                        this.lbTilesets.Items.Add(vm);
                     }
                 }
+
+                if (null != _mapData.Layers && _mapData.Layers.Any()) 
+                    this.lbMapLayers.Items.AddRange(_mapData.Layers.ToArray());
+                
             }
         }
         
@@ -229,10 +238,12 @@ namespace CastleLegends.Editor
 
         private void _mapRenderer_MapTileSelected(object sender, MapTileSelectedEventArgs data)
         {
-            if (null != data)
+            var currLayer = GetCurrentLayer();
+
+            if (null != data && null != currLayer)
             {
                 this.tabInfoPropertyGrid.Enabled = true;
-                this.tabInfoPropertyGrid.SelectedObject = _mapData.Tiles[data.TileIndexX, data.TileIndexY];
+                this.tabInfoPropertyGrid.SelectedObject = currLayer.Tiles[data.TileIndexX, data.TileIndexY];
                 
                 if (_frmTools.SelectedTool == frmTools.Tools.SetTileTexture && _frmSelTile.SelectedTileIndex.HasValue)
                 {
@@ -248,7 +259,7 @@ namespace CastleLegends.Editor
                         Height = _frmSelTile.TileSet.Tileset.TileHeight
                     };
 
-                    var command = new Commands.SetTileTextureCommand(_mapData, tileIndex, _frmSelTile.TileSet.Tileset, texBounds);
+                    var command = new Commands.SetTileTextureCommand(currLayer, tileIndex, _frmSelTile.TileSet.Tileset, texBounds);
                     Commands.CommandManager.AddAndExecute(command);
                 }
             }
@@ -262,6 +273,23 @@ namespace CastleLegends.Editor
 
         #region Private Methods
 
+        private MapLayer GetCurrentLayer()
+        {
+            var selLayer = this.lbMapLayers.SelectedItem as MapLayer;
+            return selLayer ?? _mapData.Layers.FirstOrDefault();
+        }
+
+        private void AddMapLayer()
+        {
+            var name = "Layer " + (_mapData.Layers.Count + 1).ToString();
+
+            var newLayer = new MapLayer(_mapData.TilesCountX, _mapData.TilesCountY, name);
+            _mapData.Layers.Add(newLayer);
+
+            this.lbMapLayers.Items.Add(newLayer);
+            this.lbMapLayers.SelectedIndex = this.lbMapLayers.Items.Count - 1;
+        }
+
         private void NewMap()
         {
             CloseMap();
@@ -271,6 +299,8 @@ namespace CastleLegends.Editor
                 return;
 
             _mapData = new HexMap(frm.HexMapType, frm.HexTileType, frm.TileCountX, frm.TileCountY, frm.TileRadius);
+
+            AddMapLayer();
 
             ResetUIForNewMap();
 
@@ -296,7 +326,8 @@ namespace CastleLegends.Editor
 
         private void CloseMap()
         {
-            this.TilesetsList.Items.Clear();
+            this.lbTilesets.Items.Clear();
+            this.lbMapLayers.Items.Clear();
 
             this.tabInfoPropertyGrid.Enabled = false;
             this.tabInfoPropertyGrid.SelectedObject = null;
@@ -336,6 +367,5 @@ namespace CastleLegends.Editor
         }
 
         #endregion Private Methods
-
     }
 }
