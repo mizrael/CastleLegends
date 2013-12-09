@@ -45,6 +45,14 @@ namespace CastleLegends.Common
             return this.ID.GetHashCode();
         }
 
+        public override bool Equals(object obj)
+        {
+            var other = obj as Tileset;
+            if (null == other) 
+                return false;
+            return this.GetHashCode() == other.GetHashCode();
+        }
+
         public override string ToString()
         {
             return System.IO.Path.GetFileName(this.Asset);
