@@ -71,6 +71,12 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmMain_MapLayers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain_Menu.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmNewMap.cs">
       <SubType>Form</SubType>
     </Compile>

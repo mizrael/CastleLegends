@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
-using CastleLegends.Editor.Extensions;
-using CastleLegends.Editor.Services;
-using CastleLegends.Editor.UserControls;
 using CastleLegends.Common;
 using CastleLegends.Common.RenderModels;
+using CastleLegends.Editor.UserControls;
 
 namespace CastleLegends.Editor
 {
@@ -109,130 +107,7 @@ namespace CastleLegends.Editor
             this.selectTileMenuItem.Checked = true;
         }
 
-        private void btnAddMapLayer_Click(object sender, EventArgs e)
-        {
-            AddMapLayer();
-        }
-        
-        #endregion Form Events
-
-        #region Menu Events
-        
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (null == _mapData) return;
-
-            var sfd = new SaveFileDialog();
-            sfd.RestoreDirectory = false;
-            sfd.Title = "Save Map";
-            sfd.DefaultExt = ".xml";
-            var result = sfd.ShowDialog();
-            if (result != System.Windows.Forms.DialogResult.OK)
-                return;
-
-            var repo = new CastleLegends.Common.Persistence.HexMapRepository();
-            repo.Save(_mapData, sfd.FileName);
-        }
-        
-        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CloseMap();
-
-            var ofd = new OpenFileDialog();
-            ofd.Title = "Open Map"; 
-            ofd.DefaultExt = ".xml";
-            var result = ofd.ShowDialog();
-            if (result != System.Windows.Forms.DialogResult.OK)
-                return;
-            
-            var repo = new CastleLegends.Common.Persistence.HexMapRepository();
-            _mapData = repo.Load(ofd.FileName);
-            if (null != _mapData)
-            {
-                ResetUIForNewMap();
-
-                InitRenderer();
-
-                var tilesets = _mapData.GetTilesets();
-                if (null != tilesets && tilesets.Any()) {
-                    foreach (var tileset in tilesets) {
-                        var vm = TilesetFactory.Get(tileset, _mapRenderer.GraphicsDevice);
-                        this.lbTilesets.Items.Add(vm);
-                    }
-                }
-
-                if (null != _mapData.Layers && _mapData.Layers.Any())
-                {
-                    this.chklMapLayers.Items.AddRange(_mapData.Layers.ToArray());
-                    for (int i = 0; i != _mapData.Layers.Count; ++i)
-                        this.chklMapLayers.SetItemChecked(i, true);
-                }
-                
-            }
-        }
-        
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CloseMap();
-        }
-
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NewMap();
-        }
-
-        private void drawDebugLinesToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (null != _mapRenderer)
-                _mapRenderer.CanDrawDebugLines = drawDebugLinesToolStripMenuItem.Checked;
-        }
-
-        private void drawHexagonsToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (null != _mapRenderer)
-                _mapRenderer.CanDrawHexagons = this.drawHexagonsToolStripMenuItem.Checked;
-        }
-
-        private void SelectTileMenuItem_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (this.selectTileMenuItem.Checked)
-            {
-                _frmSelTile.Show();
-                _frmSelTile.BringToFront();
-            }
-            else
-                _frmSelTile.Hide();
-        }
-
-        private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.toolsToolStripMenuItem.Checked)
-            {
-                _frmTools.Show();
-                _frmTools.BringToFront();
-            }
-            else
-                _frmTools.Hide();
-        }
-        
-        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Commands.CommandManager.UndoCommand();
-            this.undoToolStripMenuItem.Enabled = (0 != Commands.CommandManager.UndoCount);
-        }
-
-        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Commands.CommandManager.ExecuteCommand();
-            this.redoToolStripMenuItem.Enabled = (0 != Commands.CommandManager.Count);
-        }
-
-        #endregion Menu Events
+        #endregion Form Events       
 
         #region Tileset Selection Form Events
 
@@ -280,38 +155,8 @@ namespace CastleLegends.Editor
         }
 
         #endregion Map Renderer Events
-        
-        #region Map Layers Tab events
-
-        private void chklMapLayers_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            var layer = this.chklMapLayers.Items[e.Index] as MapLayer;
-            if (null == layer)
-                return;
-
-            layer.Visible = (e.NewValue == CheckState.Checked);
-        }
-
-        #endregion Map Layers Tab events
-
+               
         #region Private Methods
-
-        private MapLayer GetCurrentLayer()
-        {
-            var selLayer = this.chklMapLayers.SelectedItem as MapLayer;
-            return selLayer ?? _mapData.Layers.FirstOrDefault();
-        }
-
-        private void AddMapLayer()
-        {
-            var name = "Layer " + (_mapData.Layers.Count + 1).ToString();
-
-            var newLayer = new MapLayer(_mapData.TilesCountX, _mapData.TilesCountY, name);
-            _mapData.Layers.Add(newLayer);
-
-            this.chklMapLayers.Items.Add(newLayer, true);
-            this.chklMapLayers.SelectedIndex = this.chklMapLayers.Items.Count - 1;
-        }
 
         private void NewMap()
         {

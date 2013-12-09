@@ -323,6 +323,7 @@
             this.btnMapLayerDown.TabIndex = 11;
             this.btnMapLayerDown.Text = "Down";
             this.btnMapLayerDown.UseVisualStyleBackColor = true;
+            this.btnMapLayerDown.Click += new System.EventHandler(this.btnMapLayerDown_Click);
             // 
             // btnMapLayerUp
             // 
@@ -334,6 +335,7 @@
             this.btnMapLayerUp.TabIndex = 10;
             this.btnMapLayerUp.Text = "Up";
             this.btnMapLayerUp.UseVisualStyleBackColor = true;
+            this.btnMapLayerUp.Click += new System.EventHandler(this.btnMapLayerUp_Click);
             // 
             // btnAddMapLayer
             // 
