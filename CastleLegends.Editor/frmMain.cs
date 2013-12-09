@@ -189,7 +189,13 @@ namespace CastleLegends.Editor
         private void drawDebugLinesToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
             if (null != _mapRenderer)
-                _mapRenderer.DrawDebugLines = drawDebugLinesToolStripMenuItem.Checked;
+                _mapRenderer.CanDrawDebugLines = drawDebugLinesToolStripMenuItem.Checked;
+        }
+
+        private void drawHexagonsToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (null != _mapRenderer)
+                _mapRenderer.CanDrawHexagons = this.drawHexagonsToolStripMenuItem.Checked;
         }
 
         private void SelectTileMenuItem_CheckStateChanged(object sender, EventArgs e)
@@ -329,6 +335,9 @@ namespace CastleLegends.Editor
             this.drawDebugLinesToolStripMenuItem.Enabled = true;
             this.drawDebugLinesToolStripMenuItem.Checked = false;
 
+            this.drawHexagonsToolStripMenuItem.Enabled = true;
+            this.drawHexagonsToolStripMenuItem.Checked = true;
+
             this.selectTileMenuItem.Enabled = true;
             this.selectTileMenuItem.Checked = false;
 
@@ -352,6 +361,7 @@ namespace CastleLegends.Editor
             this.toolsToolStripMenuItem.Enabled = false;
             this.selectTileMenuItem.Enabled = false;
             this.drawDebugLinesToolStripMenuItem.Enabled = false;
+            this.drawHexagonsToolStripMenuItem.Enabled = false;
             this.tabTools.Enabled = false;
             
             this.saveToolStripMenuItem.Enabled = false;

@@ -30,6 +30,8 @@ namespace CastleLegends.Editor.UserControls
             InitializeComponent();
 
             this.Click += new EventHandler(ucMapRenderer_Click);
+
+            this.CanDrawHexagons = true;
         }
 
         #region Events
@@ -100,7 +102,7 @@ namespace CastleLegends.Editor.UserControls
             for (int l = 0; l != _mapData.Layers.Count; ++l)
             {
                 var currLayer = _mapData.Layers[l];
-                if (!currLayer.Visible) 
+                if (!currLayer.Visible)
                     continue;
 
                 for (int y = 0; y != _mapData.TilesCountY; ++y)
@@ -119,9 +121,32 @@ namespace CastleLegends.Editor.UserControls
                                 _spriteBatch.Draw(model.Texture, destRect, tile.TextureSourceBounds, Color.White);
                             }
                         }
+                    }
+            }
 
+            DrawHexagons();
+
+            if (this.CanDrawDebugLines)            
+                DrawDebug();
+            
+            _spriteBatch.End();
+        }
+
+        private void DrawHexagons() {
+            Vector2 tileCenter;
+            Vector2 tileCoords;
+
+            if (this.CanDrawHexagons)
+            {
+                for (int y = 0; y != _mapData.TilesCountY; ++y)
+                {
+                    for (int x = 0; x != _mapData.TilesCountX; ++x)
+                    {
+                        tileCoords = TileToCoords(x, y);
+                        tileCenter = tileCoords + _positionOffset;
                         _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Green, _mapData.TilesType);
                     }
+                }
             }
 
             if (_selectedTile.HasValue)
@@ -135,13 +160,7 @@ namespace CastleLegends.Editor.UserControls
                 tileCenter = TileToCoords(_mouseOverTile.Value.X, _mouseOverTile.Value.Y) + _positionOffset;
                 _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Red, _mapData.TilesType, 3f);
             }
-
-            if (this.DrawDebugLines)
-            {
-                DrawDebug();
-            }
-            _spriteBatch.End();
-        }        
+        }
 
         private bool SelectTile(out int tileIndexX, out int tileIndexY)
         {
@@ -360,7 +379,9 @@ namespace CastleLegends.Editor.UserControls
 
         #region Properties
 
-        public bool DrawDebugLines { get; set; }
+        public bool CanDrawDebugLines { get; set; }
+
+        public bool CanDrawHexagons { get; set; }
 
         #endregion Properties
 

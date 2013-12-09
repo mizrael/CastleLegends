@@ -51,13 +51,14 @@
             this.lbTilesets = new System.Windows.Forms.ListBox();
             this.btnAddTileset = new System.Windows.Forms.Button();
             this.tabMapLayers = new System.Windows.Forms.TabPage();
+            this.chklMapLayers = new System.Windows.Forms.CheckedListBox();
             this.btnMapLayerDown = new System.Windows.Forms.Button();
             this.btnMapLayerUp = new System.Windows.Forms.Button();
             this.btnAddMapLayer = new System.Windows.Forms.Button();
             this.btnRemoveMapLayer = new System.Windows.Forms.Button();
             this.tabProperties = new System.Windows.Forms.TabPage();
             this.tabInfoPropertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.chklMapLayers = new System.Windows.Forms.CheckedListBox();
+            this.drawHexagonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
             this.pnlMain.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -204,7 +205,8 @@
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.drawDebugLinesToolStripMenuItem});
+            this.drawDebugLinesToolStripMenuItem,
+            this.drawHexagonsToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -299,6 +301,18 @@
             this.tabMapLayers.Text = "Layers";
             this.tabMapLayers.UseVisualStyleBackColor = true;
             // 
+            // chklMapLayers
+            // 
+            this.chklMapLayers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chklMapLayers.FormattingEnabled = true;
+            this.chklMapLayers.Location = new System.Drawing.Point(6, 6);
+            this.chklMapLayers.Name = "chklMapLayers";
+            this.chklMapLayers.Size = new System.Drawing.Size(213, 469);
+            this.chklMapLayers.TabIndex = 12;
+            this.chklMapLayers.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chklMapLayers_ItemCheck);
+            // 
             // btnMapLayerDown
             // 
             this.btnMapLayerDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -363,17 +377,16 @@
             this.tabInfoPropertyGrid.Size = new System.Drawing.Size(221, 506);
             this.tabInfoPropertyGrid.TabIndex = 0;
             // 
-            // chklMapLayers
+            // drawHexagonsToolStripMenuItem
             // 
-            this.chklMapLayers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.chklMapLayers.FormattingEnabled = true;
-            this.chklMapLayers.Location = new System.Drawing.Point(6, 6);
-            this.chklMapLayers.Name = "chklMapLayers";
-            this.chklMapLayers.Size = new System.Drawing.Size(213, 469);
-            this.chklMapLayers.TabIndex = 12;
-            this.chklMapLayers.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chklMapLayers_ItemCheck);
+            this.drawHexagonsToolStripMenuItem.Checked = true;
+            this.drawHexagonsToolStripMenuItem.CheckOnClick = true;
+            this.drawHexagonsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.drawHexagonsToolStripMenuItem.Enabled = false;
+            this.drawHexagonsToolStripMenuItem.Name = "drawHexagonsToolStripMenuItem";
+            this.drawHexagonsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.drawHexagonsToolStripMenuItem.Text = "Draw Hexagons";
+            this.drawHexagonsToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.drawHexagonsToolStripMenuItem_CheckStateChanged);
             // 
             // rendererContainer
             // 
@@ -441,6 +454,7 @@
         private System.Windows.Forms.Button btnMapLayerDown;
         private System.Windows.Forms.Button btnMapLayerUp;
         private System.Windows.Forms.CheckedListBox chklMapLayers;
+        private System.Windows.Forms.ToolStripMenuItem drawHexagonsToolStripMenuItem;
     }
 }
 
