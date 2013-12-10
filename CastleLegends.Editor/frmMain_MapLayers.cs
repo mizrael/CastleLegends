@@ -10,12 +10,7 @@ namespace CastleLegends.Editor
     public partial class frmMain
     {
         #region Map Layers Tab events
-
-        private void btnAddMapLayer_Click(object sender, EventArgs e)
-        {
-            AddMapLayer();
-        }        
-
+        
         private void chklMapLayers_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             var layer = this.chklMapLayers.Items[e.Index] as MapLayer;
@@ -23,6 +18,21 @@ namespace CastleLegends.Editor
                 return;
 
             layer.Visible = (e.NewValue == CheckState.Checked);
+        }
+
+        private void btnAddMapLayer_Click(object sender, EventArgs e)
+        {
+            AddMapLayer();
+        }
+
+        private void btnRemoveMapLayer_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Are you sure?", "Remove layer", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result != System.Windows.Forms.DialogResult.Yes)
+                return;
+            var layer = GetCurrentLayer();
+            if (null != layer)
+                RemoveMapLayer(layer);
         }
 
         private void btnMapLayerUp_Click(object sender, EventArgs e)
@@ -80,6 +90,14 @@ namespace CastleLegends.Editor
 
             this.chklMapLayers.Items.Add(newLayer, true);
             this.chklMapLayers.SelectedIndex = this.chklMapLayers.Items.Count - 1;
+
+            this.btnMapLayerDown.Enabled = true;
+            this.btnMapLayerUp.Enabled = true;
+        }
+
+        private void RemoveMapLayer(MapLayer layer) {            
+            _mapData.Layers.Remove(layer);
+            BindMapLayers();
         }
 
         #endregion Private Methods

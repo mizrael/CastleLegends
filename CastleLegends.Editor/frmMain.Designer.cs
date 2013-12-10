@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,6 +46,7 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawDebugLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.drawHexagonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabTools = new System.Windows.Forms.TabControl();
             this.tabTilesets = new System.Windows.Forms.TabPage();
@@ -58,8 +60,6 @@
             this.btnRemoveMapLayer = new System.Windows.Forms.Button();
             this.tabProperties = new System.Windows.Forms.TabPage();
             this.tabInfoPropertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.drawHexagonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rendererContainer = new CastleLegends.Editor.UserControls.ucRendererContainer();
             this.pnlMain.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -81,6 +81,14 @@
             this.pnlMain.Size = new System.Drawing.Size(800, 538);
             this.pnlMain.TabIndex = 1;
             this.pnlMain.SizeChanged += new System.EventHandler(this.pnlMain_SizeChanged);
+            // 
+            // rendererContainer
+            // 
+            this.rendererContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rendererContainer.Location = new System.Drawing.Point(0, 0);
+            this.rendererContainer.Name = "rendererContainer";
+            this.rendererContainer.Size = new System.Drawing.Size(800, 538);
+            this.rendererContainer.TabIndex = 0;
             // 
             // menuStrip1
             // 
@@ -220,6 +228,17 @@
             this.drawDebugLinesToolStripMenuItem.Text = "Draw Debug Lines";
             this.drawDebugLinesToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.drawDebugLinesToolStripMenuItem_CheckStateChanged);
             // 
+            // drawHexagonsToolStripMenuItem
+            // 
+            this.drawHexagonsToolStripMenuItem.Checked = true;
+            this.drawHexagonsToolStripMenuItem.CheckOnClick = true;
+            this.drawHexagonsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.drawHexagonsToolStripMenuItem.Enabled = false;
+            this.drawHexagonsToolStripMenuItem.Name = "drawHexagonsToolStripMenuItem";
+            this.drawHexagonsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.drawHexagonsToolStripMenuItem.Text = "Draw Hexagons";
+            this.drawHexagonsToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.drawHexagonsToolStripMenuItem_CheckStateChanged);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -358,6 +377,7 @@
             this.btnRemoveMapLayer.TabIndex = 7;
             this.btnRemoveMapLayer.Text = "-";
             this.btnRemoveMapLayer.UseVisualStyleBackColor = true;
+            this.btnRemoveMapLayer.Click += new System.EventHandler(this.btnRemoveMapLayer_Click);
             // 
             // tabProperties
             // 
@@ -378,25 +398,6 @@
             this.tabInfoPropertyGrid.Name = "tabInfoPropertyGrid";
             this.tabInfoPropertyGrid.Size = new System.Drawing.Size(221, 506);
             this.tabInfoPropertyGrid.TabIndex = 0;
-            // 
-            // drawHexagonsToolStripMenuItem
-            // 
-            this.drawHexagonsToolStripMenuItem.Checked = true;
-            this.drawHexagonsToolStripMenuItem.CheckOnClick = true;
-            this.drawHexagonsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.drawHexagonsToolStripMenuItem.Enabled = false;
-            this.drawHexagonsToolStripMenuItem.Name = "drawHexagonsToolStripMenuItem";
-            this.drawHexagonsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.drawHexagonsToolStripMenuItem.Text = "Draw Hexagons";
-            this.drawHexagonsToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.drawHexagonsToolStripMenuItem_CheckStateChanged);
-            // 
-            // rendererContainer
-            // 
-            this.rendererContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rendererContainer.Location = new System.Drawing.Point(0, 0);
-            this.rendererContainer.Name = "rendererContainer";
-            this.rendererContainer.Size = new System.Drawing.Size(800, 538);
-            this.rendererContainer.TabIndex = 0;
             // 
             // frmMain
             // 

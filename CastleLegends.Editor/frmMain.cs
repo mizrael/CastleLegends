@@ -242,6 +242,5 @@ namespace CastleLegends.Editor
         }
 
         #endregion Private Methods
-
     }
 }
