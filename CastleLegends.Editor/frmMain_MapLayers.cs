@@ -38,17 +38,21 @@ namespace CastleLegends.Editor
         private void btnMapLayerUp_Click(object sender, EventArgs e)
         {
             var destIndex = this.chklMapLayers.SelectedIndex - 1;
-            _mapData.Layers.Swap(this.chklMapLayers.SelectedIndex, destIndex);
-            BindMapLayers();
-            this.chklMapLayers.SelectedIndex = destIndex;
+            if (_mapData.Layers.Swap(this.chklMapLayers.SelectedIndex, destIndex))
+            {
+                BindMapLayers();
+                this.chklMapLayers.SelectedIndex = destIndex;
+            }
         }
 
         private void btnMapLayerDown_Click(object sender, EventArgs e)
         {
             var destIndex = this.chklMapLayers.SelectedIndex + 1;
-            _mapData.Layers.Swap(this.chklMapLayers.SelectedIndex, destIndex);
-            BindMapLayers();
-            this.chklMapLayers.SelectedIndex = destIndex;
+            if (_mapData.Layers.Swap(this.chklMapLayers.SelectedIndex, destIndex))
+            {
+                BindMapLayers();
+                this.chklMapLayers.SelectedIndex = destIndex;
+            }
         }
 
         #endregion Map Layers Tab events
