@@ -18,13 +18,29 @@ namespace CastleLegends.Common.RenderModels
         }
 
         #region Properties
-
+                
         [DisplayName("Asset")]
         [Category("Tile Set Properties")]
         public Tileset Tileset { get; private set; }
 
         [Browsable(false)]
         public Texture2D Texture { get; private set; }
+
+        [DisplayName("Tile Width")]
+        [Category("Tile Set Properties")]
+        public int TileWidth
+        {
+            get { return (null != Tileset) ? Tileset.TileWidth : 0; }
+            set { if (null != Tileset) Tileset.TileWidth = value; }
+        }
+
+        [DisplayName("Tile Height")]
+        [Category("Tile Set Properties")]
+        public int TileHeight
+        {
+            get { return (null != Tileset) ? Tileset.TileHeight : 0; }
+            set { if (null != Tileset) Tileset.TileHeight = value; }
+        }
 
         [DisplayName("Image Width")]
         [Category("Tile Set Properties")]
