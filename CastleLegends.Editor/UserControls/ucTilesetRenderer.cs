@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Forms;
-using Microsoft.Xna.Framework.Graphics;
+using CastleLegends.Editor.RenderModels;
 using CastleLegends.Editor.Services;
-using Microsoft.Xna.Framework;
 using GlyphEngine.Extensions;
-using CastleLegends.Common;
-using CastleLegends.Common.RenderModels;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CastleLegends.Editor.UserControls
 {

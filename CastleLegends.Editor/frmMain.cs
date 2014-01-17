@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using CastleLegends.Common;
-using CastleLegends.Common.RenderModels;
+using CastleLegends.Editor.RenderModels;
 using CastleLegends.Editor.UserControls;
 
 namespace CastleLegends.Editor

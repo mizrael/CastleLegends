@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using CastleLegends.Common;
-using CastleLegends.Common.RenderModels;
 
 namespace CastleLegends.Editor.Commands
 {

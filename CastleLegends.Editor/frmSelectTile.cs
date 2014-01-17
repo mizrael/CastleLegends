@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using CastleLegends.Editor.UserControls;
 using Microsoft.Xna.Framework;
 using CastleLegends.Common;
-using CastleLegends.Common.RenderModels;
+using CastleLegends.Editor.RenderModels;
 
 namespace CastleLegends.Editor
 {

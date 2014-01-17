@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using GlyphEngine.GameScreens;
+using GlyphEngine.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -33,6 +34,12 @@ namespace CastleLegends
         /// </summary>
         protected override void Initialize()
         {
+            var sceneGraph = new SceneGraphService(this);
+            this.Components.Add(sceneGraph);
+          
+            var renderer = new RenderService(this);
+            this.Components.Add(renderer);
+
             ScreenManager.Instance.Initialize(this);
             ScreenManager.Instance.AddScreen(new GameScreens.PlayScreen());
 

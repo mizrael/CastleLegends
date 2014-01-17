@@ -108,7 +108,7 @@ namespace CastleLegends.Editor.UserControls
                 for (int y = 0; y != _mapData.TilesCountY; ++y)
                     for (int x = 0; x != _mapData.TilesCountX; ++x)
                     {
-                        tileCoords = TileToCoords(x, y);
+                        tileCoords =  _mapData.TileToCoords(x, y);
                         tileCenter = tileCoords + _positionOffset;
 
                         var tile = currLayer.Tiles[x, y];
@@ -144,7 +144,7 @@ namespace CastleLegends.Editor.UserControls
                 {
                     for (int x = 0; x != _mapData.TilesCountX; ++x)
                     {
-                        tileCoords = TileToCoords(x, y);
+                        tileCoords = _mapData.TileToCoords(x, y);
                         tileCenter = tileCoords + _positionOffset;
                         _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Green, isMapPointyTopped);
                     }
@@ -153,13 +153,13 @@ namespace CastleLegends.Editor.UserControls
 
             if (_selectedTile.HasValue)
             {
-                tileCenter = TileToCoords(_selectedTile.Value.X, _selectedTile.Value.Y) + _positionOffset;
+                tileCenter = _mapData.TileToCoords(_selectedTile.Value.X, _selectedTile.Value.Y) + _positionOffset;
                 _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Aqua, isMapPointyTopped, 4f);
             }
 
             if (_mouseOverTile.HasValue)
             {
-                tileCenter = TileToCoords(_mouseOverTile.Value.X, _mouseOverTile.Value.Y) + _positionOffset;
+                tileCenter = _mapData.TileToCoords(_mouseOverTile.Value.X, _mouseOverTile.Value.Y) + _positionOffset;
                 _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Red, isMapPointyTopped, 3f);
             }
         }
@@ -170,22 +170,7 @@ namespace CastleLegends.Editor.UserControls
             var mousePosVec = new Vector2(relativeMousePos.X, relativeMousePos.Y);
             return CoordsToTile(mousePosVec, out tileIndexX, out tileIndexY);
         }
-        
-        private Vector2 TileToCoords(int i, int j) 
-        {
-            var offset = 0f;
-            if (_mapData.TilesType == HexTileType.FlatTopped)
-            {
-                offset = (_mapData.MapCoordsType == HexMapType.Even) ? (i.IsEven() ? _mapData.TileVerticalDistanceHalf : 0f) :
-                                                                           (!i.IsEven() ? _mapData.TileVerticalDistanceHalf : 0f);
-                return new Vector2(_mapData.TileHorizontalDistance * i, _mapData.TileVerticalDistance * j + offset);
-            }
-
-            offset = (_mapData.MapCoordsType == HexMapType.Even) ? (j.IsEven() ? _mapData.TileHorizontalDistanceHalf : 0f) :
-                                                                   (!j.IsEven() ? _mapData.TileHorizontalDistanceHalf : 0f);
-            return new Vector2(_mapData.TileHorizontalDistance * i + offset, _mapData.TileVerticalDistance * j);
-        }
-
+       
         #region CoordsToTile
 
         /// <summary>      
@@ -305,7 +290,7 @@ namespace CastleLegends.Editor.UserControls
 
             for (int i = 0; i != _mapData.TilesCountX; ++i)
             {
-                var currTileCoords = TileToCoords(i, 0);
+                var currTileCoords = _mapData.TileToCoords(i, 0);
 
                 var lineStartPos = new Vector2(currTileCoords.X, 0f);
                 _spriteBatch.DrawLine(lineStartPos, lineLength, MathHelper.PiOver2, lineColor);
@@ -321,7 +306,7 @@ namespace CastleLegends.Editor.UserControls
 
             for (int j = 0; j != _mapData.TilesCountY; ++j)
             {
-                var currTileCoords = TileToCoords(0, j);
+                var currTileCoords = _mapData.TileToCoords(0, j);
 
                 var y = currTileCoords.Y + halfRadius;
                 var lineStartPos = new Vector2(0f, y);
@@ -345,7 +330,7 @@ namespace CastleLegends.Editor.UserControls
 
             for (int i = 0; i != _mapData.TilesCountX; ++i)
             {
-                var currTileCoords = TileToCoords(i, 0);
+                var currTileCoords = _mapData.TileToCoords(i, 0);
 
                 var x = currTileCoords.X + halfRadius;
 
@@ -356,7 +341,7 @@ namespace CastleLegends.Editor.UserControls
                 _spriteBatch.DrawLine(lineStartPos, lineLength, MathHelper.PiOver2, lineColor);
             }
 
-            var lastTileCoords = TileToCoords(_mapData.TilesCountX, 0);
+            var lastTileCoords = _mapData.TileToCoords(_mapData.TilesCountX, 0);
             var lineStart = new Vector2(lastTileCoords.X + halfRadius, 0f);
             _spriteBatch.DrawLine(lineStart, lineLength, MathHelper.PiOver2, lineColor);
 
@@ -364,7 +349,7 @@ namespace CastleLegends.Editor.UserControls
 
             for (int j = 0; j != _mapData.TilesCountY; ++j)
             {
-                var currTileCoords = TileToCoords(0, j);
+                var currTileCoords = _mapData.TileToCoords(0, j);
 
                 var lineStartPos = new Vector2(0f, currTileCoords.Y);
                 _spriteBatch.DrawLine(lineStartPos, lineLength, 0f, lineColor);

@@ -47,9 +47,17 @@
     <Compile Include="MapLayer.cs" />
     <Compile Include="Persistence\HexMapRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RenderModels\TilesetRenderModel.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Tileset.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Glyph Engine 5\GlyphEngine\GlyphEngine.csproj">
+      <Project>{7e514934-c0a8-46b2-a57d-11f7f44cea4d}</Project>
+      <Name>GlyphEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

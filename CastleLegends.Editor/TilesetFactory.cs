@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using CastleLegends.Common;
-using CastleLegends.Common.RenderModels;
+using CastleLegends.Editor.RenderModels;
+using GlyphEngine.Utils;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CastleLegends.Editor
@@ -23,30 +24,27 @@ namespace CastleLegends.Editor
             return model;
         }
 
-        public static TilesetRenderModel Load(Tileset tileset, GraphicsDevice device)
+        public static TilesetRenderModel Load(string fullPath, GraphicsDevice device)
+        {
+            var tileset = new Tileset(fullPath);
+            return Load(tileset, device);
+        }
+
+        private static TilesetRenderModel Load(Tileset tileset, GraphicsDevice device)
         {
             if (null == tileset)
                 throw new ArgumentNullException("tileset");
             if (null == device)
                 throw new ArgumentNullException("device");
 
-            using (var texStream = File.OpenRead(tileset.Asset))
+            var texture = TextureHelpers.LoadTexture(device, tileset.Asset);
+            if (null != texture)
             {
-                var texture = Texture2D.FromStream(device, texStream);
-                if (null != texture)
-                {
-                    var model = new TilesetRenderModel(tileset, texture);
-                    _cache.Add(model.Tileset.ID, model);
-                    return model;
-                }
+                var model = new TilesetRenderModel(tileset, texture);
+                _cache.Add(model.Tileset.ID, model);
+                return model;
             }
             return null;
-        }
-
-        public static TilesetRenderModel Load(string fullPath, GraphicsDevice device)
-        {
-            var tileset = new Tileset(fullPath);
-            return Load(tileset, device);           
         }
     }
 }

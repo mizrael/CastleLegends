@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RenderModels\TilesetRenderModel.cs" />
     <Compile Include="Services\CameraService.cs" />
     <Compile Include="Services\GraphicsDeviceService.cs" />
     <Compile Include="Services\ServiceContainer.cs" />

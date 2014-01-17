@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using Microsoft.Xna.Framework;
+using CastleLegends.Common;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CastleLegends.Common.RenderModels
+namespace CastleLegends.Editor.RenderModels
 {
     [DisplayName("Tile Set")]
     [DefaultProperty("Tileset.Asset")]

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
+using GlyphEngine.Extensions;
 
 namespace CastleLegends.Common
 {
@@ -38,6 +40,21 @@ namespace CastleLegends.Common
             var allTilesets = this.Layers.SelectMany(l => l.GetTilesets());
             var distinctTilesets = allTilesets.Distinct();
             return distinctTilesets.ToArray();
+        }
+
+        public Vector2 TileToCoords(int i, int j)
+        {
+            var offset = 0f;
+            if (this.TilesType == HexTileType.FlatTopped)
+            {
+                offset = (this.MapCoordsType == HexMapType.Even) ? (i.IsEven() ? this.TileVerticalDistanceHalf : 0f) :
+                                                                           (!i.IsEven() ? this.TileVerticalDistanceHalf : 0f);
+                return new Vector2(this.TileHorizontalDistance * i, this.TileVerticalDistance * j + offset);
+            }
+
+            offset = (this.MapCoordsType == HexMapType.Even) ? (j.IsEven() ? this.TileHorizontalDistanceHalf : 0f) :
+                                                                   (!j.IsEven() ? this.TileHorizontalDistanceHalf : 0f);
+            return new Vector2(this.TileHorizontalDistance * i + offset, this.TileVerticalDistance * j);
         }
 
         #endregion Methods
