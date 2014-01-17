@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Microsoft.Xna.Framework.Graphics;
 using CastleLegends.Editor.Services;
 using Microsoft.Xna.Framework;
-using CastleLegends.Common.Utils;
+using GlyphEngine.Extensions;
 using CastleLegends.Common;
 using CastleLegends.Common.RenderModels;
 

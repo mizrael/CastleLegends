@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GlyphEngine.GameScreens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -17,8 +18,7 @@ namespace CastleLegends
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
+      
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -33,7 +33,8 @@ namespace CastleLegends
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            ScreenManager.Instance.Initialize(this);
+            ScreenManager.Instance.AddScreen(new GameScreens.PlayScreen());
 
             base.Initialize();
         }
@@ -44,10 +45,7 @@ namespace CastleLegends
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+          
         }
 
         /// <summary>
@@ -66,11 +64,7 @@ namespace CastleLegends
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
-            // TODO: Add your update logic here
+            ScreenManager.Instance.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -81,9 +75,9 @@ namespace CastleLegends
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            base.GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
+            ScreenManager.Instance.Draw(gameTime);
 
             base.Draw(gameTime);
         }

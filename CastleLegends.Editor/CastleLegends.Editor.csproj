@@ -173,6 +173,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Glyph Engine 5\GlyphEngine\GlyphEngine.csproj">
+      <Project>{7e514934-c0a8-46b2-a57d-11f7f44cea4d}</Project>
+      <Name>GlyphEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CastleLegends.Common\CastleLegends.Common.csproj">
       <Project>{86D6BF7B-EAB9-470B-9C37-4000671DEC94}</Project>
       <Name>CastleLegends.Common</Name>

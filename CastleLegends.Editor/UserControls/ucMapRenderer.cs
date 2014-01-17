@@ -1,6 +1,6 @@
 ﻿using System;
 using CastleLegends.Common;
-using CastleLegends.Common.Utils;
+using GlyphEngine.Extensions;
 using CastleLegends.Editor.Services;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,7 +28,7 @@ namespace CastleLegends.Editor.UserControls
         {
             SetMapData(mapData); 
             InitializeComponent();
-
+            
             this.Click += new EventHandler(ucMapRenderer_Click);
 
             this.CanDrawHexagons = true;
@@ -136,6 +136,8 @@ namespace CastleLegends.Editor.UserControls
             Vector2 tileCenter;
             Vector2 tileCoords;
 
+            var isMapPointyTopped = _mapData.TilesType == HexTileType.PointyTopped;
+
             if (this.CanDrawHexagons)
             {
                 for (int y = 0; y != _mapData.TilesCountY; ++y)
@@ -144,7 +146,7 @@ namespace CastleLegends.Editor.UserControls
                     {
                         tileCoords = TileToCoords(x, y);
                         tileCenter = tileCoords + _positionOffset;
-                        _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Green, _mapData.TilesType);
+                        _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Green, isMapPointyTopped);
                     }
                 }
             }
@@ -152,13 +154,13 @@ namespace CastleLegends.Editor.UserControls
             if (_selectedTile.HasValue)
             {
                 tileCenter = TileToCoords(_selectedTile.Value.X, _selectedTile.Value.Y) + _positionOffset;
-                _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Aqua, _mapData.TilesType, 4f);
+                _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Aqua, isMapPointyTopped, 4f);
             }
 
             if (_mouseOverTile.HasValue)
             {
                 tileCenter = TileToCoords(_mouseOverTile.Value.X, _mouseOverTile.Value.Y) + _positionOffset;
-                _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Red, _mapData.TilesType, 3f);
+                _spriteBatch.DrawHexagon(tileCenter, _mapData.TilesRadius, Color.Red, isMapPointyTopped, 3f);
             }
         }
 
