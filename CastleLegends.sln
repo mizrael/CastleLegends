@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CastleLegends", "CastleLegends\CastleLegends\CastleLegends.csproj", "{99416AF1-0B2C-4263-9B9B-BA3B4D6079AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CastleLegendsContent", "CastleLegends\CastleLegendsContent\CastleLegendsContent.contentproj", "{28CFA6E3-2A88-4D6D-B6FD-69FE465D38F3}"
@@ -17,6 +17,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Local.testsettings = Local.testsettings
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Glyph Engine", "Glyph Engine", "{7886839D-C992-4C66-9638-E7E99CF7966A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlyphEngine", "..\Glyph Engine 5\GlyphEngine\GlyphEngine.csproj", "{7E514934-C0A8-46B2-A57D-11F7F44CEA4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlyphEngineContent", "..\Glyph Engine 5\GlyphEngine\Content\GlyphEngineContent.contentproj", "{90E69664-B7B5-4EEA-BA60-F009A158369D}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -77,8 +83,28 @@ Global
 		{EB809F46-309D-4044-B3C5-91CF66770189}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{EB809F46-309D-4044-B3C5-91CF66770189}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{EB809F46-309D-4044-B3C5-91CF66770189}.Release|x86.ActiveCfg = Release|Any CPU
+		{7E514934-C0A8-46B2-A57D-11F7F44CEA4D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7E514934-C0A8-46B2-A57D-11F7F44CEA4D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{7E514934-C0A8-46B2-A57D-11F7F44CEA4D}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{7E514934-C0A8-46B2-A57D-11F7F44CEA4D}.Debug|x86.ActiveCfg = Debug|x86
+		{7E514934-C0A8-46B2-A57D-11F7F44CEA4D}.Debug|x86.Build.0 = Debug|x86
+		{7E514934-C0A8-46B2-A57D-11F7F44CEA4D}.Release|Any CPU.ActiveCfg = Release|x86
+		{7E514934-C0A8-46B2-A57D-11F7F44CEA4D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{7E514934-C0A8-46B2-A57D-11F7F44CEA4D}.Release|Mixed Platforms.Build.0 = Release|x86
+		{7E514934-C0A8-46B2-A57D-11F7F44CEA4D}.Release|x86.ActiveCfg = Release|x86
+		{7E514934-C0A8-46B2-A57D-11F7F44CEA4D}.Release|x86.Build.0 = Release|x86
+		{90E69664-B7B5-4EEA-BA60-F009A158369D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{90E69664-B7B5-4EEA-BA60-F009A158369D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{90E69664-B7B5-4EEA-BA60-F009A158369D}.Debug|x86.ActiveCfg = Debug|x86
+		{90E69664-B7B5-4EEA-BA60-F009A158369D}.Release|Any CPU.ActiveCfg = Release|x86
+		{90E69664-B7B5-4EEA-BA60-F009A158369D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{90E69664-B7B5-4EEA-BA60-F009A158369D}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7E514934-C0A8-46B2-A57D-11F7F44CEA4D} = {7886839D-C992-4C66-9638-E7E99CF7966A}
+		{90E69664-B7B5-4EEA-BA60-F009A158369D} = {7886839D-C992-4C66-9638-E7E99CF7966A}
 	EndGlobalSection
 EndGlobal

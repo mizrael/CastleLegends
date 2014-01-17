@@ -116,6 +116,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CastleLegends.Common\CastleLegends.Common.csproj">
+      <Project>{86d6bf7b-eab9-470b-9c37-4000671dec94}</Project>
+      <Name>CastleLegends.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CastleLegendsContent\CastleLegendsContent.contentproj">
       <Name>CastleLegendsContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>

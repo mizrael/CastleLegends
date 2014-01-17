@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using CastleLegends.Editor.Services;
-using CastleLegends.Common.Utils;
+﻿using System;
 using CastleLegends.Common;
-using System;
+using CastleLegends.Common.Utils;
+using CastleLegends.Editor.Services;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CastleLegends.Editor.UserControls
 {

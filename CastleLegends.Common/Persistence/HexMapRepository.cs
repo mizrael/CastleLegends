@@ -1,9 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using System.Text;
 
 namespace CastleLegends.Common.Persistence
 {
