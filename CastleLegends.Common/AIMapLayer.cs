@@ -5,25 +5,27 @@ namespace CastleLegends.Common
 {
     public class AIMapLayer : MapLayerBase<AITile>
     {
-        public AIMapLayer(int countX, int countY, string name)
-            : base(countX, countY, name, (x,y) =>new AITile(x,y))
-        {
-
-        }
-
-        public IEnumerable<AITile> GetNeighbours(AITile tile)
-        {
-            var indexes_even = new[]{
+        private static int[][] indexes_even = new[]{
                 new[]{-1,-1}, new[]{0,-1}, new[]{1,-1},
                 new[]{-1, 0}, new[] {0, 1}, new[]{1, 0},                            
             };
 
-            var indexes_odd = new[]{
+        private static int[][] indexes_odd = new[]{
                 new[]{-1,0}, new[]{0,-1}, new[]{1,0},
-                new[]{-1, 1}, new[] {0, 1}, new[]{1, 1},                            
+                new[]{-1, 1}, new[] {0, 1}, new[]{1, 1},                               
             };
-            
-            var indexes = tile.IndexX.IsEven() ? indexes_even : indexes_odd;
+
+        public AIMapLayer(int countX, int countY, string name, HexTileType tilesTyle)
+            : base(countX, countY, name, (x, y) => new AITile(x, y))
+        {
+            this.TilesType = tilesTyle;
+        }
+
+        public IEnumerable<AITile> GetNeighbours(AITile tile)
+        {
+           var  indexes = (this.TilesType == HexTileType.FlatTopped) ?
+                (tile.IndexX.IsEven() ? indexes_odd : indexes_even) :
+                (tile.IndexX.IsEven() ? indexes_even : indexes_odd);
 
             var maxX = this.Tiles.GetLength(0);
             var maxY = this.Tiles.GetLength(1);
@@ -37,5 +39,6 @@ namespace CastleLegends.Common
             }
         }
 
+        public HexTileType TilesType { get; private set; }
     }
 }

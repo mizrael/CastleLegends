@@ -31,7 +31,7 @@ namespace CastleLegends.Common
 
             this.Layers = new List<MapLayer>();
 
-            this.AILayer = new AIMapLayer(tilesCountX, tilesCountY, "AI");
+            this.AILayer = new AIMapLayer(tilesCountX, tilesCountY, "AI", tilesType);
 
             if (this.TilesType == HexTileType.FlatTopped)
                 CoordsToTile = CoordsToTileFlatTop;
