@@ -59,7 +59,13 @@ namespace CastleLegends.SceneNodes
                 {
                     var vm = _tileRenderModels[x, y];
                     if (null == vm || null == vm.Texture) continue;
-                    spriteBatch.Draw(vm.Texture, vm.DestRect, vm.Tile.TextureSourceBounds, Color.White);
+
+                    var color = Color.White;
+                    var aiTile = _mapData.AILayer.Tiles[x, y];
+                    if (null != aiTile && aiTile.TileType != AITile.AITileTypes.Walkable)
+                        color = Color.DarkRed;
+
+                    spriteBatch.Draw(vm.Texture, vm.DestRect, vm.Tile.TextureSourceBounds, color);
                 }
         }
 
