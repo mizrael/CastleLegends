@@ -29,6 +29,7 @@ namespace CastleLegends
             graphics.ApplyChanges();
 
             Content.RootDirectory = "Content";
+            this.IsMouseVisible = true;
         }
 
         /// <summary>

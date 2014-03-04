@@ -28,7 +28,7 @@ namespace CastleLegends.Editor.Commands
             
             _oldTile = _layer.Tiles[tileIndices.X, tileIndices.Y];
             if (null != _oldTile)
-                _oldTile = _oldTile.Clone();
+                _oldTile = _oldTile.Clone() as Tile;
             else
                 _oldTile = new Tile(tileIndices.X, tileIndices.Y);
 

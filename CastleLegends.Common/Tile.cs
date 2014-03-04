@@ -2,18 +2,13 @@
 
 namespace CastleLegends.Common
 {
-    public class Tile
+    public class Tile : TileBase
     {
-        public Tile(int indexX, int indexY) {
-            this.IndexX = indexX;
-            this.IndexY = indexY;
+        public Tile(int indexX, int indexY) : base(indexX, indexY){
+            
         }
 
         #region Properties
-
-        public int IndexX { get; private set; }
-
-        public int IndexY { get; private set; }
 
         public Tileset Tileset { get; set; }
 
@@ -21,7 +16,8 @@ namespace CastleLegends.Common
         
         #endregion Properties
 
-        public Tile Clone() {
+        public override TileBase Clone()
+        {
             return new Tile(this.IndexX, this.IndexY)
             {
                 Tileset = this.Tileset,

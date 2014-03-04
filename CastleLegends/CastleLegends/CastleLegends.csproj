@@ -107,11 +107,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameComponents\CameraService.cs" />
     <Compile Include="GameScreens\PlayScreen.cs" />
+    <Compile Include="GameComponents\MapInputController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="SceneNodes\Level.cs" />
+    <Compile Include="SceneNodes\LevelLayerRenderModel.cs" />
     <Compile Include="SceneNodes\ObjectsDepthEnum.cs" />
   </ItemGroup>
   <ItemGroup>
