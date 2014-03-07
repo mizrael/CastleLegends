@@ -90,6 +90,12 @@
     <Compile Include="frmSelectTile.Designer.cs">
       <DependentUpon>frmSelectTile.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSpriteTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSpriteTool.designer.cs">
+      <DependentUpon>frmSpriteTool.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmTools.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +104,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RenderModels\Sprite.cs" />
     <Compile Include="RenderModels\TilesetRenderModel.cs" />
     <Compile Include="Services\CameraService.cs" />
     <Compile Include="Services\GraphicsDeviceService.cs" />
@@ -144,6 +151,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSelectTile.resx">
       <DependentUpon>frmSelectTile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSpriteTool.resx">
+      <DependentUpon>frmSpriteTool.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTools.resx">
       <DependentUpon>frmTools.cs</DependentUpon>

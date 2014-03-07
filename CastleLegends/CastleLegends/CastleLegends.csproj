@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameComponents\CameraService.cs" />
+    <Compile Include="GameComponents\PlayerController.cs" />
     <Compile Include="GameScreens\PlayScreen.cs" />
     <Compile Include="GameComponents\MapInputController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

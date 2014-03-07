@@ -29,8 +29,7 @@ namespace CastleLegends.GameComponents
 
         private Path<AITile> _foundPath;
 
-        private Func<AITile, AITile, double> _distanceFunc;
-        private Func<AITile, AITile, double> _estimateFunc;
+        private Func<AITile, AITile, double> _distanceFunc;        
         private Func<AITile, IEnumerable<AITile>> _findNeighboursFunc;
 
         private CameraService _camera;
@@ -45,14 +44,7 @@ namespace CastleLegends.GameComponents
             base.Visible = this.Enabled = false;
 
             _distanceFunc = (t1, t2) => 0;
-            _estimateFunc = (t1, t2) => /*(p2.IndexX - p1.IndexX) * (p2.IndexX - p1.IndexX) +
-                                        (p2.IndexY - p1.IndexY) * (p2.IndexY - p1.IndexY);*/
-                {
-                    var p1 = _tilePositions[t1.IndexX, t1.IndexY];
-                    var p2 = _tilePositions[t2.IndexX, t2.IndexY];
-                    return Vector2.DistanceSquared(p1, p2);
-                };
-
+         
             _findNeighboursFunc = t => { return _map.AILayer.GetNeighbours(t).Where(nt => nt.TileType == AITile.AITileTypes.Walkable); };
         }
 
@@ -80,7 +72,7 @@ namespace CastleLegends.GameComponents
 
             if (state.IsKeyUp(Keys.Enter) && _lastKeyState.IsKeyDown(Keys.Enter) && 2 == _endpoints.Count)
                 _foundPath = Pathfinder.FindPath<AITile>(_endpoints.ElementAt(0), _endpoints.ElementAt(1),
-                                                         _distanceFunc, _estimateFunc, _findNeighboursFunc);
+                                                         _distanceFunc, this.ComputeTilesDistance, _findNeighboursFunc);
 
             _lastKeyState = state;
 
@@ -159,6 +151,12 @@ namespace CastleLegends.GameComponents
         #endregion Public Methods
 
         #region Private Methods
+
+        private double ComputeTilesDistance(AITile t1, AITile t2) {
+            var p1 = _tilePositions[t1.IndexX, t1.IndexY];
+            var p2 = _tilePositions[t2.IndexX, t2.IndexY];
+            return Vector2.DistanceSquared(p1, p2);
+        }
 
         private void ComputeCursorPosition(AITile tile, out Vector2 position)
         {

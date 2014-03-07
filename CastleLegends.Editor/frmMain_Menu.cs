@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using CastleLegends.Common;
-
+using CastleLegends.Editor.RenderModels;
 
 namespace CastleLegends.Editor
 {
@@ -88,13 +87,7 @@ namespace CastleLegends.Editor
 
         private void SelectTileMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
-            if (this.selectTileMenuItem.Checked)
-            {
-                _frmSelTile.Show();
-                _frmSelTile.BringToFront();
-            }
-            else
-                _frmSelTile.Hide();
+            ToggleFormSelTile(this.selectTileMenuItem.Checked);
         }
 
         private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -121,5 +114,43 @@ namespace CastleLegends.Editor
         }
 
         #endregion Menu Events
+
+        #region Tools Menu Events
+
+        private void tilesetCreatorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm = new frmSpriteTool();
+            frm.ShowDialog();
+        }
+
+        #endregion Tools Menu Events
+
+        #region Tilesets List Context Menu Events
+
+        private void tilesetsContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (null == this.lbTilesets.SelectedItem)
+                e.Cancel = true;
+        }
+
+        private void tilesetsContextMenu_View_Click(object sender, EventArgs e)
+        {
+            this.selectTileMenuItem.Checked = true;
+            ToggleFormSelTile(true);
+        }
+
+        private void tilesetsContextMenu_Edit_Click(object sender, EventArgs e)
+        {
+            var currTileset = this.lbTilesets.SelectedItem as TilesetRenderModel;
+            if (null == currTileset)
+                return;
+
+            var frm = new frmImportTileset();
+            frm.SetTileset(currTileset);
+            var result = frm.ShowDialog();
+        }
+
+
+        #endregion Tilesets List Context Menu Events      
     }
 }

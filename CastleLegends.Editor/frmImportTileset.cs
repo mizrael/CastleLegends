@@ -9,6 +9,7 @@ namespace CastleLegends.Editor
     public partial class frmImportTileset : Form
     {
         #region Members
+        private TilesetRenderModel _tileset = null;
 
         private ucTilesetRenderer _renderer;       
 
@@ -17,19 +18,14 @@ namespace CastleLegends.Editor
         public frmImportTileset()
         {
             InitializeComponent();
-
-            this.Load += new EventHandler(frmImportTileset_Load);
+           
             this.ResizeEnd += new EventHandler(frmImportTileset_ResizeEnd);
+
+            SetupRenderer();
         }        
 
         #region Form Events
-
-        private void frmImportTileset_Load(object sender, EventArgs e)
-        {
-            _renderer = new ucTilesetRenderer();            
-            this.ucRendererContainer.SetRenderer(_renderer);
-        }
-
+    
         private void frmImportTileset_ResizeEnd(object sender, EventArgs e)
         {
             SetScrollbars();
@@ -37,37 +33,23 @@ namespace CastleLegends.Editor
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            if (null != this.TileSet)
-                this.TileSet.Dispose();
+            TilesetRenderModel newTileset = null;           
 
-            this.tilesetProperties.Enabled = false;
-            this.btnSetGridColor.Enabled = false;
-            this.chkShowGrid.Enabled = false;
-            this.btnOK.Enabled = false;
-
-            OpenFileDialog ofd = new OpenFileDialog();
+            var ofd = new OpenFileDialog();
             ofd.Filter = "Images|*.bmp;*.jpg;*.png;*.tga";
             ofd.Multiselect = false;
             ofd.RestoreDirectory = true;
 
-            if (ofd.ShowDialog() != DialogResult.OK)
-                return;
+            if (ofd.ShowDialog() == DialogResult.OK)            
+                newTileset = TilesetFactory.Load(ofd.FileName, _renderer.GraphicsDevice);
 
-            this.TileSet = TilesetFactory.Load(ofd.FileName, _renderer.GraphicsDevice);
-            this.TileSet.Tileset.TileWidth = 32;
-            this.TileSet.Tileset.TileHeight = 32;
-            _renderer.SetTileset(TileSet);
+            SetTileset(newTileset);
 
-            this.tilesetProperties.SelectedObject = TileSet;
-            this.tilesetProperties.Enabled = true;
-            this.btnSetGridColor.Enabled = this.chkShowGrid.Checked;            
-            this.btnSetGridColor.Enabled = true;
-            this.btnOK.Enabled = true; 
-            this.chkShowGrid.Enabled = true;
-
-            _renderer.ShowGrid = this.chkShowGrid.Checked;            
-
-            SetScrollbars();
+            if (null != newTileset)
+            {
+                this.TileSet.Tileset.TileWidth = 32;
+                this.TileSet.Tileset.TileHeight = 32;
+            }
         }
 
         private void chkShowGrid_CheckedChanged(object sender, EventArgs e)
@@ -104,9 +86,41 @@ namespace CastleLegends.Editor
 
         #region Private Methods
 
+        private void SetupRenderer()
+        {
+            _renderer = new ucTilesetRenderer();
+            this.ucRendererContainer.SetRenderer(_renderer);
+        }
+
+        private void ResetUI()
+        {
+            this.tilesetProperties.Enabled = false;
+            this.btnSetGridColor.Enabled = false;
+            this.chkShowGrid.Enabled = false;
+            this.btnOK.Enabled = false;
+        }
+
+        private void BindTileset()
+        {
+            this.tilesetProperties.SelectedObject = _tileset;
+            this.tilesetProperties.Enabled = true;
+            this.btnSetGridColor.Enabled = this.chkShowGrid.Checked;
+            this.btnSetGridColor.Enabled = true;
+            this.btnOK.Enabled = true;
+            this.chkShowGrid.Enabled = true;
+
+            if (null != _renderer)
+            {
+                _renderer.SetTileset(_tileset);
+                _renderer.ShowGrid = this.chkShowGrid.Checked;
+            }
+
+            SetScrollbars();
+        }
+
         private void SetScrollbars()
         {
-            if (null == TileSet) return;
+            if (null == _tileset) return;
 
             var vMax = TileSet.Height - ucRendererContainer.Height;
             var hMax = TileSet.Width - ucRendererContainer.Width;
@@ -116,9 +130,19 @@ namespace CastleLegends.Editor
 
         #endregion Private Methods
 
+        public void SetTileset(TilesetRenderModel tileset) {
+            ResetUI();
+
+            _tileset = tileset;
+            
+            BindTileset(); 
+        }
+
         #region Properties
 
-        public TilesetRenderModel TileSet { get; private set; }
+        public TilesetRenderModel TileSet {
+            get { return _tileset; }           
+        }
 
         #endregion Properties
     }

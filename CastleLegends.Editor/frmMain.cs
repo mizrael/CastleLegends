@@ -101,9 +101,9 @@ namespace CastleLegends.Editor
         }
 
         private void TilesetsList_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            //_frmSelTile.Visible = true;            
+        {            
             this.selectTileMenuItem.Checked = true;
+            ToggleFormSelTile(true);
         }
 
         #endregion Form Events       
@@ -156,6 +156,18 @@ namespace CastleLegends.Editor
         #endregion Map Renderer Events
                
         #region Private Methods
+
+        private void ToggleFormSelTile(bool show)
+        {
+            if (show)
+            {
+                _frmSelTile.Show();
+                _frmSelTile.BringToFront();
+            }
+            else
+                _frmSelTile.Hide();
+        }
+
 
         private void NewMap()
         {
@@ -241,5 +253,6 @@ namespace CastleLegends.Editor
         }
 
         #endregion Private Methods
+
     }
 }
