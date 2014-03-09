@@ -9,11 +9,14 @@ namespace CastleLegends.Editor.RenderModels
     [DefaultProperty("SpriteViewModel.Asset")]
     public class SpriteViewModel : IDisposable
     {
-        public SpriteViewModel(Texture2D texture)
+        private string _asset;
+
+        public SpriteViewModel(Texture2D texture, string asset)
         {          
             if (null == texture) throw new ArgumentNullException("texture");
            
             this.Texture = texture;
+            _asset = asset;
         }
 
         #region Properties
@@ -33,7 +36,7 @@ namespace CastleLegends.Editor.RenderModels
 
         public override string ToString()
         {
-            return this.Texture.ToString();
+            return (string.IsNullOrWhiteSpace(_asset)) ? this.Texture.ToString() : _asset;
         }
 
         public void Dispose()

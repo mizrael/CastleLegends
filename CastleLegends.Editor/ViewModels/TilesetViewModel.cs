@@ -9,7 +9,8 @@ namespace CastleLegends.Editor.RenderModels
     [DefaultProperty("Tileset.Asset")]
     public class TilesetViewModel : SpriteViewModel
     {
-        public TilesetViewModel(Tileset tileset, Texture2D texture) : base(texture)
+        public TilesetViewModel(Tileset tileset, Texture2D texture)
+            : base(texture, tileset.Asset)
         {
             if (null == tileset) throw new ArgumentNullException("tilset");
             this.Tileset = tileset;

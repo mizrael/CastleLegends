@@ -53,8 +53,8 @@ namespace CastleLegends.Editor
 
             foreach (string f in filenames)
             {
-                var texture = TextureHelpers.LoadTexture(_ucTileSetRenderer.GraphicsDevice, f);
-                var sprite = new SpriteViewModel(texture);
+                var texture = TextureHelpers.LoadTexture(_ucTileSetRenderer.GraphicsDevice, Path.GetFileName(f));
+                var sprite = new SpriteViewModel(texture, f);
                 listBoxSprites.Items.Add(sprite);
             }
 
@@ -171,6 +171,23 @@ namespace CastleLegends.Editor
             _pnlAlpha.BackColor = System.Drawing.Color.FromArgb(_tileSet.Alpha.R, _tileSet.Alpha.G, _tileSet.Alpha.B);
         }
 
+        private void SetAlpha(Color alpha)
+        {
+            if (null == _renderTarget) return;
+            int size = _renderTarget.Width * _renderTarget.Height;
+            var data = new Color[size];
+            _renderTarget.GetData<Color>(data);
+            for (int i = 0; i != size; ++i)
+            {
+                if (data[i].R == alpha.R &&
+                    data[i].G == alpha.G &&
+                    data[i].B == alpha.B)
+                    data[i].A = 0;
+
+            }
+            _renderTarget.SetData<Color>(data);
+        }
+
         #region Form Events
 
         protected override void OnLoad(EventArgs e)
@@ -226,7 +243,8 @@ namespace CastleLegends.Editor
         {
             try
             {
-                PickAlpha();                
+                PickAlpha();
+                SetAlpha(_tileSet.Alpha);
                 _btnPickAlpha.Checked = false;
             }
             catch (Exception ex)
