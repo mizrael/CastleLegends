@@ -10,27 +10,27 @@ namespace CastleLegends.Editor
 { 
     public static class TilesetFactory
     {
-        private static Dictionary<Guid, TilesetRenderModel> _cache = new Dictionary<Guid, TilesetRenderModel>();
+        private static Dictionary<Guid, TilesetViewModel> _cache = new Dictionary<Guid, TilesetViewModel>();
 
-        public static TilesetRenderModel Get(Tileset tileset, GraphicsDevice device)
+        public static TilesetViewModel Get(Tileset tileset, GraphicsDevice device)
         {
             if (null == tileset)
                 throw new ArgumentNullException("tileset");
 
-            TilesetRenderModel model = null;
+            TilesetViewModel model = null;
             if (!_cache.TryGetValue(tileset.ID, out model)) 
                 model = Load(tileset, device);                
             
             return model;
         }
 
-        public static TilesetRenderModel Load(string fullPath, GraphicsDevice device)
+        public static TilesetViewModel Load(string fullPath, GraphicsDevice device)
         {
             var tileset = new Tileset(fullPath);
             return Load(tileset, device);
         }
 
-        private static TilesetRenderModel Load(Tileset tileset, GraphicsDevice device)
+        private static TilesetViewModel Load(Tileset tileset, GraphicsDevice device)
         {
             if (null == tileset)
                 throw new ArgumentNullException("tileset");
@@ -40,7 +40,7 @@ namespace CastleLegends.Editor
             var texture = TextureHelpers.LoadTexture(device, tileset.Asset);
             if (null != texture)
             {
-                var model = new TilesetRenderModel(tileset, texture);
+                var model = new TilesetViewModel(tileset, texture);
                 _cache.Add(model.Tileset.ID, model);
                 return model;
             }

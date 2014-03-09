@@ -141,7 +141,7 @@ namespace CastleLegends.Editor
 
         private void tilesetsContextMenu_Edit_Click(object sender, EventArgs e)
         {
-            var currTileset = this.lbTilesets.SelectedItem as TilesetRenderModel;
+            var currTileset = this.lbTilesets.SelectedItem as TilesetViewModel;
             if (null == currTileset)
                 return;
 

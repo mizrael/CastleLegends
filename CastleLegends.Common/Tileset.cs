@@ -9,7 +9,7 @@ namespace CastleLegends.Common
         public Tileset(string filename) : this(filename, 32, 32) { 
         }
 
-        public Tileset(string filename, int tileWidth, int tileHeight) : this( Guid.NewGuid(), filename, 32, 32) { }
+        public Tileset(string filename, int tileWidth, int tileHeight) : this(Guid.NewGuid(), filename, tileWidth, tileHeight) { }
 
         public Tileset(Guid id, string filename, int tileWidth, int tileHeight) {
             this.Asset = filename;

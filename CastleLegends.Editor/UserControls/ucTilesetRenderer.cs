@@ -15,7 +15,7 @@ namespace CastleLegends.Editor.UserControls
 
         private CameraService _camera = null;
 
-        private TilesetRenderModel _renderModel = null;
+        private TilesetViewModel _renderModel = null;
 
         private Point _selectedTileIndex = Point.Zero;
 
@@ -29,14 +29,9 @@ namespace CastleLegends.Editor.UserControls
             this.GridColor = Color.Magenta;
         }
 
-        #region Eventds
-
-
-        #endregion Eventds
-
         #region Public Methods
 
-        public void SetTileset(TilesetRenderModel tileset)
+        public void SetTileset(TilesetViewModel tileset)
         {  
             _renderModel = tileset;
         }

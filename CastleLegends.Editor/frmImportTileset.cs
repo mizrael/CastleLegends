@@ -9,7 +9,7 @@ namespace CastleLegends.Editor
     public partial class frmImportTileset : Form
     {
         #region Members
-        private TilesetRenderModel _tileset = null;
+        private TilesetViewModel _tileset = null;
 
         private ucTilesetRenderer _renderer;       
 
@@ -33,7 +33,7 @@ namespace CastleLegends.Editor
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            TilesetRenderModel newTileset = null;           
+            TilesetViewModel newTileset = null;           
 
             var ofd = new OpenFileDialog();
             ofd.Filter = "Images|*.bmp;*.jpg;*.png;*.tga";
@@ -130,7 +130,7 @@ namespace CastleLegends.Editor
 
         #endregion Private Methods
 
-        public void SetTileset(TilesetRenderModel tileset) {
+        public void SetTileset(TilesetViewModel tileset) {
             ResetUI();
 
             _tileset = tileset;
@@ -140,7 +140,7 @@ namespace CastleLegends.Editor
 
         #region Properties
 
-        public TilesetRenderModel TileSet {
+        public TilesetViewModel TileSet {
             get { return _tileset; }           
         }
 

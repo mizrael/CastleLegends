@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -10,202 +11,174 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using CastleLegends.Editor.RenderModels;
 using CastleLegends.Editor.UserControls;
+using GlyphEngine.Utils;
+using CastleLegends.Common;
 
 namespace CastleLegends.Editor
 {
     public partial class frmSpriteTool : Form
     {
-        private ucTilesetRenderer _ucTileSetRenderer = null;
+   //     private ucTilesetRenderer _ucTileSetRenderer = null;
         private RenderTarget2D _renderTarget = null;
+        private SpriteBatch _spriteBatch = null;
         private int _numRows = 0;
         private int _imgWidth = 0;
         private int _imgHeight = 0;
+
+        private Tileset _tileSet = null;
 
         private System.Drawing.Color _oldAlpha;
         private Color _alpha = Color.Black;
 
         public frmSpriteTool()
         {
-            InitializeComponent();
-
-            InitRenderControl();
+            InitializeComponent();          
         }
 
-        private void InitRenderControl()
-        {
-            try
-            {
-                _ucTileSetRenderer = new ucTilesetRenderer();
-                _ucTileSetRenderer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-                _ucTileSetRenderer.Location = new System.Drawing.Point(12, 12);               
-                _ucTileSetRenderer.Size = new System.Drawing.Size(500, 500);
-                _ucTileSetRenderer.TabIndex = 12;
-
-                _ucTileSetRenderer.MouseLeave += new System.EventHandler(renderControl_MouseLeave);
-                _ucTileSetRenderer.MouseMove += new System.Windows.Forms.MouseEventHandler(renderControl_MouseMove);
-                _ucTileSetRenderer.MouseClick += new System.Windows.Forms.MouseEventHandler(renderControl_MouseClick);
-                _ucTileSetRenderer.MouseEnter += new System.EventHandler(renderControl_MouseEnter);
-
-                this.Controls.Add(_ucTileSetRenderer);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            _ucTileSetRenderer.ShowGrid = true;
-            _ucTileSetRenderer.EnableSelection = false;
-            numUpDownNumCols.Value = 1;           
+        private void InitRenderer()
+        {      
+            _spriteBatch = new SpriteBatch(_ucTileSetRenderer.GraphicsDevice);
         }
 
         private void LoadSprites()
         {
-            try
+            var ofd = new OpenFileDialog();
+            ofd.Filter = "Images|*.bmp;*.jpg;*.png;*.tga";
+            ofd.Multiselect = true;
+            ofd.RestoreDirectory = true;
+
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return;
+
+            var filenames = ofd.FileNames.OrderBy(f => f);
+
+            foreach (string f in filenames)
             {
-                var ofd = new OpenFileDialog();
-                ofd.Filter = "Images|*.bmp;*.jpg;*.png;*.tga";
-                ofd.Multiselect = true;
-                ofd.RestoreDirectory = true;
-
-                if (ofd.ShowDialog() != DialogResult.OK)
-                    return;
-
-                string[] filenames = new string[ofd.FileNames.Length];
-                Array.Copy(ofd.FileNames, filenames, ofd.FileNames.Length);
-                Array.Sort(filenames);
-
-                foreach (string f in filenames)
-                {
-                    Sprite s = TilesetFactory.Load(f, _ucTileSetRenderer.GraphicsDevice);
-                    listBoxSprites.Items.Add(s);
-                }
-
-                _btnPickAlpha.Enabled = true; 
-
-                PaintSpriteSet();
+                var texture = TextureHelpers.LoadTexture(_ucTileSetRenderer.GraphicsDevice, f);
+                var sprite = new SpriteViewModel(texture);
+                listBoxSprites.Items.Add(sprite);
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+
+            _btnPickAlpha.Enabled = true;
+
+            PaintSpriteSet();
+
+            lblNumRows.Text = _numRows.ToString();
+            lblImgHeight.Text = _imgHeight.ToString();
+            lblImgWidth.Text = _imgWidth.ToString();
         }
 
         private void PaintSpriteSet()
         {
+            _numRows = _imgWidth = _imgHeight = 0;
+
             if (listBoxSprites.Items.Count == 0)
                 return;
-
+            
             int numCols = (int)numUpDownNumCols.Value;
             _numRows = (int)decimal.Ceiling(listBoxSprites.Items.Count / numUpDownNumCols.Value);
-            _imgWidth = (listBoxSprites.Items[0] as Sprite).Texture.Width * numCols;
-            _imgHeight = (listBoxSprites.Items[0] as Sprite).Texture.Height * _numRows;
 
-            lblNumRows.Text  = _numRows.ToString();
-            lblImgHeight.Text = _imgHeight.ToString();
-            lblImgWidth.Text = _imgWidth.ToString();
+            var sprites = listBoxSprites.Items.Cast<SpriteViewModel>().ToArray();
+
+            var maxTileWidth = sprites.Max(s => s.Texture.Width);
+            var maxTileHeight = sprites.Max(s => s.Texture.Height);
+
+            _imgWidth = maxTileWidth * numCols;
+            _imgHeight = maxTileHeight * _numRows;
             
-            _renderTarget = new RenderTarget2D(_ucTileSetRenderer.GraphicsDevice, _imgWidth, _imgHeight);
+            _ucTileSetRenderer.SetTileset(null);
+
+            _renderTarget = new RenderTarget2D(_ucTileSetRenderer.GraphicsDevice, _imgWidth, _imgHeight);            
+
+            _ucTileSetRenderer.GraphicsDevice.SetRenderTarget(_renderTarget);
+
+            _ucTileSetRenderer.GraphicsDevice.Clear(Color.Black);
             
-            //_ucTileSetRenderer.GraphicsDevice.SetRenderTarget(_renderTarget);
-          
-            //_ucTileSetRenderer.GraphicsDevice.Clear(Color.Black);
-            //_ucTileSetRenderer.SpriteBatch.Begin();
+            _spriteBatch.Begin();
 
-            //int spriteID = 0;
-            //for (int r = 0; r != _numRows; ++r) 
-            //{
-            //    for (int c = 0; c != numCols; ++c)
-            //    {
-            //        if (spriteID >= listBoxSprites.Items.Count)
-            //            break;
-            //        var sprite = listBoxSprites.Items[spriteID++] as Sprite;
-            //        var destRect = new Rectangle(c * sprite.Texture.Width, r * sprite.Texture.Height,
-            //                                    sprite.Texture.Width, sprite.Texture.Height);
-            //        _ucTileSetRenderer.SpriteBatch.Draw(sprite.Texture, destRect, Color.White);
-            //    }
-            //}
-            //_ucTileSetRenderer.SpriteBatch.End();
-            //_renderTarget.End();
+            int spriteID = 0;
+            for (int r = 0; r != _numRows; ++r)
+            {
+                for (int c = 0; c != numCols; ++c)
+                {
+                    if (spriteID >= sprites.Length)
+                        break;
+                    var sprite = sprites[spriteID++];
 
-            //_ucTileSetRenderer.Texture = _renderTarget.Texture;
+                    var sourceRec = new Rectangle(0, 0, sprite.Texture.Width, sprite.Texture.Height);
+                    var destRec = new Rectangle(c * maxTileWidth, r * maxTileHeight, maxTileWidth, maxTileHeight);                    
+
+                    _spriteBatch.Draw(sprite.Texture, destRec, sourceRec, Color.White);
+                }
+            }
+            _spriteBatch.End();
+            _ucTileSetRenderer.GraphicsDevice.SetRenderTarget(null);
+
+            _tileSet = new Tileset("[Not Set]", maxTileWidth, maxTileHeight);
+            var tileSetVm = new TilesetViewModel(_tileSet, _renderTarget);            
+
+            _ucTileSetRenderer.SetTileset(tileSetVm);
             //_ucTileSetRenderer.SetAlpha(_alpha);
         }
 
         private void Save()
         {
-            try
-            {
-                 SaveFileDialog sfd = new SaveFileDialog();
-                sfd.AddExtension = true;
-                sfd.Filter = "Bmp|*.bmp|Png|*.png|Jpg|*.jpg|Tga|*.tga";
-                sfd.RestoreDirectory = true;
+            var sfd = new SaveFileDialog();
+            sfd.AddExtension = true;
+            sfd.Filter = "Bmp|*.bmp|Png|*.png|Jpg|*.jpg|Tga|*.tga";
+            sfd.RestoreDirectory = true;
 
-                //if (sfd.ShowDialog() != DialogResult.OK)
-                //    return;
+            //if (sfd.ShowDialog() != DialogResult.OK)
+            //    return;
 
-                //_ucTileSetRenderer.GraphicsDevice.Textures[0] = null;
-                //var fileInfo = new FileInfo(sfd.FileName);
-                //var format = ImageFileFormat.Bmp;
-                
-                //switch(fileInfo.Extension )
-                //{
-                //    case ".bmp":
-                //        format = ImageFileFormat.Bmp;
-                //        break;
-                //    case ".jpg":
-                //        format = ImageFileFormat.Jpg;
-                //        break;
-                //    case ".png":
-                //        format = ImageFileFormat.Png;
-                //        break;
-                //    case ".tga":
-                //        format = ImageFileFormat.Tga;
-                //        break;
-                //}
+            //_ucTileSetRenderer.GraphicsDevice.Textures[0] = null;
+            //var fileInfo = new FileInfo(sfd.FileName);
+            //var format = ImageFileFormat.Bmp;
 
-                //_ucTileSetRenderer.Texture.Save(sfd.FileName, format);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //switch(fileInfo.Extension )
+            //{
+            //    case ".bmp":
+            //        format = ImageFileFormat.Bmp;
+            //        break;
+            //    case ".jpg":
+            //        format = ImageFileFormat.Jpg;
+            //        break;
+            //    case ".png":
+            //        format = ImageFileFormat.Png;
+            //        break;
+            //    case ".tga":
+            //        format = ImageFileFormat.Tga;
+            //        break;
+            //}
+
+            //_ucTileSetRenderer.Texture.Save(sfd.FileName, format);
         }
 
         private void PickAlpha()
         {
-            try
-            {
-                if (!_btnPickAlpha.Checked)
-                    return;
+            if (!_btnPickAlpha.Checked)
+                return;
 
-                var pickedPoint = _ucTileSetRenderer.PointToClient(Cursor.Position);
+            var pickedPoint = _ucTileSetRenderer.PointToClient(Cursor.Position);
+            
+            //   _alpha = _ucTileSetRenderer.GetTextureData<Color>(pickedPoint.X, pickedPoint.Y);
 
-             //   _alpha = _ucTileSetRenderer.GetTextureData<Color>(pickedPoint.X, pickedPoint.Y);
+            _pnlAlpha.BackColor = System.Drawing.Color.FromArgb(_alpha.R, _alpha.G, _alpha.B);
+        }
 
-                _pnlAlpha.BackColor = System.Drawing.Color.FromArgb(_alpha.R, _alpha.G, _alpha.B);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        #region Form Events
+
+        protected override void OnLoad(EventArgs e)
+        {
+            InitRenderer();
+            _ucTileSetRenderer.ShowGrid = true;
+            _ucTileSetRenderer.EnableSelection = false;
+            numUpDownNumCols.Value = 1;
         }
 
         private void numUpDownNumCols_ValueChanged(object sender, EventArgs e)
         {
-            try
-            {            
-                PaintSpriteSet();
-             //   _ucTileSetRenderer.TileSize = _renderTarget.Texture.Width / (int)numUpDownNumCols.Value;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }  
+            PaintSpriteSet();
         }
 
         private void btnImport_Click(object sender, EventArgs e)
@@ -216,7 +189,7 @@ namespace CastleLegends.Editor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -228,7 +201,7 @@ namespace CastleLegends.Editor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
             }            
         }
 
@@ -248,13 +221,12 @@ namespace CastleLegends.Editor
         {
             try
             {
-                PickAlpha();
-                PaintSpriteSet();
+                PickAlpha();                
                 _btnPickAlpha.Checked = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -266,7 +238,7 @@ namespace CastleLegends.Editor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -280,11 +252,11 @@ namespace CastleLegends.Editor
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-        //    _ucTileSetRenderer.Texture = null;
-
+            _ucTileSetRenderer.SetTileset(null);
+        
             listBoxSprites.Items.Clear();
-            
-            PaintSpriteSet();
         }
+
+        #endregion Form Events
     }
 }

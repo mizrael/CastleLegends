@@ -45,6 +45,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnClear = new System.Windows.Forms.Button();
+            this._ucTileSetRenderer = new CastleLegends.Editor.UserControls.ucTilesetRenderer();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownNumCols)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -89,7 +90,7 @@
             // btnImport
             // 
             this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnImport.Location = new System.Drawing.Point(9, 238);
+            this.btnImport.Location = new System.Drawing.Point(9, 250);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(62, 26);
             this.btnImport.TabIndex = 9;
@@ -100,7 +101,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(628, 481);
+            this.btnSave.Location = new System.Drawing.Point(636, 493);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(62, 26);
             this.btnSave.TabIndex = 10;
@@ -110,9 +111,9 @@
             // 
             // listBoxSprites
             // 
-            this.listBoxSprites.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBoxSprites.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxSprites.FormattingEnabled = true;
             this.listBoxSprites.Location = new System.Drawing.Point(9, 16);
             this.listBoxSprites.Name = "listBoxSprites";
@@ -188,7 +189,7 @@
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this._btnPickAlpha);
             this.groupBox3.Controls.Add(this._pnlAlpha);
-            this.groupBox3.Location = new System.Drawing.Point(532, 288);
+            this.groupBox3.Location = new System.Drawing.Point(540, 300);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(158, 58);
             this.groupBox3.TabIndex = 18;
@@ -218,13 +219,13 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.listBoxSprites);
             this.groupBox1.Controls.Add(this.btnImport);
-            this.groupBox1.Location = new System.Drawing.Point(532, 12);
+            this.groupBox1.Location = new System.Drawing.Point(540, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(158, 270);
+            this.groupBox1.Size = new System.Drawing.Size(158, 282);
             this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sprites";
@@ -240,7 +241,7 @@
             this.groupBox2.Controls.Add(this.lblImgWidth);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.lblNumRows);
-            this.groupBox2.Location = new System.Drawing.Point(532, 352);
+            this.groupBox2.Location = new System.Drawing.Point(540, 364);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(158, 112);
             this.groupBox2.TabIndex = 19;
@@ -250,7 +251,7 @@
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(532, 481);
+            this.btnClear.Location = new System.Drawing.Point(540, 493);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(62, 26);
             this.btnClear.TabIndex = 20;
@@ -258,11 +259,29 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // _ucTileSetRenderer
+            // 
+            this._ucTileSetRenderer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._ucTileSetRenderer.EnableSelection = false;
+            this._ucTileSetRenderer.GridColor = new Microsoft.Xna.Framework.Color(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this._ucTileSetRenderer.Location = new System.Drawing.Point(12, 12);
+            this._ucTileSetRenderer.Name = "_ucTileSetRenderer";
+            this._ucTileSetRenderer.ShowGrid = false;
+            this._ucTileSetRenderer.Size = new System.Drawing.Size(522, 507);
+            this._ucTileSetRenderer.TabIndex = 21;
+            this._ucTileSetRenderer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.renderControl_MouseClick);
+            this._ucTileSetRenderer.MouseEnter += new System.EventHandler(this.renderControl_MouseEnter);
+            this._ucTileSetRenderer.MouseLeave += new System.EventHandler(this.renderControl_MouseLeave);
+            this._ucTileSetRenderer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.renderControl_MouseMove);
+            // 
             // frmSpriteTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(702, 519);
+            this.ClientSize = new System.Drawing.Size(710, 531);
+            this.Controls.Add(this._ucTileSetRenderer);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -272,7 +291,7 @@
             this.Name = "frmSpriteTool";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Sprite Tool";
+            this.Text = "SpriteViewModel Tool";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownNumCols)).EndInit();
             this.groupBox3.ResumeLayout(false);
@@ -302,5 +321,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnClear;
+        private UserControls.ucTilesetRenderer _ucTileSetRenderer;
     }
 }

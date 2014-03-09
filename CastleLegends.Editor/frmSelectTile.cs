@@ -55,7 +55,7 @@ namespace CastleLegends.Editor
 
         #region Methods
 
-        public void SetTileset(TilesetRenderModel data) {
+        public void SetTileset(TilesetViewModel data) {
             InitRenderer();
 
             this.TileSet = data;
@@ -93,7 +93,7 @@ namespace CastleLegends.Editor
 
         #region Properties
 
-        public TilesetRenderModel TileSet { get; private set; }
+        public TilesetViewModel TileSet { get; private set; }
 
         public Point? SelectedTileIndex { get; private set; }
 
@@ -109,13 +109,13 @@ namespace CastleLegends.Editor
 
     public class TileSelectionEventArgs : EventArgs
     {
-        public TileSelectionEventArgs(TilesetRenderModel tileSet, Point coords)
+        public TileSelectionEventArgs(TilesetViewModel tileSet, Point coords)
         {
             this.TileSet = tileSet;
             this.TileIndices = coords;
         }
 
-        public TilesetRenderModel TileSet { get; private set; }
+        public TilesetViewModel TileSet { get; private set; }
         public Point TileIndices { get; private set; }
     }
 }

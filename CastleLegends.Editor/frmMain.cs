@@ -96,7 +96,7 @@ namespace CastleLegends.Editor
 
         private void TilesetsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var currTileset = this.lbTilesets.SelectedItem as TilesetRenderModel;
+            var currTileset = this.lbTilesets.SelectedItem as TilesetViewModel;
             _frmSelTile.SetTileset(currTileset);
         }
 
