@@ -28,8 +28,7 @@ namespace CastleLegends.Editor
         private Tileset _tileSet = null;
 
         private System.Drawing.Color _oldAlpha;
-        private Color _alpha = Color.Black;
-
+        
         public frmSpriteTool()
         {
             InitializeComponent();          
@@ -156,14 +155,20 @@ namespace CastleLegends.Editor
 
         private void PickAlpha()
         {
-            if (!_btnPickAlpha.Checked)
+            if (!_btnPickAlpha.Checked || null == _renderTarget)
                 return;
 
             var pickedPoint = _ucTileSetRenderer.PointToClient(Cursor.Position);
-            
-            //   _alpha = _ucTileSetRenderer.GetTextureData<Color>(pickedPoint.X, pickedPoint.Y);
 
-            _pnlAlpha.BackColor = System.Drawing.Color.FromArgb(_alpha.R, _alpha.G, _alpha.B);
+            if (pickedPoint.X > _renderTarget.Width || pickedPoint.Y > _renderTarget.Height)
+                return;
+
+            var sourceRectangle = new Rectangle(pickedPoint.X, pickedPoint.Y, 1, 1);
+
+            var retrievedColor = new Color[1];
+            _renderTarget.GetData<Color>(0, sourceRectangle, retrievedColor, 0, 1);            
+            _tileSet.Alpha = retrievedColor[0];
+            _pnlAlpha.BackColor = System.Drawing.Color.FromArgb(_tileSet.Alpha.R, _tileSet.Alpha.G, _tileSet.Alpha.B);
         }
 
         #region Form Events
