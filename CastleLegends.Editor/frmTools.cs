@@ -19,12 +19,21 @@ namespace CastleLegends.Editor
 
             _buttons = new List<CheckBox>();
             _buttons.Add(this.chkSetTileTexture);
+            _buttons.Add(this.chkRemoveTileTexture);
         }
 
         private void chkSetTileTexture_CheckedChanged(object sender, EventArgs e)
         {
             if (this.chkSetTileTexture.Checked)
                 CheckTool(this.chkSetTileTexture, Tools.SetTileTexture);
+            else
+                UncheckTools();
+        }
+
+        private void chkRemoveTileTexture_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.chkRemoveTileTexture.Checked)
+                CheckTool(this.chkRemoveTileTexture, Tools.RemoveTileTexture);
             else
                 UncheckTools();
         }
@@ -51,11 +60,10 @@ namespace CastleLegends.Editor
 
         public enum Tools { 
             None = 0,
-            SetTileTexture = 1
+            SetTileTexture,
+            RemoveTileTexture
         }
-    }
-
-   
+    }   
 }
 
 

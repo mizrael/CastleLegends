@@ -18,7 +18,6 @@ namespace CastleLegends.Editor
 {
     public partial class frmSpriteTool : Form
     {
-   //     private ucTilesetRenderer _ucTileSetRenderer = null;
         private RenderTarget2D _renderTarget = null;
         private SpriteBatch _spriteBatch = null;
         private int _numRows = 0;
@@ -53,8 +52,8 @@ namespace CastleLegends.Editor
 
             foreach (string f in filenames)
             {
-                var texture = TextureHelpers.LoadTexture(_ucTileSetRenderer.GraphicsDevice, Path.GetFileName(f));
-                var sprite = new SpriteViewModel(texture, f);
+                var texture = TextureHelpers.LoadTexture(_ucTileSetRenderer.GraphicsDevice, f);
+                var sprite = new SpriteViewModel(texture, Path.GetFileName(f));
                 listBoxSprites.Items.Add(sprite);
             }
 
@@ -124,33 +123,14 @@ namespace CastleLegends.Editor
         {
             var sfd = new SaveFileDialog();
             sfd.AddExtension = true;
-            sfd.Filter = "Bmp|*.bmp|Png|*.png|Jpg|*.jpg|Tga|*.tga";
+            sfd.Filter = "Png|*.png";
             sfd.RestoreDirectory = true;
 
-            //if (sfd.ShowDialog() != DialogResult.OK)
-            //    return;
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
 
-            //_ucTileSetRenderer.GraphicsDevice.Textures[0] = null;
-            //var fileInfo = new FileInfo(sfd.FileName);
-            //var format = ImageFileFormat.Bmp;
-
-            //switch(fileInfo.Extension )
-            //{
-            //    case ".bmp":
-            //        format = ImageFileFormat.Bmp;
-            //        break;
-            //    case ".jpg":
-            //        format = ImageFileFormat.Jpg;
-            //        break;
-            //    case ".png":
-            //        format = ImageFileFormat.Png;
-            //        break;
-            //    case ".tga":
-            //        format = ImageFileFormat.Tga;
-            //        break;
-            //}
-
-            //_ucTileSetRenderer.Texture.Save(sfd.FileName, format);
+            using (var stream = new FileStream(sfd.FileName, FileMode.OpenOrCreate, FileAccess.Write))
+                _renderTarget.SaveAsPng(stream, _renderTarget.Width, _renderTarget.Height);
         }
 
         private void PickAlpha()

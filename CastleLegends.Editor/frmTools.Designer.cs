@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.chkSetTileTexture = new System.Windows.Forms.CheckBox();
+            this.chkRemoveTileTexture = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // chkSetTileTexture
@@ -44,12 +45,26 @@
             this.chkSetTileTexture.UseVisualStyleBackColor = true;
             this.chkSetTileTexture.CheckedChanged += new System.EventHandler(this.chkSetTileTexture_CheckedChanged);
             // 
+            // chkRemoveTileTexture
+            // 
+            this.chkRemoveTileTexture.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkRemoveTileTexture.AutoSize = true;
+            this.chkRemoveTileTexture.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.chkRemoveTileTexture.Location = new System.Drawing.Point(7, 41);
+            this.chkRemoveTileTexture.Name = "chkRemoveTileTexture";
+            this.chkRemoveTileTexture.Size = new System.Drawing.Size(96, 23);
+            this.chkRemoveTileTexture.TabIndex = 2;
+            this.chkRemoveTileTexture.Text = "Remove Texture";
+            this.chkRemoveTileTexture.UseVisualStyleBackColor = true;
+            this.chkRemoveTileTexture.CheckedChanged += new System.EventHandler(this.chkRemoveTileTexture_CheckedChanged);
+            // 
             // frmTools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(90, 122);
+            this.ClientSize = new System.Drawing.Size(106, 122);
             this.ControlBox = false;
+            this.Controls.Add(this.chkRemoveTileTexture);
             this.Controls.Add(this.chkSetTileTexture);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
@@ -66,6 +81,7 @@
         #endregion
 
         private System.Windows.Forms.CheckBox chkSetTileTexture;
+        private System.Windows.Forms.CheckBox chkRemoveTileTexture;
 
     }
 }

@@ -148,6 +148,12 @@ namespace CastleLegends.Editor
             var frm = new frmImportTileset();
             frm.SetTileset(currTileset);
             var result = frm.ShowDialog();
+            if (result != System.Windows.Forms.DialogResult.OK)
+                return;
+
+            var index = this.lbTilesets.SelectedIndex;
+            this.lbTilesets.Items.RemoveAt(index);
+            this.lbTilesets.Items.Insert(index,frm.TileSet);
         }
 
 

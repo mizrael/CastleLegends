@@ -146,6 +146,12 @@ namespace CastleLegends.Editor
                     var command = new Commands.SetTileTextureCommand(currLayer, tileIndex, _frmSelTile.TileSet.Tileset, texBounds);
                     Commands.CommandManager.AddAndExecute(command);
                 }
+                else if (_frmTools.SelectedTool == frmTools.Tools.RemoveTileTexture)
+                {
+                    var tileIndex = new Microsoft.Xna.Framework.Point(data.TileIndexX, data.TileIndexY);
+                    var command = new Commands.RemoveTileTextureCommand(currLayer, tileIndex);
+                    Commands.CommandManager.AddAndExecute(command);
+                }
             }
             else {
                 this.tabInfoPropertyGrid.Enabled = false;
