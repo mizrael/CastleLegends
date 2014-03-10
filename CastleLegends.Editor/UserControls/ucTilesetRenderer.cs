@@ -27,6 +27,7 @@ namespace CastleLegends.Editor.UserControls
 
             this.EnableSelection = false;
             this.GridColor = Color.Magenta;
+            this.ClearColor = Color.Black;
         }
 
         #region Public Methods
@@ -69,7 +70,7 @@ namespace CastleLegends.Editor.UserControls
 
         protected override void OnDraw()
         {
-            base.GraphicsDevice.Clear(Color.Black);
+            base.GraphicsDevice.Clear(this.ClearColor);
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.Matrix);
             if (null != _renderModel)
@@ -119,6 +120,8 @@ namespace CastleLegends.Editor.UserControls
         public bool ShowGrid { get; set; }
 
         public Color GridColor { get; set; }
+
+        public Color ClearColor { get; set; }
 
         #endregion Properties
                

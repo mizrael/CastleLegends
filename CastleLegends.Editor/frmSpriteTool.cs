@@ -34,7 +34,11 @@ namespace CastleLegends.Editor
         }
 
         private void InitRenderer()
-        {      
+        {
+            _ucTileSetRenderer.ShowGrid = true;
+            _ucTileSetRenderer.EnableSelection = false;
+            _ucTileSetRenderer.ClearColor = Color.CornflowerBlue;
+
             _spriteBatch = new SpriteBatch(_ucTileSetRenderer.GraphicsDevice);
         }
 
@@ -115,8 +119,7 @@ namespace CastleLegends.Editor
             _tileSet = new Tileset("[Not Set]", maxTileWidth, maxTileHeight);
             var tileSetVm = new TilesetViewModel(_tileSet, _renderTarget);            
 
-            _ucTileSetRenderer.SetTileset(tileSetVm);
-            //_ucTileSetRenderer.SetAlpha(_alpha);
+            _ucTileSetRenderer.SetTileset(tileSetVm);            
         }
 
         private void Save()
@@ -140,25 +143,32 @@ namespace CastleLegends.Editor
 
             var pickedPoint = _ucTileSetRenderer.PointToClient(Cursor.Position);
 
-            if (pickedPoint.X > _renderTarget.Width || pickedPoint.Y > _renderTarget.Height)
+            if (pickedPoint.X >= _renderTarget.Width || pickedPoint.Y >= _renderTarget.Height)
                 return;
 
             var sourceRectangle = new Rectangle(pickedPoint.X, pickedPoint.Y, 1, 1);
 
             var retrievedColor = new Color[1];
-            _renderTarget.GetData<Color>(0, sourceRectangle, retrievedColor, 0, 1);            
-            _tileSet.Alpha = retrievedColor[0];
-            _pnlAlpha.BackColor = System.Drawing.Color.FromArgb(_tileSet.Alpha.R, _tileSet.Alpha.G, _tileSet.Alpha.B);
+            _renderTarget.GetData<Color>(0, sourceRectangle, retrievedColor, 0, 1);
+
+            var pickedAlpha = retrievedColor[0];
+            _pnlAlpha.BackColor = System.Drawing.Color.FromArgb(pickedAlpha.R, pickedAlpha.G, pickedAlpha.B);
         }
 
         private void SetAlpha(Color alpha)
         {
-            if (null == _renderTarget) return;
+            if (null == _renderTarget) 
+                return;
             int size = _renderTarget.Width * _renderTarget.Height;
             var data = new Color[size];
             _renderTarget.GetData<Color>(data);
             for (int i = 0; i != size; ++i)
             {
+                if (data[i].R == _oldAlpha.R &&
+                    data[i].G == _oldAlpha.G &&
+                    data[i].B == _oldAlpha.B)
+                    data[i].A = 255;
+                
                 if (data[i].R == alpha.R &&
                     data[i].G == alpha.G &&
                     data[i].B == alpha.B)
@@ -173,9 +183,8 @@ namespace CastleLegends.Editor
         protected override void OnLoad(EventArgs e)
         {
             InitRenderer();
-            _ucTileSetRenderer.ShowGrid = true;
-            _ucTileSetRenderer.EnableSelection = false;
-            numUpDownNumCols.Value = 1;
+            
+            this.numUpDownNumCols.Value = 1;
         }
 
         private void numUpDownNumCols_ValueChanged(object sender, EventArgs e)
@@ -224,7 +233,11 @@ namespace CastleLegends.Editor
             try
             {
                 PickAlpha();
+                
+                _tileSet.Alpha = new Color(_pnlAlpha.BackColor.R, _pnlAlpha.BackColor.G, _pnlAlpha.BackColor.B);
+
                 SetAlpha(_tileSet.Alpha);
+
                 _btnPickAlpha.Checked = false;
             }
             catch (Exception ex)
