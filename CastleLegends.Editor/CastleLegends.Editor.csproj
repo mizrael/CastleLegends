@@ -138,6 +138,7 @@
     <Compile Include="UserControls\ucTilesetRenderer.Designer.cs">
       <DependentUpon>ucTilesetRenderer.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\TileViewModel.cs" />
     <EmbeddedResource Include="frmImportTileset.resx">
       <DependentUpon>frmImportTileset.cs</DependentUpon>
     </EmbeddedResource>

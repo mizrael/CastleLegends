@@ -311,7 +311,7 @@
         </Tile>
         <Tile IndexX="7" IndexY="4">
           <Tileset ID="289ee031-8659-4b08-93b2-456c3557960a">
-            <TextureSourceBounds X="144" Y="0" Width="72" Height="72" />
+            <TextureSourceBounds X="0" Y="72" Width="72" Height="72" />
           </Tileset>
         </Tile>
         <Tile IndexX="7" IndexY="5">
@@ -331,10 +331,10 @@
         </Tile>
       </Tiles>
     </Layer>
-    <Layer Name="Layer 2" Visible="false">
+    <Layer Name="Layer 2" Visible="true">
       <Tilesets>
-        <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49" TileWidth="130" TileHeight="65">
-          <Asset>E:\Personale\XNA\CastleLegends\CastleLegends\test data\tiles.png</Asset>
+        <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889" TileWidth="126" TileHeight="180">
+          <Asset>E:\Personale\XNA\CastleLegends\CastleLegends\test data\castle_walls.png</Asset>
           <Alpha R="0" G="0" B="0" A="0" />
         </Tileset>
         <Tileset ID="289ee031-8659-4b08-93b2-456c3557960a" TileWidth="72" TileHeight="72">
@@ -372,16 +372,16 @@
         <Tile IndexX="3" IndexY="2" />
         <Tile IndexX="3" IndexY="3" />
         <Tile IndexX="3" IndexY="4">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="130" Y="65" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="126" Y="0" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="3" IndexY="5" />
         <Tile IndexX="3" IndexY="6" />
         <Tile IndexX="3" IndexY="7" />
         <Tile IndexX="4" IndexY="0">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="130" Y="65" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="0" Y="360" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="4" IndexY="1" />
@@ -392,78 +392,78 @@
         <Tile IndexX="4" IndexY="6" />
         <Tile IndexX="4" IndexY="7" />
         <Tile IndexX="5" IndexY="0">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="260" Y="0" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="126" Y="0" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="5" IndexY="1">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="260" Y="0" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="252" Y="0" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="5" IndexY="2">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="130" Y="65" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="0" Y="360" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="5" IndexY="3">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="130" Y="65" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="126" Y="0" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="5" IndexY="4" />
         <Tile IndexX="5" IndexY="5">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="0" Y="195" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="126" Y="0" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="5" IndexY="6">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="0" Y="195" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="126" Y="0" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="5" IndexY="7" />
         <Tile IndexX="6" IndexY="0">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="130" Y="65" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="126" Y="360" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="6" IndexY="1">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="130" Y="65" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="378" Y="360" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="6" IndexY="2">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="130" Y="65" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="126" Y="0" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="6" IndexY="3">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="130" Y="65" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="126" Y="0" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="6" IndexY="4" />
         <Tile IndexX="6" IndexY="5">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="0" Y="195" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="126" Y="0" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="6" IndexY="6" />
         <Tile IndexX="6" IndexY="7" />
         <Tile IndexX="7" IndexY="0">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="130" Y="65" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="126" Y="0" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="7" IndexY="1">
-          <Tileset ID="289ee031-8659-4b08-93b2-456c3557960a">
-            <TextureSourceBounds X="144" Y="0" Width="72" Height="72" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="126" Y="0" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="7" IndexY="2">
-          <Tileset ID="289ee031-8659-4b08-93b2-456c3557960a">
-            <TextureSourceBounds X="144" Y="0" Width="72" Height="72" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="126" Y="0" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="7" IndexY="3">
@@ -472,8 +472,8 @@
           </Tileset>
         </Tile>
         <Tile IndexX="7" IndexY="4">
-          <Tileset ID="0472db70-076c-4066-8d43-44b7a8db6a49">
-            <TextureSourceBounds X="130" Y="65" Width="130" Height="65" />
+          <Tileset ID="5ecb57b4-471d-4d0d-800a-3cd600fe5889">
+            <TextureSourceBounds X="126" Y="0" Width="126" Height="180" />
           </Tileset>
         </Tile>
         <Tile IndexX="7" IndexY="5" />

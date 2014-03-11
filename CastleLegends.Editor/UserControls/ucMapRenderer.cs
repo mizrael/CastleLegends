@@ -117,7 +117,10 @@ namespace CastleLegends.Editor.UserControls
                             var model = TilesetFactory.Get(tile.Tileset, this.GraphicsDevice);
                             if (null != model)
                             {
-                                var destRect = new Rectangle((int)tileCoords.X, (int)tileCoords.Y, (int)_mapData.TileWidth, (int)_mapData.TileHeight);
+                                var destRect = new Rectangle((int)(tileCoords.X + tile.TextureOffset.X), 
+                                                             (int)(tileCoords.Y + tile.TextureOffset.Y), 
+                                                             (int)_mapData.TileWidth, 
+                                                             (int)_mapData.TileHeight);
                                 _spriteBatch.Draw(model.Texture, destRect, tile.TextureSourceBounds, Color.White);
                             }
                         }

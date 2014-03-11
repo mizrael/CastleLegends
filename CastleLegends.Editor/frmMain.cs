@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using CastleLegends.Common;
 using CastleLegends.Editor.RenderModels;
 using CastleLegends.Editor.UserControls;
+using CastleLegends.Editor.ViewModels;
 
 namespace CastleLegends.Editor
 {
@@ -105,6 +106,13 @@ namespace CastleLegends.Editor
             this.selectTileMenuItem.Checked = true;
             ToggleFormSelTile(true);
         }
+        
+    /*    private void tabInfoPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            var tile = this.tabInfoPropertyGrid.SelectedObject as TileViewModel;
+            if (null == tile)
+                return;       
+        }*/
 
         #endregion Form Events       
 
@@ -127,7 +135,9 @@ namespace CastleLegends.Editor
             if (null != data && null != currLayer)
             {
                 this.tabInfoPropertyGrid.Enabled = true;
-                this.tabInfoPropertyGrid.SelectedObject = currLayer.Tiles[data.TileIndexX, data.TileIndexY];
+                
+                var currTile = currLayer.Tiles[data.TileIndexX, data.TileIndexY];
+                this.tabInfoPropertyGrid.SelectedObject = (null == currTile) ? null : new TileViewModel(currTile, _mapData);
                 
                 if (_frmTools.SelectedTool == frmTools.Tools.SetTileTexture && _frmSelTile.SelectedTileIndex.HasValue)
                 {

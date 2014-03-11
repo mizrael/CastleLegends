@@ -89,8 +89,12 @@ namespace CastleLegends.Common.Persistence
                                                                             , new XAttribute("Width", tile.TextureSourceBounds.Width)
                                                                             , new XAttribute("Height", tile.TextureSourceBounds.Height));
 
+                var xTextureOffset = new XElement("TextureOffset", new XAttribute("X", tile.TextureOffset.X)
+                                                                            , new XAttribute("Y", tile.TextureOffset.Y));
+
                 xTile.Add(new XElement("Tileset", new XAttribute("ID", tile.Tileset.ID)
-                                                , xTextureSourceBounds));
+                                                , xTextureSourceBounds
+                                                , xTextureOffset));
             }
             return xTile;
         }
@@ -181,6 +185,13 @@ namespace CastleLegends.Common.Persistence
                 return;
 
             currTile.Tileset = tilesets[tilesetID];
+
+            var xTextureOffset = xTileset.Element("TextureOffset");
+            if (null != xTextureOffset)
+            {
+                currTile.TextureOffset = new Microsoft.Xna.Framework.Vector2(float.Parse(xTextureOffset.Attribute("X").Value),
+                                                                             float.Parse(xTextureOffset.Attribute("Y").Value));
+            }
 
             var xTextureSourceBounds = xTileset.Element("TextureSourceBounds");
             if (null != xTextureSourceBounds)
