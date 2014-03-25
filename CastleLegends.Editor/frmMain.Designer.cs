@@ -45,38 +45,36 @@
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectTileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawDebugLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawHexagonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tilesetCreatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tabTools = new System.Windows.Forms.TabControl();
-            this.tabTilesets = new System.Windows.Forms.TabPage();
-            this.lbTilesets = new System.Windows.Forms.ListBox();
             this.tilesetsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tilesetsContextMenu_View = new System.Windows.Forms.ToolStripMenuItem();
             this.tilesetsContextMenu_Edit = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnAddTileset = new System.Windows.Forms.Button();
             this.tabMapLayers = new System.Windows.Forms.TabPage();
-            this.chklMapLayers = new System.Windows.Forms.CheckedListBox();
-            this.btnMapLayerDown = new System.Windows.Forms.Button();
-            this.btnMapLayerUp = new System.Windows.Forms.Button();
-            this.btnAddMapLayer = new System.Windows.Forms.Button();
             this.btnRemoveMapLayer = new System.Windows.Forms.Button();
-            this.tabProperties = new System.Windows.Forms.TabPage();
-            this.tabInfoPropertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.btnAddMapLayer = new System.Windows.Forms.Button();
+            this.btnMapLayerUp = new System.Windows.Forms.Button();
+            this.btnMapLayerDown = new System.Windows.Forms.Button();
+            this.chklMapLayers = new System.Windows.Forms.CheckedListBox();
+            this.tabTilesets = new System.Windows.Forms.TabPage();
+            this.btnAddTileset = new System.Windows.Forms.Button();
+            this.lbTilesets = new System.Windows.Forms.ListBox();
+            this.tabTools = new System.Windows.Forms.TabControl();
             this.pnlMain.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tabTools.SuspendLayout();
-            this.tabTilesets.SuspendLayout();
             this.tilesetsContextMenu.SuspendLayout();
             this.tabMapLayers.SuspendLayout();
-            this.tabProperties.SuspendLayout();
+            this.tabTilesets.SuspendLayout();
+            this.tabTools.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlMain
@@ -195,7 +193,8 @@
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectTileMenuItem,
-            this.toolsToolStripMenuItem});
+            this.toolsToolStripMenuItem,
+            this.propertiesToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
@@ -217,6 +216,15 @@
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.toolsToolStripMenuItem.Text = "Tools";
             this.toolsToolStripMenuItem.Click += new System.EventHandler(this.toolsToolStripMenuItem_Click);
+            // 
+            // propertiesToolStripMenuItem
+            // 
+            this.propertiesToolStripMenuItem.CheckOnClick = true;
+            this.propertiesToolStripMenuItem.Enabled = false;
+            this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
+            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.propertiesToolStripMenuItem.Text = "Properties";
+            this.propertiesToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.propertiesToolStripMenuItem_CheckStateChanged);
             // 
             // optionsToolStripMenuItem
             // 
@@ -279,45 +287,6 @@
             this.splitContainer1.SplitterDistance = 800;
             this.splitContainer1.TabIndex = 4;
             // 
-            // tabTools
-            // 
-            this.tabTools.Controls.Add(this.tabTilesets);
-            this.tabTools.Controls.Add(this.tabMapLayers);
-            this.tabTools.Controls.Add(this.tabProperties);
-            this.tabTools.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabTools.Enabled = false;
-            this.tabTools.Location = new System.Drawing.Point(0, 0);
-            this.tabTools.Name = "tabTools";
-            this.tabTools.SelectedIndex = 0;
-            this.tabTools.Size = new System.Drawing.Size(235, 538);
-            this.tabTools.TabIndex = 0;
-            // 
-            // tabTilesets
-            // 
-            this.tabTilesets.Controls.Add(this.lbTilesets);
-            this.tabTilesets.Controls.Add(this.btnAddTileset);
-            this.tabTilesets.Location = new System.Drawing.Point(4, 22);
-            this.tabTilesets.Name = "tabTilesets";
-            this.tabTilesets.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTilesets.Size = new System.Drawing.Size(227, 512);
-            this.tabTilesets.TabIndex = 0;
-            this.tabTilesets.Text = "Tilesets";
-            this.tabTilesets.UseVisualStyleBackColor = true;
-            // 
-            // lbTilesets
-            // 
-            this.lbTilesets.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbTilesets.ContextMenuStrip = this.tilesetsContextMenu;
-            this.lbTilesets.FormattingEnabled = true;
-            this.lbTilesets.Location = new System.Drawing.Point(6, 6);
-            this.lbTilesets.Name = "lbTilesets";
-            this.lbTilesets.Size = new System.Drawing.Size(213, 472);
-            this.lbTilesets.TabIndex = 6;
-            this.lbTilesets.SelectedIndexChanged += new System.EventHandler(this.TilesetsList_SelectedIndexChanged);
-            this.lbTilesets.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TilesetsList_MouseDoubleClick);
-            // 
             // tilesetsContextMenu
             // 
             this.tilesetsContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -341,17 +310,6 @@
             this.tilesetsContextMenu_Edit.Text = "Edit";
             this.tilesetsContextMenu_Edit.Click += new System.EventHandler(this.tilesetsContextMenu_Edit_Click);
             // 
-            // btnAddTileset
-            // 
-            this.btnAddTileset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddTileset.Location = new System.Drawing.Point(191, 483);
-            this.btnAddTileset.Name = "btnAddTileset";
-            this.btnAddTileset.Size = new System.Drawing.Size(28, 21);
-            this.btnAddTileset.TabIndex = 5;
-            this.btnAddTileset.Text = "+";
-            this.btnAddTileset.UseVisualStyleBackColor = true;
-            this.btnAddTileset.Click += new System.EventHandler(this.btnAddTileset_Click);
-            // 
             // tabMapLayers
             // 
             this.tabMapLayers.Controls.Add(this.chklMapLayers);
@@ -367,29 +325,28 @@
             this.tabMapLayers.Text = "Layers";
             this.tabMapLayers.UseVisualStyleBackColor = true;
             // 
-            // chklMapLayers
+            // btnRemoveMapLayer
             // 
-            this.chklMapLayers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.chklMapLayers.FormattingEnabled = true;
-            this.chklMapLayers.Location = new System.Drawing.Point(6, 6);
-            this.chklMapLayers.Name = "chklMapLayers";
-            this.chklMapLayers.Size = new System.Drawing.Size(213, 469);
-            this.chklMapLayers.TabIndex = 12;
-            this.chklMapLayers.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chklMapLayers_ItemCheck);
+            this.btnRemoveMapLayer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemoveMapLayer.Enabled = false;
+            this.btnRemoveMapLayer.Location = new System.Drawing.Point(192, 484);
+            this.btnRemoveMapLayer.Name = "btnRemoveMapLayer";
+            this.btnRemoveMapLayer.Size = new System.Drawing.Size(28, 21);
+            this.btnRemoveMapLayer.TabIndex = 7;
+            this.btnRemoveMapLayer.Text = "-";
+            this.btnRemoveMapLayer.UseVisualStyleBackColor = true;
+            this.btnRemoveMapLayer.Click += new System.EventHandler(this.btnRemoveMapLayer_Click);
             // 
-            // btnMapLayerDown
+            // btnAddMapLayer
             // 
-            this.btnMapLayerDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMapLayerDown.Enabled = false;
-            this.btnMapLayerDown.Location = new System.Drawing.Point(41, 484);
-            this.btnMapLayerDown.Name = "btnMapLayerDown";
-            this.btnMapLayerDown.Size = new System.Drawing.Size(28, 21);
-            this.btnMapLayerDown.TabIndex = 11;
-            this.btnMapLayerDown.Text = "Down";
-            this.btnMapLayerDown.UseVisualStyleBackColor = true;
-            this.btnMapLayerDown.Click += new System.EventHandler(this.btnMapLayerDown_Click);
+            this.btnAddMapLayer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddMapLayer.Location = new System.Drawing.Point(143, 484);
+            this.btnAddMapLayer.Name = "btnAddMapLayer";
+            this.btnAddMapLayer.Size = new System.Drawing.Size(28, 21);
+            this.btnAddMapLayer.TabIndex = 9;
+            this.btnAddMapLayer.Text = "+";
+            this.btnAddMapLayer.UseVisualStyleBackColor = true;
+            this.btnAddMapLayer.Click += new System.EventHandler(this.btnAddMapLayer_Click);
             // 
             // btnMapLayerUp
             // 
@@ -403,49 +360,78 @@
             this.btnMapLayerUp.UseVisualStyleBackColor = true;
             this.btnMapLayerUp.Click += new System.EventHandler(this.btnMapLayerUp_Click);
             // 
-            // btnAddMapLayer
+            // btnMapLayerDown
             // 
-            this.btnAddMapLayer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddMapLayer.Location = new System.Drawing.Point(143, 484);
-            this.btnAddMapLayer.Name = "btnAddMapLayer";
-            this.btnAddMapLayer.Size = new System.Drawing.Size(28, 21);
-            this.btnAddMapLayer.TabIndex = 9;
-            this.btnAddMapLayer.Text = "+";
-            this.btnAddMapLayer.UseVisualStyleBackColor = true;
-            this.btnAddMapLayer.Click += new System.EventHandler(this.btnAddMapLayer_Click);
+            this.btnMapLayerDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMapLayerDown.Enabled = false;
+            this.btnMapLayerDown.Location = new System.Drawing.Point(41, 484);
+            this.btnMapLayerDown.Name = "btnMapLayerDown";
+            this.btnMapLayerDown.Size = new System.Drawing.Size(28, 21);
+            this.btnMapLayerDown.TabIndex = 11;
+            this.btnMapLayerDown.Text = "Down";
+            this.btnMapLayerDown.UseVisualStyleBackColor = true;
+            this.btnMapLayerDown.Click += new System.EventHandler(this.btnMapLayerDown_Click);
             // 
-            // btnRemoveMapLayer
+            // chklMapLayers
             // 
-            this.btnRemoveMapLayer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemoveMapLayer.Enabled = false;
-            this.btnRemoveMapLayer.Location = new System.Drawing.Point(192, 484);
-            this.btnRemoveMapLayer.Name = "btnRemoveMapLayer";
-            this.btnRemoveMapLayer.Size = new System.Drawing.Size(28, 21);
-            this.btnRemoveMapLayer.TabIndex = 7;
-            this.btnRemoveMapLayer.Text = "-";
-            this.btnRemoveMapLayer.UseVisualStyleBackColor = true;
-            this.btnRemoveMapLayer.Click += new System.EventHandler(this.btnRemoveMapLayer_Click);
+            this.chklMapLayers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chklMapLayers.FormattingEnabled = true;
+            this.chklMapLayers.Location = new System.Drawing.Point(6, 6);
+            this.chklMapLayers.Name = "chklMapLayers";
+            this.chklMapLayers.Size = new System.Drawing.Size(213, 469);
+            this.chklMapLayers.TabIndex = 12;
+            this.chklMapLayers.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chklMapLayers_ItemCheck);
             // 
-            // tabProperties
+            // tabTilesets
             // 
-            this.tabProperties.Controls.Add(this.tabInfoPropertyGrid);
-            this.tabProperties.Location = new System.Drawing.Point(4, 22);
-            this.tabProperties.Name = "tabProperties";
-            this.tabProperties.Padding = new System.Windows.Forms.Padding(3);
-            this.tabProperties.Size = new System.Drawing.Size(227, 512);
-            this.tabProperties.TabIndex = 1;
-            this.tabProperties.Text = "Properties";
-            this.tabProperties.UseVisualStyleBackColor = true;
+            this.tabTilesets.Controls.Add(this.lbTilesets);
+            this.tabTilesets.Controls.Add(this.btnAddTileset);
+            this.tabTilesets.Location = new System.Drawing.Point(4, 22);
+            this.tabTilesets.Name = "tabTilesets";
+            this.tabTilesets.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTilesets.Size = new System.Drawing.Size(227, 512);
+            this.tabTilesets.TabIndex = 0;
+            this.tabTilesets.Text = "Tilesets";
+            this.tabTilesets.UseVisualStyleBackColor = true;
             // 
-            // tabInfoPropertyGrid
+            // btnAddTileset
             // 
-            this.tabInfoPropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabInfoPropertyGrid.Enabled = false;
-            this.tabInfoPropertyGrid.Location = new System.Drawing.Point(3, 3);
-            this.tabInfoPropertyGrid.Name = "tabInfoPropertyGrid";
-            this.tabInfoPropertyGrid.Size = new System.Drawing.Size(221, 506);
-            this.tabInfoPropertyGrid.TabIndex = 0;
-          //  this.tabInfoPropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.tabInfoPropertyGrid_PropertyValueChanged);
+            this.btnAddTileset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddTileset.Location = new System.Drawing.Point(191, 483);
+            this.btnAddTileset.Name = "btnAddTileset";
+            this.btnAddTileset.Size = new System.Drawing.Size(28, 21);
+            this.btnAddTileset.TabIndex = 5;
+            this.btnAddTileset.Text = "+";
+            this.btnAddTileset.UseVisualStyleBackColor = true;
+            this.btnAddTileset.Click += new System.EventHandler(this.btnAddTileset_Click);
+            // 
+            // lbTilesets
+            // 
+            this.lbTilesets.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbTilesets.ContextMenuStrip = this.tilesetsContextMenu;
+            this.lbTilesets.FormattingEnabled = true;
+            this.lbTilesets.Location = new System.Drawing.Point(6, 6);
+            this.lbTilesets.Name = "lbTilesets";
+            this.lbTilesets.Size = new System.Drawing.Size(213, 472);
+            this.lbTilesets.TabIndex = 6;
+            this.lbTilesets.SelectedIndexChanged += new System.EventHandler(this.TilesetsList_SelectedIndexChanged);
+            this.lbTilesets.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TilesetsList_MouseDoubleClick);
+            // 
+            // tabTools
+            // 
+            this.tabTools.Controls.Add(this.tabTilesets);
+            this.tabTools.Controls.Add(this.tabMapLayers);
+            this.tabTools.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabTools.Enabled = false;
+            this.tabTools.Location = new System.Drawing.Point(0, 0);
+            this.tabTools.Name = "tabTools";
+            this.tabTools.SelectedIndex = 0;
+            this.tabTools.Size = new System.Drawing.Size(235, 538);
+            this.tabTools.TabIndex = 0;
             // 
             // frmMain
             // 
@@ -463,11 +449,10 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.tabTools.ResumeLayout(false);
-            this.tabTilesets.ResumeLayout(false);
             this.tilesetsContextMenu.ResumeLayout(false);
             this.tabMapLayers.ResumeLayout(false);
-            this.tabProperties.ResumeLayout(false);
+            this.tabTilesets.ResumeLayout(false);
+            this.tabTools.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -486,32 +471,31 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem drawDebugLinesToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TabControl tabTools;
-        private System.Windows.Forms.TabPage tabTilesets;
         private UserControls.ucRendererContainer rendererContainer;
-        private System.Windows.Forms.Button btnAddTileset;
-        private System.Windows.Forms.ListBox lbTilesets;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectTileMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabProperties;
-        private System.Windows.Forms.PropertyGrid tabInfoPropertyGrid;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabMapLayers;
-        private System.Windows.Forms.Button btnAddMapLayer;
-        private System.Windows.Forms.Button btnRemoveMapLayer;
-        private System.Windows.Forms.Button btnMapLayerDown;
-        private System.Windows.Forms.Button btnMapLayerUp;
-        private System.Windows.Forms.CheckedListBox chklMapLayers;
         private System.Windows.Forms.ToolStripMenuItem drawHexagonsToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip tilesetsContextMenu;
         private System.Windows.Forms.ToolStripMenuItem tilesetsContextMenu_View;
         private System.Windows.Forms.ToolStripMenuItem tilesetsContextMenu_Edit;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem tilesetCreatorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem propertiesToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabTools;
+        private System.Windows.Forms.TabPage tabTilesets;
+        private System.Windows.Forms.ListBox lbTilesets;
+        private System.Windows.Forms.Button btnAddTileset;
+        private System.Windows.Forms.TabPage tabMapLayers;
+        private System.Windows.Forms.CheckedListBox chklMapLayers;
+        private System.Windows.Forms.Button btnMapLayerDown;
+        private System.Windows.Forms.Button btnMapLayerUp;
+        private System.Windows.Forms.Button btnAddMapLayer;
+        private System.Windows.Forms.Button btnRemoveMapLayer;
     }
 }
 

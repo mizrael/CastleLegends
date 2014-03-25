@@ -85,6 +85,12 @@
     <Compile Include="frmNewMap.Designer.cs">
       <DependentUpon>frmNewMap.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProperties.Designer.cs">
+      <DependentUpon>frmProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSelectTile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmNewMap.resx">
       <DependentUpon>frmNewMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProperties.resx">
+      <DependentUpon>frmProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSelectTile.resx">
       <DependentUpon>frmSelectTile.cs</DependentUpon>

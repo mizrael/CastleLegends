@@ -17,6 +17,7 @@ namespace CastleLegends.Editor
 
         private frmSelectTile _frmSelTile = null;
         private frmTools _frmTools = null;
+        private frmProperties _frmProperties = null;
 
         #endregion Members
 
@@ -55,12 +56,9 @@ namespace CastleLegends.Editor
             _frmSelTile = new frmSelectTile();
             _frmSelTile.TileSelectionChange += new frmSelectTile.TileSelectionChangeHandler(_frmSelTile_TileSelectionChange);
           
-            _frmTools = new frmTools();          
-        }
+            _frmTools = new frmTools();
 
-        private void _frmTools_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            this.toolsToolStripMenuItem.Checked = false;
+            _frmProperties = new frmProperties();
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -104,7 +102,7 @@ namespace CastleLegends.Editor
         private void TilesetsList_MouseDoubleClick(object sender, MouseEventArgs e)
         {            
             this.selectTileMenuItem.Checked = true;
-            ToggleFormSelTile(true);
+            ToggleForm(_frmSelTile, this.selectTileMenuItem.Checked);
         }
         
     /*    private void tabInfoPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -134,10 +132,10 @@ namespace CastleLegends.Editor
 
             if (null != data && null != currLayer)
             {
-                this.tabInfoPropertyGrid.Enabled = true;
+                var currTile = currLayer.Tiles[data.TileIndexX, data.TileIndexY]; 
                 
-                var currTile = currLayer.Tiles[data.TileIndexX, data.TileIndexY];
-                this.tabInfoPropertyGrid.SelectedObject = (null == currTile) ? null : new TileViewModel(currTile, _mapData);
+                var propData = (null == currTile) ? null : new TileViewModel(currTile, _mapData);
+                _frmProperties.SetObject(propData);                
                 
                 if (_frmTools.SelectedTool == frmTools.Tools.SetTileTexture && _frmSelTile.SelectedTileIndex.HasValue)
                 {
@@ -164,8 +162,7 @@ namespace CastleLegends.Editor
                 }
             }
             else {
-                this.tabInfoPropertyGrid.Enabled = false;
-                this.tabInfoPropertyGrid.SelectedObject = null;
+                _frmProperties.SetObject(null);
             }
         }
 
@@ -173,17 +170,16 @@ namespace CastleLegends.Editor
                
         #region Private Methods
 
-        private void ToggleFormSelTile(bool show)
+        private void ToggleForm(Form form, bool show)
         {
             if (show)
             {
-                _frmSelTile.Show();
-                _frmSelTile.BringToFront();
+                form.Show();
+                form.BringToFront();
             }
             else
-                _frmSelTile.Hide();
+                form.Hide();
         }
-
 
         private void NewMap()
         {
@@ -216,6 +212,9 @@ namespace CastleLegends.Editor
             this.toolsToolStripMenuItem.Enabled = true;
             this.toolsToolStripMenuItem.Checked = false;
 
+            this.propertiesToolStripMenuItem.Enabled = true;
+            this.propertiesToolStripMenuItem.Checked = false;
+
             this.saveToolStripMenuItem.Enabled = true;
             this.closeToolStripMenuItem.Enabled = true;
 
@@ -230,10 +229,8 @@ namespace CastleLegends.Editor
             this.lbTilesets.Items.Clear();
             this.chklMapLayers.Items.Clear();
 
-            this.tabInfoPropertyGrid.Enabled = false;
-            this.tabInfoPropertyGrid.SelectedObject = null;
-
             this.toolsToolStripMenuItem.Enabled = false;
+            this.propertiesToolStripMenuItem.Enabled = false;
             this.selectTileMenuItem.Enabled = false;
             this.drawDebugLinesToolStripMenuItem.Enabled = false;
             this.drawHexagonsToolStripMenuItem.Enabled = false;
@@ -243,6 +240,8 @@ namespace CastleLegends.Editor
             this.closeToolStripMenuItem.Enabled = false;
             
             this.rendererContainer.SetRenderer(null);
+
+            _frmProperties.SetObject(null);
         }
 
         private void InitRenderer()
@@ -268,7 +267,6 @@ namespace CastleLegends.Editor
             this.rendererContainer.SetScrollbars(vMax, hMax);
         }
 
-        #endregion Private Methods
-
+        #endregion Private Methods       
     }
 }

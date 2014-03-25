@@ -87,9 +87,15 @@ namespace CastleLegends.Editor
 
         private void SelectTileMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
-            ToggleFormSelTile(this.selectTileMenuItem.Checked);
+            ToggleForm(_frmSelTile, this.selectTileMenuItem.Checked);
         }
 
+
+        private void propertiesToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+        {
+            ToggleForm(_frmProperties, this.propertiesToolStripMenuItem.Checked);
+        }
+        
         private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (this.toolsToolStripMenuItem.Checked)
@@ -136,7 +142,7 @@ namespace CastleLegends.Editor
         private void tilesetsContextMenu_View_Click(object sender, EventArgs e)
         {
             this.selectTileMenuItem.Checked = true;
-            ToggleFormSelTile(true);
+            ToggleForm(_frmSelTile, this.selectTileMenuItem.Checked);
         }
 
         private void tilesetsContextMenu_Edit_Click(object sender, EventArgs e)
